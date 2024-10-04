@@ -12,7 +12,7 @@ const Providers: FC<ProvidersProps> = ({ children }) => {
   return (
     <>
       <SessionProvider>
-        <Toaster position="top-center" reverseOrder={false} />
+        <Toaster position="top-center" reverseOrder={true} />
         {children}
       </SessionProvider>
     </>

@@ -1,42 +1,60 @@
-import bcrypt from 'bcrypt';
-import { model, models,Schema } from 'mongoose';
+import bcrypt from "bcrypt";
+import { model, models, Schema } from "mongoose";
 
-import { IUser } from '@/types/db';
+import { IUser } from "@/types/db";
 
-const options = { discriminatorKey: 'role', collection: 'users' };
+const options = { discriminatorKey: "role", collection: "users" };
 
 const UserSchema = new Schema<IUser>(
   {
     name: {
       type: String,
-      required: [true, 'name is required'],
+      required: [true, "name is required"],
     },
     email: {
       type: String,
-      required: [true, 'email is required'],
+      required: [true, "email is required"],
       unique: true,
     },
     image: {
       type: String,
-      default: '',
+      default: "",
     },
     password: {
       type: String,
-      required: [true, 'password is required'],
+      required: [true, "password is required"],
     },
     followers: {
       type: [Schema.Types.ObjectId],
+      ref: "User",
       required: true,
       default: [],
     },
     following: {
       type: [Schema.Types.ObjectId],
+      ref: "User",
+      required: true,
+      default: [],
+    },
+    connects: {
+      type: [Schema.Types.ObjectId],
+      required: true,
+      default: [],
+      ref: "User",
+    },
+    connect_requests: {
+      type: [Schema.Types.ObjectId],
+      ref: "User",
       required: true,
       default: [],
     },
     posts: {
       type: [Schema.Types.ObjectId],
       required: true,
+      default: [],
+    },
+    notifications: {
+      type: [String],
       default: [],
     },
   },
@@ -47,8 +65,8 @@ const UserSchema = new Schema<IUser>(
 );
 
 // Pre-save hook to hash the password
-UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
 
   try {
     // Generate a salt
@@ -63,6 +81,6 @@ UserSchema.pre('save', async function (next) {
   }
 });
 
-const User = models.User || model<IUser>('User', UserSchema);
+const User = models.User || model<IUser>("User", UserSchema);
 
 export default User;

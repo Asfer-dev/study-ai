@@ -18,11 +18,21 @@ import SignOutButton from "@/components/SignOutButton";
 
 import { fetchUsers } from "@/helpers/fetch-users";
 import FollowButton from "@/components/FollowButton";
+import ConnectButton from "@/components/ConnectButton";
+import { fetchConnectRequests } from "@/helpers/fetch-connect-requests";
+import { IConnectRequest, IUser } from "@/types/db";
+import ConnectRequestItem from "@/components/ConnectRequestItem";
+import { fetchConnects } from "@/helpers/fetch-connects";
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
   const users = await fetchUsers();
+  const connectRequests: IConnectRequest[] = await fetchConnectRequests(
+    session?.user._id
+  );
+
+  const connections: IUser[] = await fetchConnects(session?.user._id);
 
   if (session) {
     return (
@@ -40,6 +50,29 @@ export default async function HomePage() {
                   session={JSON.parse(JSON.stringify(session))}
                   user={JSON.parse(JSON.stringify(user))}
                 />
+                <ConnectButton email={user.email} />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 className="text-2xl">Connection Requests</h3>
+          <ul>
+            {connectRequests.map((request) => (
+              <li key={request._id.toString()}>
+                <ConnectRequestItem
+                  request={JSON.parse(JSON.stringify(request))}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 className="text-2xl">Connections</h3>
+          <ul>
+            {connections.map((connectUser) => (
+              <li key={connectUser._id.toString()}>
+                <p>{connectUser.email}</p>
               </li>
             ))}
           </ul>
