@@ -81,5 +81,6 @@ export interface IConnectRequest {
   name: string;
   email: string;
   image: string;
+  profileColor: string;
   role: "teacher" | "student";
 }

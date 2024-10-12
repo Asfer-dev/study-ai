@@ -14,6 +14,7 @@ interface MessagesProps {
   chatId: string;
   sessionImg: string | null | undefined;
   chatPartner: IUser;
+  sessionColor?: string;
 }
 
 const Messages: FC<MessagesProps> = ({
@@ -23,6 +24,7 @@ const Messages: FC<MessagesProps> = ({
   chatId,
   chatPartner,
   sessionImg,
+  sessionColor,
 }) => {
   const [messages, setMessages] = useState<TMessage[]>(initialMessages);
 
@@ -46,6 +48,13 @@ const Messages: FC<MessagesProps> = ({
   const formatTimestamp = (date: Date) => {
     return format(date, "HH:mm");
   };
+
+  const sessionProfileColor = sessionColor
+    ? `bg-${sessionColor}`
+    : "bg-gray-500";
+  const partnerProfileColor = chatPartner.profileColor
+    ? `bg-${chatPartner.profileColor}`
+    : "bg-gray-500";
 
   return (
     <div
@@ -132,7 +141,12 @@ const Messages: FC<MessagesProps> = ({
                       invisible: hasNextMessageFromSameUser,
                     })}
                   >
-                    <div className="h-full w-full rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold text-[0.7em]">
+                    <div
+                      className={cn(
+                        "h-full w-full rounded-full flex items-center justify-center text-white font-bold text-[0.7em]",
+                        sessionProfileColor
+                      )}
+                    >
                       {initials}
                     </div>
                   </div>
@@ -163,7 +177,12 @@ const Messages: FC<MessagesProps> = ({
                     invisible: hasNextMessageFromSameUser,
                   })}
                 >
-                  <div className="h-full w-full rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold text-[0.7em]">
+                  <div
+                    className={cn(
+                      "h-full w-full rounded-full flex items-center justify-center text-white font-bold text-[0.7em]",
+                      partnerProfileColor
+                    )}
+                  >
                     {initials}
                   </div>
                 </div>

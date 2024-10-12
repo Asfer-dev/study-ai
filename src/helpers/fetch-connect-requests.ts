@@ -13,7 +13,7 @@ export const fetchConnectRequests = async (
       const user = await User.findById(userId)
         .populate({
           path: "connect_requests",
-          select: "name email image", // Specify the fields you want
+          select: "name email image profileColor", // Specify the fields you want
         })
         .exec();
 

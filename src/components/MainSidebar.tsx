@@ -28,11 +28,11 @@ const MainSidebar = () => {
             <li>
               <Link
                 className={
-                  pathname === "/"
+                  pathname === "/feed"
                     ? cn(linkStyles, activeLinkStyles)
                     : linkStyles
                 }
-                href={"/"}
+                href={"/feed"}
               >
                 Feed
               </Link>
@@ -100,14 +100,6 @@ const MainSidebar = () => {
               <SignOutButton className="h-full" />
             </li>
           </ul>
-          {/* <div>
-          <ProfileImage
-            imgUrl={session.user.image}
-            profileName={session.user.name}
-          />
-          <p>{session.user.name}</p>
-          <p>{session.user.role}</p>
-        </div> */}
         </nav>
       </aside>
     </>

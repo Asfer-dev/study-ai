@@ -25,40 +25,43 @@ const ProfileImage = ({
 
   if (imgUrl) {
     return (
-      <Link
-        href={`/profile/${profileId}`}
-        className={cn(
-          "relative cursor-pointer border rounded-full",
-          size === "lg" ? 'w-48 h-48"' : "w-8 sm:w-10 h-8 sm:h-10"
-        )}
-      >
-        <Image
-          fill
-          referrerPolicy="no-referrer"
-          src={imgUrl}
-          alt={`${profileName} profile picture`}
-          className="rounded-full"
-        />
+      <Link href={`/profile/${profileId}`}>
+        <div
+          className={cn(
+            "relative cursor-pointer border rounded-full",
+            size === "lg" ? 'w-48 h-48"' : "w-8 sm:w-10 h-8 sm:h-10"
+          )}
+        >
+          <Image
+            fill
+            referrerPolicy="no-referrer"
+            src={imgUrl}
+            alt={`${profileName} profile picture`}
+            className="rounded-full"
+          />
+        </div>
       </Link>
     );
   } else {
     return (
-      <Link
-        href={`/profile/${profileId}`}
-        className={cn(
-          "relative cursor-pointer border rounded-full",
-          size === "lg" ? 'w-48 h-48"' : "w-8 sm:w-10 h-8 sm:h-10"
-        )}
-      >
+      <Link href={`/profile/${profileId}`}>
         <div
           className={cn(
-            `rounded-full ${bgColor} flex items-center justify-center text-white font-bold`,
-            size === "lg"
-              ? "w-48 h-48 text-7xl"
-              : "w-8 sm:w-10 h-8 sm:h-10 text-[0.9em] sm:text-[1.125em]"
+            "relative cursor-pointer border rounded-full",
+            size === "lg" ? 'w-48 h-48"' : "w-8 sm:w-10 h-8 sm:h-10"
           )}
         >
-          {initials}
+          <div
+            className={cn(
+              `rounded-full flex items-center justify-center text-white font-bold`,
+              size === "lg"
+                ? "w-48 h-48 text-7xl"
+                : "w-8 sm:w-10 h-8 sm:h-10 text-[0.9em] sm:text-[1.125em]",
+              bgColor
+            )}
+          >
+            {initials}
+          </div>
         </div>
       </Link>
     );

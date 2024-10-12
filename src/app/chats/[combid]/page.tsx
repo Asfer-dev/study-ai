@@ -80,7 +80,7 @@ const getChatPartner = async (
     await connectToDB();
 
     const chatPartner = (await User.findById(chatPartnerId).select(
-      "name email"
+      "name email profileColor"
     )) as IUser | null;
     return chatPartner;
   } catch (error) {
@@ -123,6 +123,8 @@ const ChatPage = async ({ params }: PageProps) => {
             <ProfileImage
               imgUrl={chatPartner.image}
               profileName={chatPartner.name}
+              profileId={chatPartner._id.toString()}
+              profileColor={chatPartner.profileColor}
             />
           </div>
 
@@ -142,6 +144,7 @@ const ChatPage = async ({ params }: PageProps) => {
         chatId={chat._id.toString()}
         chatPartner={JSON.parse(JSON.stringify(chatPartner))}
         sessionImg={session.user.image}
+        sessionColor={session.user.profileColor}
         sessionId={session.user._id.toString()}
         initialMessages={initialMessages}
         sessionUserName={session.user.name as string}

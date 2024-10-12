@@ -1,11 +1,12 @@
 "use client";
-import { IConnectRequest } from "@/types/db";
+import { IConnectRequest, IUser } from "@/types/db";
 import React from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Types } from "mongoose";
 import toast from "react-hot-toast";
+import ProfileCard from "./ProfileCard";
 
 const ConnectRequestItem = ({ request }: { request: IConnectRequest }) => {
   const router = useRouter();
@@ -16,7 +17,6 @@ const ConnectRequestItem = ({ request }: { request: IConnectRequest }) => {
 
       if (response.status === 200) {
         toast.success("User is a connection now");
-        return response.data;
       } else {
         toast.error(`Error: ${response.data}`);
       }
@@ -26,7 +26,6 @@ const ConnectRequestItem = ({ request }: { request: IConnectRequest }) => {
     }
 
     // setFriendRequests((prev) => prev.filter((request) => request._id !== _id));
-
     router.refresh();
   };
 
@@ -39,13 +38,15 @@ const ConnectRequestItem = ({ request }: { request: IConnectRequest }) => {
   };
 
   return (
-    <div className="flex gap-2 items-center">
-      <span>{request.email}</span>
-      <Button onClick={() => acceptRequest(request._id)}>Accept</Button>
-      <Button variant={"outline"} onClick={() => denyRequest(request._id)}>
-        Deny
-      </Button>
-    </div>
+    <>
+      <ProfileCard user={request} />
+      <div className="space-x-1">
+        <Button onClick={() => acceptRequest(request._id)}>Accept</Button>
+        <Button variant={"outline"} onClick={() => denyRequest(request._id)}>
+          Deny
+        </Button>
+      </div>
+    </>
   );
 };
 
