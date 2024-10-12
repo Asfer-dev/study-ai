@@ -6,7 +6,7 @@ import React from "react";
 interface ProfileImageProps {
   imgUrl: string | undefined | null;
   profileName: string | undefined | null;
-  profileId: string;
+  profileId?: string | undefined | null;
   size?: string;
   profileColor?: string;
 }
@@ -21,7 +21,28 @@ const ProfileImage = ({
   const initials: string = profileName
     ? `${profileName.split(" ")[0][0]}${profileName.split(" ")[1][0]}`
     : "";
-  const bgColor = profileColor ? `bg-${profileColor}` : "bg-gray-500";
+  const bgColor =
+    profileColor === "gray-500"
+      ? "bg-gray-500"
+      : profileColor === "red-500"
+      ? "bg-red-500"
+      : profileColor === "orange-500"
+      ? "bg-orange-500"
+      : profileColor === "amber-500"
+      ? "bg-amber-500"
+      : profileColor === "lime-500"
+      ? "bg-lime-500"
+      : profileColor === "green-500"
+      ? "bg-green-500"
+      : profileColor === "cyan-500"
+      ? "bg-cyan-500"
+      : profileColor === "blue-500"
+      ? "bg-blue-500"
+      : profileColor === "indigo-500"
+      ? "bg-indigo-500"
+      : profileColor === "rose-500"
+      ? "bg-rose-500"
+      : "bg-gray-500"; // default if none match
 
   if (imgUrl) {
     return (

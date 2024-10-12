@@ -1,3 +1,5 @@
+import ChatPartnersList from "@/components/ChatPartnersList";
+import ProfileImage from "@/components/ProfileImage";
 import { fetchConnects } from "@/helpers/fetch-connects";
 import { authOptions } from "@/lib/auth";
 import { chatHrefConstructor } from "@/lib/utils";
@@ -17,30 +19,17 @@ const ChatsLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <main className="flex min-h-screen">
-      <aside className="-ml-4 bg-gray-50 border border-gray-200 p-4">
+      <aside className="-ml-4 bg-gray-50 border border-gray-200">
         <h2 className="mb-4">
           <Link href={"/"} className="text-2xl font-bold text-red-400">
             Logo
           </Link>
         </h2>
         <h3 className="text-xl font-bold">Chats</h3>
-        <ul role="list">
-          {connects.map((connectUser) => (
-            <li key={connectUser._id.toString()}>
-              <Link
-                href={
-                  "/chats/" +
-                  chatHrefConstructor(
-                    session.user._id.toString(),
-                    connectUser._id.toString()
-                  )
-                }
-              >
-                {connectUser.name}
-              </Link>{" "}
-            </li>
-          ))}
-        </ul>
+        <ChatPartnersList
+          connects={JSON.parse(JSON.stringify(connects))}
+          sessionId={session.user._id.toString()}
+        />
       </aside>
       <section className="flex-1 p-4">{children}</section>
     </main>
