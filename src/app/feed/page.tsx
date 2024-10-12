@@ -22,7 +22,10 @@ const FeedPage = async () => {
         <hr className="mt-4 w-[95%] mx-auto" />
         <div className="flex flex-col gap-6 mb-6 mt-4">
           {posts.map((post) => (
-            <PostCard key={post._id.toString()} post={post} />
+            <PostCard
+              key={post._id.toString()}
+              post={JSON.parse(JSON.stringify(post))}
+            />
           ))}
         </div>
       </PostsContainer>

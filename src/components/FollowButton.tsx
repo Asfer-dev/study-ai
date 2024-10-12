@@ -33,7 +33,7 @@ const FollowButton = ({
       }
     };
 
-    if (sessionUserId && toFollowUserId) {
+    if (toFollowUserId) {
       checkIfFollowed();
     }
   }, [toFollowUserId]);

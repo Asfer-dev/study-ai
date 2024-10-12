@@ -13,8 +13,8 @@ const PostSchema = new Schema<IPost>(
       default: [],
     },
     likes: {
-      type: Number,
-      default: 0,
+      type: [Schema.Types.ObjectId],
+      ref: "User",
     },
     comments: {
       type: [Schema.Types.ObjectId],

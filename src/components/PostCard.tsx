@@ -1,15 +1,20 @@
+"use client";
+
 import { IPost, IUser } from "@/types/db";
-import React from "react";
 import ProfileImage from "./ProfileImage";
-import { User } from "next-auth";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { Types } from "mongoose";
+import LikeButton from "./LikeButton";
 
 interface PostCartProps {
   post: IPost;
 }
 
 const PostCard = ({ post }: PostCartProps) => {
+  const [likes, setLikes] = useState<Types.ObjectId[]>(post.likes);
+
   const user: IUser = post.user;
 
   function getFileTypeFromUrl(url: string): "image" | "video" | "unknown" {
@@ -80,17 +85,12 @@ const PostCard = ({ post }: PostCartProps) => {
         )}
       </div>
       <div className=" px-2.5 mt-1">
-        <span className="font-bold">{post.likes}</span> likes,{" "}
+        <span className="font-bold">{likes.length}</span> likes,{" "}
         <span className="font-bold">{post.comments.length}</span> comments
       </div>
       <hr className="w-[95%] mt-1 mx-auto" />
       <div className="flex overflow-hidden p-1">
-        <Button
-          className="w-full rounded-none outline-none ring-0 border-0"
-          variant={"outline"}
-        >
-          Like
-        </Button>
+        <LikeButton setLikes={setLikes} postId={post._id.toString()} />
         <Button
           className="w-full rounded-none outline-none ring-0 border-0"
           variant={"outline"}

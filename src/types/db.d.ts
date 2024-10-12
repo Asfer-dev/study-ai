@@ -37,7 +37,7 @@ export interface IPost extends Document {
   createdAt?: Date; // Optional, automatically managed by Mongoose
   updatedAt?: Date; // Optional, automatically managed by Mongoose
   user: Types.ObjectId | Iuser;
-  likes: number;
+  likes: Types.ObjectId[];
   comments: Types.ObjectId[];
 }
 

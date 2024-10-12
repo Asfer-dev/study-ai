@@ -10,6 +10,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { computeSHA256 } from "@/lib/utils";
 import { IUser } from "@/types/db";
+import { useRouter } from "next/navigation";
 
 export interface PostData {
   input: string;
@@ -25,6 +26,8 @@ const NewPostBox = ({ sessionUser }: { sessionUser: User }) => {
     media: null,
   });
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostData((prevState) => ({
@@ -106,6 +109,7 @@ const NewPostBox = ({ sessionUser }: { sessionUser: User }) => {
       const newPost = await createPost(postData, mediaUrl);
       console.log("Post created successfully:", newPost);
       toast.success("Post uploaded!");
+      router.refresh();
     } catch (error) {
       console.error("An error occurred:", error);
       toast.error("An error occurred uploading media");
