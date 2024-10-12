@@ -1,16 +1,30 @@
-import { model, models,Schema } from 'mongoose';
+import { model, models, Schema } from "mongoose";
 
-import { IPost } from '@/types/db';
+import { IPost } from "@/types/db";
 
 const PostSchema = new Schema<IPost>(
   {
     caption: {
       type: String,
-      default: '',
+      default: "",
     },
     media: {
       type: [String],
       default: [],
+    },
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    comments: {
+      type: [Schema.Types.ObjectId],
+      ref: "Comment",
+      default: [],
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {
@@ -18,6 +32,6 @@ const PostSchema = new Schema<IPost>(
   }
 );
 
-const Post = models.Post || model<IPost>('Post', PostSchema);
+const Post = models.Post || model<IPost>("Post", PostSchema);
 
 export default Post;

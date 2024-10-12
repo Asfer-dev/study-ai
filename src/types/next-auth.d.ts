@@ -1,25 +1,28 @@
 // types/next-auth.d.ts
-import { Types } from 'mongoose';
+import { Types } from "mongoose";
 
 type UserId = Types.ObjectId;
 
-declare module 'next-auth/jwt' {
+declare module "next-auth/jwt" {
   interface JWT {
     _id: UserId;
-    role: 'teacher' | 'student';
+    role: "teacher" | "student";
+    profileColor: string;
   }
 }
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface User {
     _id: UserId;
-    role: 'teacher' | 'student';
+    role: "teacher" | "student";
+    profileColor: string;
   }
 
   interface Session {
     user: User & {
       _id: UserId;
-      role: 'teacher' | 'student';
+      role: "teacher" | "student";
+      profileColor: string;
     };
   }
 }

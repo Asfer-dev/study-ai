@@ -1,18 +1,3 @@
-/**
- * SVGR Support
- * Caveat: No React Props Type.
- *
- * You can override the next-env if the type is important to you
- * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
- */
-// !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
-// Before you begin editing, follow all comments with `STARTERCONF`,
-// to customize the default configuration.
-import { getServerSession } from "next-auth";
-import React from "react";
-
-import { authOptions } from "@/lib/auth";
-
 import SignInButton from "@/components/SignInButton";
 import SignOutButton from "@/components/SignOutButton";
 
@@ -20,25 +5,63 @@ import { fetchUsers } from "@/helpers/fetch-users";
 import FollowButton from "@/components/FollowButton";
 import ConnectButton from "@/components/ConnectButton";
 import { fetchConnectRequests } from "@/helpers/fetch-connect-requests";
-import { IConnectRequest, IUser } from "@/types/db";
+import { IConnectRequest, IPost, IUser } from "@/types/db";
 import ConnectRequestItem from "@/components/ConnectRequestItem";
 import { fetchConnects } from "@/helpers/fetch-connects";
+import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import NewPostBox from "@/components/NewPostBox";
+import { fetchPosts } from "@/helpers/fetch-posts";
+import PostCard from "@/components/PostCard";
+import PageContainer from "@/components/PageContainer";
+import PostsContainer from "@/components/PostsContainer";
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
   const users = await fetchUsers();
-  const connectRequests: IConnectRequest[] = await fetchConnectRequests(
-    session?.user._id
-  );
+  const posts: IPost[] = await fetchPosts(session?.user._id);
 
-  const connections: IUser[] = await fetchConnects(session?.user._id);
+  // const [users, setUsers] = useState<IUser[]>([]);
+  // const [connectRequests, setConnectRequests] = useState<IConnectRequest[]>([]);
+  // const [connections, setConnections] = useState<IUser[]>([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (session?.user._id) {
+  //       try {
+  //         const fetchedUsers = await fetchUsers();
+  //         const fetchedConnectRequests = await fetchConnectRequests(
+  //           session.user._id
+  //         );
+  //         const fetchedConnections = await fetchConnects(session.user._id);
+  //         setUsers(fetchedUsers);
+  //         setConnectRequests(fetchedConnectRequests);
+  //         setConnections(fetchedConnections);
+  //       } catch (error) {
+  //         console.error("Error fetching data: ", error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     }
+  //   };
+
+  //   if (session) {
+  //     fetchData();
+  //   }
+  // }, [session]);
 
   if (session) {
     return (
       <>
         Signed in as {session?.user?.email} <br />
         Welcome {session?.user?.role} <br />
+        <div>
+          <Link className="underline font-bold" href={"/chats"}>
+            Chats
+          </Link>
+        </div>
         <SignOutButton />
         <div>
           <h3>All Users:</h3>
@@ -55,28 +78,15 @@ export default async function HomePage() {
             ))}
           </ul>
         </div>
-        <div>
-          <h3 className="text-2xl">Connection Requests</h3>
-          <ul>
-            {connectRequests.map((request) => (
-              <li key={request._id.toString()}>
-                <ConnectRequestItem
-                  request={JSON.parse(JSON.stringify(request))}
-                />
-              </li>
+        <PostsContainer>
+          {/* UPLOAD A POST */}
+          <NewPostBox sessionUser={session.user} />
+          <div className="flex flex-col gap-6 my-6">
+            {posts.map((post) => (
+              <PostCard key={post._id.toString()} post={post} />
             ))}
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-2xl">Connections</h3>
-          <ul>
-            {connections.map((connectUser) => (
-              <li key={connectUser._id.toString()}>
-                <p>{connectUser.email}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+          </div>
+        </PostsContainer>
       </>
     );
   }

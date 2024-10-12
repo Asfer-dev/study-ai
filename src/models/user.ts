@@ -48,14 +48,24 @@ const UserSchema = new Schema<IUser>(
       required: true,
       default: [],
     },
+    chats: {
+      type: [Schema.Types.ObjectId],
+      ref: "Chat",
+      required: true,
+      default: [],
+    },
     posts: {
       type: [Schema.Types.ObjectId],
+      ref: "Post",
       required: true,
       default: [],
     },
     notifications: {
       type: [String],
       default: [],
+    },
+    profileColor: {
+      type: String,
     },
   },
   {
