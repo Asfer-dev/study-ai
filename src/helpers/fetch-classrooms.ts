@@ -1,7 +1,7 @@
 import { connectToDB } from "@/lib/database";
 import Classroom from "@/models/classroom";
 import User from "@/models/user";
-import { IClassroom } from "@/types/db";
+import { IClassroom, ITeacher } from "@/types/db";
 
 export async function fetchClassrooms(
   userId: string,
@@ -10,28 +10,30 @@ export async function fetchClassrooms(
   try {
     await connectToDB();
 
-    const user = await User.findById(userId).populate({
-      path: role === "teacher" ? "classrooms" : "joinedClassrooms",
-      model: "Classroom",
-      populate: [
-        {
-          path: "owner",
-          select: "name email image profileColor",
-        },
-        {
-          path: "studentsEnrolled",
-          select: "name email image profileColor",
-        },
-      ],
-    });
-    // const user = await User.findById(userId).populate("joinedClassrooms");
-    // const classroom = await Classroom.findById("670b7bc53a2e367e7caf1881");
-    // console.log(user.joinedClassrooms[0].studentsEnrolled);
+    const user = await User.findById(userId); // Fetch the user
 
-    const classrooms =
-      role === "teacher"
-        ? user.classrooms
-        : (user.joinedClassrooms as IClassroom[]);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    let classrooms: IClassroom[] = [];
+
+    if (role === "teacher") {
+      classrooms = await Classroom.find({
+        _id: { $in: user.classrooms }, // Use teacher's classrooms
+      }).populate([
+        { path: "owner", select: "name email image profileColor" },
+        { path: "studentsEnrolled", select: "name email image profileColor" },
+      ]);
+    } else {
+      classrooms = await Classroom.find({
+        _id: { $in: user.joinedClassrooms }, // Use student's joined classrooms
+      }).populate([
+        { path: "owner", select: "name email image profileColor" },
+        { path: "studentsEnrolled", select: "name email image profileColor" },
+      ]);
+    }
+    // console.log(classrooms[0].studentsEnrolled);
 
     return classrooms;
   } catch (error) {
