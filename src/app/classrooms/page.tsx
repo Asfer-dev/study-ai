@@ -14,44 +14,6 @@ const ClassroomsPage = async () => {
   if (!session) notFound();
   const classrooms = await fetchClassrooms(session.user._id, session.user.role);
 
-  // useEffect(() => {
-  //   // Fetch classrooms only if session is available and user ID is present
-  //   async function fetchclassrooms() {
-  //     try {
-  //       const fetchedclassrooms = JSON.parse(await getClassrooms());
-  //       // console.log(fetchedclassrooms);
-
-  //       setClassrooms(fetchedclassrooms);
-  //     } catch (error) {
-  //       console.error('Failed to fetch classrooms:', error);
-  //     }
-  //   }
-  //   // if (session && session.user && session.user._id) {
-  //   // }
-  //   fetchclassrooms();
-  // }, []);
-
-  // const handleSubmit = async () => {
-  //   createClassroom({ ownerId: session?.user?._id, name: classroomName });
-  // };
-
-  // // Reference to the dialog element
-  // const dialogRef = useRef(null);
-
-  // // Open the dialog
-  // const openDialog = () => {
-  //   if (dialogRef.current) {
-  //     dialogRef.current.showModal(); // Opens the dialog
-  //   }
-  // };
-
-  // // Close the dialog
-  // const closeDialog = () => {
-  //   if (dialogRef.current) {
-  //     dialogRef.current.close(); // Closes the dialog
-  //   }
-  // };
-
   function isIUser(owner: any): owner is IUser {
     return (
       owner && typeof owner === "object" && "name" in owner && "email" in owner

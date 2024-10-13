@@ -2,7 +2,9 @@ import { connectToDB } from "@/lib/database";
 import User from "@/models/user";
 import { Types } from "mongoose";
 
-export const fetchPosts = async (userId: Types.ObjectId | undefined) => {
+export const fetchPosts = async (
+  userId: Types.ObjectId | string | undefined
+) => {
   try {
     if (userId) {
       await connectToDB();

@@ -24,9 +24,9 @@ export async function fetchClassrooms(
         },
       ],
     });
-    // const user = await User.findById(userId).populate("classrooms");
-    // const classroom = await Classroom.findById("670b75a485b0d2b765098617");
-    // console.log(user);
+    // const user = await User.findById(userId).populate("joinedClassrooms");
+    // const classroom = await Classroom.findById("670b7bc53a2e367e7caf1881");
+    // console.log(user.joinedClassrooms[0].studentsEnrolled);
 
     const classrooms =
       role === "teacher"

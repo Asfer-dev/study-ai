@@ -106,3 +106,33 @@ body {
 .animate-slide-out {
   animation: slide-out 0.2s ease-in forwards;
 }
+
+@keyframes pop-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9); /* Start below and slightly smaller */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1); /* End at original position and size */
+  }
+}
+
+@keyframes pop-down {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1); /* Start at original position and size */
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9); /* End below and slightly smaller */
+  }
+}
+
+.animate-pop-up {
+  animation: pop-up 0.15s ease-out forwards; /* Animation for appearing */
+}
+
+.animate-pop-down {
+  animation: pop-down 0.15s ease-in forwards; /* Animation for disappearing */
+}

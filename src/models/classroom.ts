@@ -25,8 +25,8 @@ const ClassroomSchema = new Schema<IClassroom>(
     studentsEnrolled: {
       type: [
         {
-          type: [Schema.Types.ObjectId],
-          // ref: "User",
+          type: Schema.Types.ObjectId,
+          ref: "User",
         },
       ],
       default: [],

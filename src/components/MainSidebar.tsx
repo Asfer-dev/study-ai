@@ -7,6 +7,7 @@ import { notFound, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ProfileImage from "./ProfileImage";
 import SignOutButton from "./SignOutButton";
+import ProfileOptionsMenu from "./ProfileOptionsMenu";
 
 const MainSidebar = () => {
   const linkStyles = "underline";
@@ -73,7 +74,7 @@ const MainSidebar = () => {
                 Connections
               </Link>
             </li>
-            <li className="mt-auto flex items-center -mr-4">
+            <li className="relative mt-auto flex items-center -mr-4">
               <div className="flex flex-1 items-center gap-x-4 py-3 text-sm font-semibold leading-6 text-gray-900">
                 <ProfileImage
                   imgUrl={session.user.image}
@@ -97,7 +98,7 @@ const MainSidebar = () => {
                 </Link>
               </div>
 
-              <SignOutButton className="h-full" />
+              <ProfileOptionsMenu className="h-full" />
             </li>
           </ul>
         </nav>

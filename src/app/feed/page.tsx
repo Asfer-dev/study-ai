@@ -25,6 +25,7 @@ const FeedPage = async () => {
             <PostCard
               key={post._id.toString()}
               post={JSON.parse(JSON.stringify(post))}
+              sessionId={session.user._id}
             />
           ))}
         </div>

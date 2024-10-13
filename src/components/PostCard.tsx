@@ -7,12 +7,15 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { Types } from "mongoose";
 import LikeButton from "./LikeButton";
+import CardMenu from "./CardMenu";
+import PostDeleteButton from "./PostDeleteButton";
 
 interface PostCartProps {
   post: IPost;
+  sessionId: string;
 }
 
-const PostCard = ({ post }: PostCartProps) => {
+const PostCard = ({ post, sessionId }: PostCartProps) => {
   const [likes, setLikes] = useState<Types.ObjectId[]>(post.likes);
 
   const user: IUser = post.user;
@@ -66,6 +69,13 @@ const PostCard = ({ post }: PostCartProps) => {
           </Link>
           <span className="text-xs text-zinc-400">{user.role}</span>
         </div>
+
+        {/* Three-dot menu at the top left */}
+        <CardMenu menuClassName="top-12 right-2" buttonClassName="ml-auto">
+          {sessionId === post.user._id.toString() && (
+            <PostDeleteButton postId={post._id.toString()} />
+          )}
+        </CardMenu>
       </div>
       <p className="px-2.5">{post.caption}</p>
       <div className="bg-gray-200">
