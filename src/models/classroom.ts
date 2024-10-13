@@ -1,21 +1,21 @@
-import { model, models,Schema } from 'mongoose';
+import { model, models, Schema } from "mongoose";
 
-import { IClassroom } from '@/types/db';
+import { IClassroom } from "@/types/db";
 
 const ClassroomSchema = new Schema<IClassroom>(
   {
     name: {
       type: String,
-      required: [true, 'classroom name is required'],
+      required: [true, "classroom name is required"],
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: [true, 'owner is required'],
+      ref: "User",
+      required: [true, "owner is required"],
     },
     code: {
       type: String,
-      required: [true, 'Classroom code is required'],
+      required: [true, "Classroom code is required"],
       unique: true,
     },
     files: {
@@ -25,11 +25,18 @@ const ClassroomSchema = new Schema<IClassroom>(
     studentsEnrolled: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: 'User',
+          type: [Schema.Types.ObjectId],
+          // ref: "User",
         },
       ],
       default: [],
+    },
+    classroomColor: {
+      type: String,
+    },
+    image: {
+      type: String,
+      default: "",
     },
   },
   {
@@ -38,6 +45,6 @@ const ClassroomSchema = new Schema<IClassroom>(
 );
 
 const Classroom =
-  models.Classroom || model<IClassroom>('Classroom', ClassroomSchema);
+  models.Classroom || model<IClassroom>("Classroom", ClassroomSchema);
 
 export default Classroom;

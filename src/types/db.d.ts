@@ -52,12 +52,15 @@ export interface IComment extends Document {
 export interface IClassroom extends Document {
   _id: Types.ObjectId;
   name: string; // Classroom name
-  owner: Types.ObjectId; // Reference to the User model (owner)
+  owner: IUser | Types.ObjectId; // Reference to the User model (owner)
   code: string; // Unique classroom code
+  posts: Types.ObjectId[];
   files: Types.ObjectId[]; // Array of file ObjectIds
-  studentsEnrolled: Types.ObjectId[]; // Array of enrolled student ObjectIds
+  studentsEnrolled: Types.ObjectId[] | IUser[]; // Array of enrolled student ObjectIds
   createdAt?: Date; // Optional, automatically managed by Mongoose
   updatedAt?: Date; // Optional, automatically managed by Mongoose
+  classroomColor?: string;
+  image: string;
 }
 
 export interface IMessage extends Document {

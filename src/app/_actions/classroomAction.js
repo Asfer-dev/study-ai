@@ -1,8 +1,8 @@
-'use server';
-import Classroom from '@/models/classroom';
-import User from '@/models/user';
+"use server";
+import Classroom from "@/models/classroom";
+import User from "@/models/user";
 
-import { connectToDB } from '../../lib/database';
+import { connectToDB } from "../../lib/database";
 
 export const createClassroom = async ({ ownerId, name }) => {
   let success = false;
@@ -13,8 +13,8 @@ export const createClassroom = async ({ ownerId, name }) => {
       await connectToDB();
 
       const user = await User.findById(ownerId);
-      if (user.role !== 'teacher') {
-        throw new Error('User must be a teacher to create a classroom');
+      if (user.role !== "teacher") {
+        throw new Error("User must be a teacher to create a classroom");
       }
 
       const newClassroom = new Classroom({ owner: user, name, code });
@@ -25,7 +25,7 @@ export const createClassroom = async ({ ownerId, name }) => {
       user.classrooms.push(newClassroom._id);
       await user.save();
 
-      console.log('Classroom created');
+      console.log("Classroom created");
 
       success = true;
     } catch (error) {
@@ -40,8 +40,8 @@ export const createClassroom = async ({ ownerId, name }) => {
 };
 
 function generateClassroomCode() {
-  const characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-  let code = '';
+  const characters = "0123456789abcdefghijklmnopqrstuvwxyz";
+  let code = "";
   for (let i = 0; i < 6; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
     code += characters[randomIndex];
@@ -54,11 +54,11 @@ export const getClassrooms = async () => {
     await connectToDB();
 
     let classrooms = await Classroom.find({})
-      .populate('owner')
+      .populate("owner")
       .populate({
-        path: 'studentsEnrolled', // Populate the studentsEnrolled array
-        select: 'email', // Select only the email field
-        model: 'User', // Ensure this matches the User model name
+        path: "studentsEnrolled", // Populate the studentsEnrolled array
+        select: "email name image profileColor", // Select only the email field
+        model: "User", // Ensure this matches the User model name
       })
       .exec();
 
@@ -75,20 +75,20 @@ export const joinClassroom = async (studentId, classroomId) => {
     await connectToDB();
 
     const student = await User.findById(studentId);
-    if (student.role !== 'student') {
-      throw new Error('Only students can join a classroom');
+    if (student.role !== "student") {
+      throw new Error("Only students can join a classroom");
     }
 
     const classroom = await Classroom.findById(classroomId);
 
     // Check if student is already enrolled in the classroom
     if (classroom.studentsEnrolled.includes(student._id)) {
-      throw new Error('Student is already enrolled in this classroom');
+      throw new Error("Student is already enrolled in this classroom");
     }
 
     // Check if classroom is already joined by the student
     if (student.joinedClassrooms.includes(classroom._id)) {
-      throw new Error('Student has already joined this classroom');
+      throw new Error("Student has already joined this classroom");
     }
 
     classroom.studentsEnrolled.push(student._id);
@@ -98,7 +98,7 @@ export const joinClassroom = async (studentId, classroomId) => {
     await classroom.save();
     await student.save();
 
-    console.log(student.email + ' enrolled in classroom ' + classroom.name);
+    console.log(student.email + " enrolled in classroom " + classroom.name);
   } catch (error) {
     console.log(error);
   }

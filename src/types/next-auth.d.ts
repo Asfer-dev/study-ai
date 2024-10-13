@@ -1,7 +1,7 @@
 // types/next-auth.d.ts
 import { Types } from "mongoose";
 
-type UserId = Types.ObjectId;
+type UserId = string;
 
 declare module "next-auth/jwt" {
   interface JWT {

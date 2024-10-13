@@ -22,27 +22,27 @@ const ProfileImage = ({
     ? `${profileName.split(" ")[0][0]}${profileName.split(" ")[1][0]}`
     : "";
   const bgColor =
-    profileColor === "gray-500"
-      ? "bg-gray-500"
-      : profileColor === "red-500"
-      ? "bg-red-500"
-      : profileColor === "orange-500"
-      ? "bg-orange-500"
-      : profileColor === "amber-500"
-      ? "bg-amber-500"
-      : profileColor === "lime-500"
-      ? "bg-lime-500"
-      : profileColor === "green-500"
-      ? "bg-green-500"
-      : profileColor === "cyan-500"
-      ? "bg-cyan-500"
-      : profileColor === "blue-500"
-      ? "bg-blue-500"
-      : profileColor === "indigo-500"
-      ? "bg-indigo-500"
-      : profileColor === "rose-500"
-      ? "bg-rose-500"
-      : "bg-gray-500"; // default if none match
+    profileColor === "gray-400"
+      ? "bg-gray-400"
+      : profileColor === "red-400"
+      ? "bg-red-400"
+      : profileColor === "orange-400"
+      ? "bg-orange-400"
+      : profileColor === "amber-400"
+      ? "bg-amber-400"
+      : profileColor === "lime-400"
+      ? "bg-lime-400"
+      : profileColor === "green-400"
+      ? "bg-green-400"
+      : profileColor === "cyan-400"
+      ? "bg-cyan-400"
+      : profileColor === "blue-400"
+      ? "bg-blue-400"
+      : profileColor === "indigo-400"
+      ? "bg-indigo-400"
+      : profileColor === "rose-400"
+      ? "bg-rose-400"
+      : "bg-gray-400"; // default if none match
 
   if (imgUrl) {
     return (

@@ -1,14 +1,14 @@
-import {Schema } from 'mongoose';
+import { Schema } from "mongoose";
 
-import User from './user';
+import User from "./user";
 
-import { ITeacher } from '@/types/db';
+import { ITeacher } from "@/types/db";
 
 const TeacherSchema = new Schema<ITeacher>(
   {
     classrooms: {
       type: [Schema.Types.ObjectId],
-      required: true,
+      ref: "Classroom",
       default: [],
     },
   },
@@ -20,6 +20,6 @@ const TeacherSchema = new Schema<ITeacher>(
 const Teacher =
   User.discriminators && User.discriminators.teacher
     ? User.discriminators.teacher
-    : User.discriminator('teacher', TeacherSchema);
+    : User.discriminator("teacher", TeacherSchema);
 
 export default Teacher;

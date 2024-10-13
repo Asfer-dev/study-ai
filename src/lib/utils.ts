@@ -23,3 +23,24 @@ export const computeSHA256 = async (file: File) => {
     .join("");
   return hashHex;
 };
+
+export const bgColors: string[] = [
+  "gray-400",
+  "red-400",
+  "orange-400",
+  "amber-400",
+  "lime-400",
+  "green-400",
+  "cyan-400",
+  "blue-400",
+  "indigo-400",
+  "rose-400",
+];
+
+export function getRandomNumber(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function getRandomBgColor(): string {
+  return bgColors[getRandomNumber(0, bgColors.length - 1)];
+}

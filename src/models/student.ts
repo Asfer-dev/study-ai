@@ -1,14 +1,14 @@
-import {Schema } from 'mongoose';
+import { Schema } from "mongoose";
 
-import User from './user';
+import User from "./user";
 
-import { IStudent } from '@/types/db';
+import { IStudent } from "@/types/db";
 
 const StudentSchema = new Schema<IStudent>(
   {
     joinedClassrooms: {
       type: [Schema.Types.ObjectId],
-      required: true,
+      ref: "Classroom",
       default: [],
     },
   },
@@ -20,6 +20,6 @@ const StudentSchema = new Schema<IStudent>(
 const Student =
   User.discriminators && User.discriminators.student
     ? User.discriminators.student
-    : User.discriminator('student', StudentSchema);
+    : User.discriminator("student", StudentSchema);
 
 export default Student;
