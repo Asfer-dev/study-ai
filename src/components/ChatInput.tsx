@@ -27,12 +27,13 @@ const ChatInput: FC<ChatInputProps> = ({
   const [input, setInput] = useState<string>("");
 
   const sendMessage = async () => {
-    if (!input) return;
+    const trimmedText = input.trim();
+    if (!trimmedText) return;
     setIsLoading(true);
 
     try {
       await axios.post("/api/message/send", {
-        text: input,
+        text: trimmedText,
         media: "",
         chatId,
         userId1,

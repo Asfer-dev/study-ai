@@ -22,7 +22,7 @@ const MainSidebar = () => {
 
   return (
     <>
-      <aside className="flex flex-col gap-4 rounded-r-lg border border-gray-200 p-4 h-screen fixed top-0 left-0 bottom-0">
+      <aside className="flex flex-col gap-4 rounded-r-lg border border-gray-200 p-4 h-screen sticky top-0 left-0 bottom-0">
         <Logo />
         <nav className="flex flex-1 flex-col">
           <ul className="flex flex-col gap-y-4 h-full">

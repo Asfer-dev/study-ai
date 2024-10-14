@@ -22,6 +22,12 @@ const ClassroomSchema = new Schema<IClassroom>(
       type: [Schema.Types.ObjectId],
       default: [],
     },
+    posts: {
+      type: [Schema.Types.ObjectId],
+      ref: "Post",
+      required: true,
+      default: [],
+    },
     studentsEnrolled: {
       type: [
         {

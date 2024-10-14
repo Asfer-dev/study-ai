@@ -21,7 +21,7 @@ const ClassroomsPage = async () => {
   }
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 px-4">
       {session?.user?.role === "teacher" ? (
         <NewClassroomForm />
       ) : (

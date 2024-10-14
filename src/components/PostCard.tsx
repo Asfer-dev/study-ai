@@ -9,6 +9,7 @@ import { Types } from "mongoose";
 import LikeButton from "./LikeButton";
 import CardMenu from "./CardMenu";
 import PostDeleteButton from "./PostDeleteButton";
+import { getFileTypeFromUrl } from "@/lib/utils";
 
 interface PostCartProps {
   post: IPost;
@@ -16,42 +17,9 @@ interface PostCartProps {
 }
 
 const PostCard = ({ post, sessionId }: PostCartProps) => {
-  const [likes, setLikes] = useState<Types.ObjectId[]>(post.likes);
+  const [likes, setLikes] = useState<(Types.ObjectId | string)[]>(post.likes);
 
   const user: IUser = post.user;
-
-  function getFileTypeFromUrl(url: string): "image" | "video" | "unknown" {
-    // Extract the file extension from the URL
-    const extension: string | undefined = url.split(".").pop()?.toLowerCase();
-
-    // Define image and video extensions
-    const imageExtensions: string[] = [
-      "jpg",
-      "jpeg",
-      "png",
-      "gif",
-      "bmp",
-      "svg",
-      "webp",
-    ];
-    const videoExtensions: string[] = [
-      "mp4",
-      "mov",
-      "avi",
-      "mkv",
-      "webm",
-      "flv",
-      "wmv",
-    ];
-
-    if (extension && imageExtensions.includes(extension)) {
-      return "image";
-    } else if (extension && videoExtensions.includes(extension)) {
-      return "video";
-    } else {
-      return "unknown";
-    }
-  }
 
   return (
     <div className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300">
@@ -77,7 +45,7 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
           )}
         </CardMenu>
       </div>
-      <p className="px-2.5">{post.caption}</p>
+      <p className="px-2.5 whitespace-pre-wrap">{post.caption}</p>
       <div className="bg-gray-200">
         {getFileTypeFromUrl(post.media[0]) === "image" && (
           <img

@@ -34,7 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <main className="relative flex gap-4">
+          <main className="relative flex">
             <MainSidebar />
             <PageContainer>{children}</PageContainer>
           </main>

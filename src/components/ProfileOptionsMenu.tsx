@@ -20,7 +20,7 @@ const ProfileOptionsMenu: FC<ProfileOptionsMenuProps> = ({ ...props }) => {
     <CardMenu
       icon={<Settings className="w-5 text-zinc-600" />}
       buttonClassName="h-full px-4"
-      menuClassName="bottom-20 -right-20"
+      menuClassName="bottom-20 right-0"
       animateIn="animate-pop-up"
       animateOut="animate-pop-out"
     >

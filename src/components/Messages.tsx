@@ -96,14 +96,17 @@ const Messages: FC<MessagesProps> = ({
                 )}
               >
                 <span
-                  className={cn("px-4 py-2 rounded-lg inline-block", {
-                    "bg-rose-600 text-white": isCurrentUser,
-                    "bg-gray-200 text-gray-900": !isCurrentUser,
-                    "rounded-br-none":
-                      !hasNextMessageFromSameUser && isCurrentUser,
-                    "rounded-bl-none":
-                      !hasNextMessageFromSameUser && !isCurrentUser,
-                  })}
+                  className={cn(
+                    "px-4 py-2 rounded-lg inline-block whitespace-pre-wrap",
+                    {
+                      "bg-rose-600 text-white": isCurrentUser,
+                      "bg-gray-200 text-gray-900": !isCurrentUser,
+                      "rounded-br-none":
+                        !hasNextMessageFromSameUser && isCurrentUser,
+                      "rounded-bl-none":
+                        !hasNextMessageFromSameUser && !isCurrentUser,
+                    }
+                  )}
                 >
                   {message.text}{" "}
                   <span className="ml-2 text-xs text-gray-400">

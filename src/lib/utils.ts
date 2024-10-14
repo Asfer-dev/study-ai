@@ -44,3 +44,39 @@ export function getRandomNumber(min: number, max: number): number {
 export function getRandomBgColor(): string {
   return bgColors[getRandomNumber(0, bgColors.length - 1)];
 }
+
+export function getFileTypeFromUrl(url: string): "image" | "video" | "unknown" {
+  // Extract the file extension from the URL
+  if (!url) {
+    return "unknown";
+  }
+  const extension: string | undefined = url.split(".").pop()?.toLowerCase();
+
+  // Define image and video extensions
+  const imageExtensions: string[] = [
+    "jpg",
+    "jpeg",
+    "png",
+    "gif",
+    "bmp",
+    "svg",
+    "webp",
+  ];
+  const videoExtensions: string[] = [
+    "mp4",
+    "mov",
+    "avi",
+    "mkv",
+    "webm",
+    "flv",
+    "wmv",
+  ];
+
+  if (extension && imageExtensions.includes(extension)) {
+    return "image";
+  } else if (extension && videoExtensions.includes(extension)) {
+    return "video";
+  } else {
+    return "unknown";
+  }
+}

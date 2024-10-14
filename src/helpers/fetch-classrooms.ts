@@ -41,3 +41,20 @@ export async function fetchClassrooms(
     return [];
   }
 }
+
+export async function fetchClassroom(
+  classroomId: string
+): Promise<IClassroom | null> {
+  try {
+    await connectToDB();
+
+    const classroom = (await Classroom.findById(classroomId).populate([
+      { path: "owner", select: "name email image profileColor" },
+      { path: "studentsEnrolled", select: "name email image profileColor" },
+    ])) as IClassroom;
+    return classroom;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

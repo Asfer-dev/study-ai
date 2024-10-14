@@ -95,7 +95,8 @@ const NewPostBox = ({ sessionUser }: { sessionUser: User }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!postData.media && !postData.input) {
+    const trimmedText = postData.input.trim();
+    if (!postData.media && !trimmedText) {
       console.log("no file attached");
       return;
     }
@@ -106,9 +107,14 @@ const NewPostBox = ({ sessionUser }: { sessionUser: User }) => {
       if (postData.media) {
         mediaUrl = await uploadMedia(postData.media);
       }
-      const newPost = await createPost(postData, mediaUrl);
+      const newPost = await createPost(
+        { ...postData, input: trimmedText },
+        mediaUrl
+      );
       console.log("Post created successfully:", newPost);
       toast.success("Post uploaded!");
+      setPostData({ input: "", media: null });
+      setMediaPreview("");
       router.refresh();
     } catch (error) {
       console.error("An error occurred:", error);

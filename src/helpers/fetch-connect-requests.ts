@@ -4,7 +4,7 @@ import { IConnectRequest, IUser } from "@/types/db";
 import { Types } from "mongoose";
 
 export const fetchConnectRequests = async (
-  userId: Types.ObjectId | undefined
+  userId: Types.ObjectId | string | undefined
 ) => {
   try {
     if (userId) {

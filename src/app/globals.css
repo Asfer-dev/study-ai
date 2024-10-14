@@ -136,3 +136,9 @@ body {
 .animate-pop-down {
   animation: pop-down 0.15s ease-in forwards; /* Animation for disappearing */
 }
+
+.absolute-element {
+  position: absolute;
+  z-index: 999; /* Ensure it's higher than the sticky element */
+  transform: translateZ(0); /* Create a new stacking context */
+}

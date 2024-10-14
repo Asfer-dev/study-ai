@@ -5,7 +5,7 @@ import { IConnectRequest, IUser } from "@/types/db";
 
 const ProfileCard = ({ user }: { user: IUser | IConnectRequest }) => {
   return (
-    <div className="flex items-center gap-x-4 py-1.5 text-sm font-semibold leading-6 text-gray-900">
+    <div className="flex items-center gap-x-4 py-1.5 text-sm font-semibold leading-6 text-gray-900 text-left">
       <ProfileImage
         imgUrl={user.image}
         profileName={user.name}

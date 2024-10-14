@@ -54,7 +54,11 @@ const CardMenu = ({
       <Button
         variant={"ghost"}
         onClick={toggleMenu}
-        className={cn("menu-button focus:outline-none p-2", buttonClassName)}
+        className={cn(
+          "menu-button focus:outline-none p-2",
+          isMenuOpen && "bg-zinc-100",
+          buttonClassName
+        )}
       >
         {icon ? (
           icon
@@ -66,7 +70,7 @@ const CardMenu = ({
         <div
           ref={menuRef}
           className={cn(
-            "absolute bg-white border rounded overflow-hidden shadow z-10",
+            "absolute-element bg-white border rounded overflow-hidden shadow z-[9999]",
             menuClassName,
             isMenuOpen
               ? animateIn

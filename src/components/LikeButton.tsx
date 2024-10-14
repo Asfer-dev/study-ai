@@ -9,10 +9,11 @@ import { useSession } from "next-auth/react";
 
 interface LikeButtonProps {
   postId: string;
-  setLikes: React.Dispatch<React.SetStateAction<Types.ObjectId[]>>;
+  setLikes: React.Dispatch<React.SetStateAction<(Types.ObjectId | string)[]>>;
+  isClassroomPost?: boolean;
 }
 
-const LikeButton = ({ postId, setLikes }: LikeButtonProps) => {
+const LikeButton = ({ postId, setLikes, isClassroomPost }: LikeButtonProps) => {
   const { data: session } = useSession();
   const userObjId = new mongoose.Types.ObjectId(session?.user._id);
   const [isLiked, setIsLiked] = useState(false);
@@ -46,7 +47,10 @@ const LikeButton = ({ postId, setLikes }: LikeButtonProps) => {
 
       if (response.status === 200) {
         setIsLiked(true); // Update UI to show the post is liked
-        setLikes((prev) => [...prev, userObjId]);
+        if (session?.user._id) {
+          const userId: string = session.user._id;
+          setLikes((prev) => [...prev, userId]);
+        }
       } else if (response.status === 400) {
         toast.error(response.data); // Already liked or other error
       }
@@ -63,8 +67,9 @@ const LikeButton = ({ postId, setLikes }: LikeButtonProps) => {
 
       if (response.status === 200) {
         setIsLiked(false); // Update UI to show the post is not liked anymore
+
         setLikes((prev) => {
-          return prev.filter((uId) => !uId.equals(userObjId));
+          return prev.filter((uId) => uId.toString() !== session?.user._id);
         });
       } else if (response.status === 400) {
         toast.error(response.data); // not liked or other error
@@ -83,19 +88,31 @@ const LikeButton = ({ postId, setLikes }: LikeButtonProps) => {
     }
   };
 
-  return (
-    <Button
-      className="w-full rounded-none outline-none ring-0 border-0"
-      variant={"outline"}
-      onClick={handleClick}
-    >
-      {isLiked ? (
-        <span className="text-rose-500 font-bold">Liked</span>
-      ) : (
-        <span>Like</span>
-      )}
-    </Button>
-  );
+  if (isClassroomPost) {
+    return (
+      <button onClick={handleClick} className="hover:underline text-sm">
+        {isLiked ? (
+          <span className="text-rose-500 font-bold">Liked</span>
+        ) : (
+          <span>Like</span>
+        )}
+      </button>
+    );
+  } else {
+    return (
+      <Button
+        className="w-full rounded-none outline-none ring-0 border-0"
+        variant={"outline"}
+        onClick={handleClick}
+      >
+        {isLiked ? (
+          <span className="text-rose-500 font-bold">Liked</span>
+        ) : (
+          <span>Like</span>
+        )}
+      </Button>
+    );
+  }
 };
 
 export default LikeButton;

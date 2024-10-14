@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { Types } from "mongoose";
 
 interface PostDeleteButtonProps {
   postId: string;
+  classroomId?: string | Types.ObjectId;
 }
 
-const PostDeleteButton = ({ postId }: PostDeleteButtonProps) => {
+const PostDeleteButton = ({ postId, classroomId }: PostDeleteButtonProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -23,9 +25,16 @@ const PostDeleteButton = ({ postId }: PostDeleteButtonProps) => {
 
     try {
       setIsLoading(true);
-      const response = await axios.delete("/api/post/delete", {
-        data: { postId },
-      });
+      let response;
+      if (classroomId) {
+        response = await axios.delete("/api/classrooms/post/delete", {
+          data: { postId, classroomId },
+        });
+      } else {
+        response = await axios.delete("/api/post/delete", {
+          data: { postId },
+        });
+      }
 
       if (response.status === 200) {
         toast.success("Post deleted successfully!");
