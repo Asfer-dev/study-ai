@@ -1,16 +1,11 @@
-import ClassroomPostCard from "@/components/ClassroomPostCard";
 import FileCard from "@/components/FileCard";
-import NewClassroomPostBox from "@/components/NewClassroomPostBox";
 import NewFileForm from "@/components/NewFileForm";
-import ProfileImage from "@/components/ProfileImage";
-import { fetchClassroomPosts } from "@/helpers/fetch-classroom-posts";
 import { fetchFiles } from "@/helpers/fetch-files";
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
 import Classroom from "@/models/classroom";
-import { IFile, IPost, IUser } from "@/types/db";
+import { IFile } from "@/types/db";
 import { getServerSession } from "next-auth";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -58,7 +53,12 @@ const ClassroomFilesPage = async ({ params }: ClassroomFilesPageProps) => {
           <h3>Action</h3>
         </div>
         {files.map((file) => (
-          <FileCard key={file.name} file={JSON.parse(JSON.stringify(file))} />
+          <FileCard
+            isOwner={ownerId === session.user._id}
+            key={file.name}
+            file={JSON.parse(JSON.stringify(file))}
+            classroomId={classroomId}
+          />
         ))}
       </div>
     </div>

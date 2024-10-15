@@ -3,7 +3,7 @@ import { connectToDB } from "@/lib/database";
 import Post from "@/models/post";
 import Classroom from "@/models/classroom"; // Import Classroom model
 import { getServerSession } from "next-auth";
-import { deleteMediaFromS3 } from "@/lib/delete-media";
+import { deletePostMediaFromS3 } from "@/lib/delete-media";
 
 export async function DELETE(req: Request) {
   const { postId, classroomId }: { postId: string; classroomId: string } =
@@ -39,7 +39,7 @@ export async function DELETE(req: Request) {
 
     // Delete media files from S3 if they exist
     if (post.media.length > 0) {
-      await deleteMediaFromS3(post.media);
+      await deletePostMediaFromS3(post.media);
     }
 
     // Remove the post ID from the classroom's posts array

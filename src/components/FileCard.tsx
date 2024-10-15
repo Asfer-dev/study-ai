@@ -17,12 +17,15 @@ import {
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "./ui/button";
+import FileDeleteButton from "./FileDeleteButton";
 
 interface FileCardProps {
   file: IFile;
+  classroomId: string;
+  isOwner: boolean;
 }
 
-const FileCard = ({ file }: FileCardProps) => {
+const FileCard = ({ file, classroomId, isOwner }: FileCardProps) => {
   const getFileType = (fileName: string): string => {
     // Check if the file name contains a dot
     if (!fileName.includes(".")) {
@@ -79,10 +82,6 @@ const FileCard = ({ file }: FileCardProps) => {
 
     return fileSizeInMB.toFixed(2) + " MB"; // Return size formatted to 2 decimal places
   };
-
-  // Example usage
-  const fileSize = "1048576"; // Example file size in bytes (1 MB)
-  console.log(getFileSizeInMB(fileSize));
 
   const getFileIcon = (filename: string) => {
     const fileType = getFileType(filename);
@@ -148,7 +147,7 @@ const FileCard = ({ file }: FileCardProps) => {
       </div>
       <div>{formatDate(file.createdAt)}</div>
       <div>{getFileSizeInMB(file.size)}</div>
-      <div>
+      <div className="flex gap-4">
         <Button
           variant={"ghost"}
           className="flex gap-2"
@@ -158,6 +157,12 @@ const FileCard = ({ file }: FileCardProps) => {
           <ArrowDownToLine className="w-5" />{" "}
           <span className="sr-only">Download</span>
         </Button>
+        {isOwner && (
+          <FileDeleteButton
+            classroomId={classroomId}
+            fileId={file._id.toString()}
+          />
+        )}
       </div>
     </div>
   );
