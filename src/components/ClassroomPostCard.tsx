@@ -9,6 +9,7 @@ import PostDeleteButton from "./PostDeleteButton";
 import { getFileTypeFromUrl } from "@/lib/utils";
 import { Types } from "mongoose";
 import LikeButton from "./LikeButton";
+import Dialog from "./Dialog";
 
 interface ClassroomPostCardProps {
   post: IPost;
@@ -17,8 +18,15 @@ interface ClassroomPostCardProps {
 
 const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
   const [likes, setLikes] = useState<(Types.ObjectId | string)[]>(post.likes);
+  const [isMediaDialogOpen, setIsMediaDialogOpen] = useState<boolean>(false);
+  const [mediaPreview, setMediaPreview] = useState<string>("");
 
   const user: IUser = post.user;
+
+  const handleMediaOpen = (mediaUrl: string) => {
+    setMediaPreview(mediaUrl);
+    setIsMediaDialogOpen(true);
+  };
 
   return (
     <div className="space-y-1">
@@ -28,7 +36,10 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
             const fileType = getFileTypeFromUrl(media);
 
             return fileType === "image" ? (
-              <div className="bg-zinc-300 h-[150px] rounded-lg overflow-hidden aspect-square">
+              <div
+                onClick={() => handleMediaOpen(media)}
+                className="bg-zinc-300 h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
+              >
                 <img
                   key={index}
                   src={media}
@@ -37,11 +48,13 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
                 />
               </div>
             ) : fileType === "video" ? (
-              <div className="bg-zinc-300 h-[150px] rounded-lg overflow-hidden aspect-square">
+              <div
+                onClick={() => handleMediaOpen(media)}
+                className="bg-zinc-300 h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
+              >
                 <video
                   key={index}
                   src={media}
-                  controls
                   className="h-full object-contain mx-auto"
                 ></video>
               </div>
@@ -91,6 +104,29 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
           setLikes={setLikes}
         />
       </div>
+      <Dialog isOpen={isMediaDialogOpen} className="bg-transparent">
+        <div className="flex items-center w-[97%]">
+          <button
+            className="ml-auto text-4xl font-thin text-gray-300 hover:text-gray-100 rounded-full"
+            onClick={() => {
+              setIsMediaDialogOpen(false);
+              // setMediaPreview("");
+            }}
+          >
+            &times;
+          </button>
+        </div>
+        {getFileTypeFromUrl(mediaPreview) === "image" ? (
+          <img className="max-h-[90vh]" src={mediaPreview} alt="" />
+        ) : getFileTypeFromUrl(mediaPreview) === "video" ? (
+          <video
+            className="max-h-[90vh]"
+            key={mediaPreview}
+            src={mediaPreview}
+            controls
+          ></video>
+        ) : null}
+      </Dialog>
     </div>
   );
 };

@@ -52,10 +52,10 @@ const ClassroomLayout = async ({ children, params }: ClassroomLayoutProps) => {
         <div className="sticky z-50 top-0 w-full bg-zinc-100 p-4">
           <ul role="list" className="flex gap-4">
             <li>
-              <Link href={`${classroomId}/posts`}>Posts</Link>
+              <Link href={`/classrooms/${classroomId}/posts`}>Posts</Link>
             </li>
             <li>
-              <Link href={`${classroomId}/files`}>Files</Link>
+              <Link href={`/classrooms/${classroomId}/files`}>Files</Link>
             </li>
           </ul>
         </div>

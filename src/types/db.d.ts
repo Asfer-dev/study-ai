@@ -9,10 +9,10 @@ export interface IUser extends Document {
   image: string;
   password: string;
   followers: Types.ObjectId[];
-  following: Types.ObjectId[];
+  following: Types.ObjectId[] | IUser[];
   connects: Types.ObjectId[];
   connect_requests: Types.ObjectId[];
-  posts: Types.ObjectId[];
+  posts: Types.ObjectId[] | IPost[];
   chats: Types.ObjectId[];
   notifications: string[];
   profileColor?: string;
@@ -39,6 +39,15 @@ export interface IPost extends Document {
   user: Types.ObjectId | Iuser;
   likes: Types.ObjectId[];
   comments: Types.ObjectId[];
+}
+
+export interface IFile extends Document {
+  _id: Types.ObjectId;
+  name: string;
+  size: string;
+  url: string;
+  createdAt: string; // Optional, automatically managed by Mongoose
+  updatedAt: string; // Optional, automatically managed by Mongoose
 }
 
 export interface IComment extends Document {

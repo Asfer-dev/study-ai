@@ -18,7 +18,7 @@ const ClassroomCard = ({ classroom, isTeacher }: ClassroomCardProps) => {
           classroom={JSON.parse(JSON.stringify(classroom))}
         />
       </div>
-      <Link href={`classrooms/${classroom._id}`}>
+      <Link href={`classrooms/${classroom._id}/posts`}>
         <div className="grid gap-4">
           <div className=" w-full text-6xl mx-auto">
             <div className="w-[150px] mx-auto">

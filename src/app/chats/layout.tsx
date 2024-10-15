@@ -19,7 +19,7 @@ const ChatsLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <main className="flex min-h-screen">
-      <aside className="bg-gray-50 border border-gray-200">
+      <aside className="bg-gray-50 border border-gray-200 w-[250px]">
         <h2 className="mb-4">
           <Link href={"/"} className="text-2xl font-bold text-red-400">
             Logo

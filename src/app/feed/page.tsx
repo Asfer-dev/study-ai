@@ -2,6 +2,7 @@ import NewPostBox from "@/components/NewPostBox";
 import PostCard from "@/components/PostCard";
 import PostsContainer from "@/components/PostsContainer";
 import { fetchPosts } from "@/helpers/fetch-posts";
+import { getUserFeed } from "@/helpers/get-user-feed";
 import { authOptions } from "@/lib/auth";
 import { IPost } from "@/types/db";
 import { getServerSession } from "next-auth";
@@ -12,7 +13,7 @@ const FeedPage = async () => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
 
-  const posts: IPost[] = await fetchPosts(session?.user._id);
+  const posts: IPost[] = await getUserFeed(session?.user._id);
   return (
     <>
       <div className="mt-12"></div>

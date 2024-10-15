@@ -20,6 +20,7 @@ const ClassroomSchema = new Schema<IClassroom>(
     },
     files: {
       type: [Schema.Types.ObjectId],
+      ref: "File",
       default: [],
     },
     posts: {

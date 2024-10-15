@@ -1,13 +1,10 @@
 import ClassroomPostCard from "@/components/ClassroomPostCard";
 import NewClassroomPostBox from "@/components/NewClassroomPostBox";
-import ProfileImage from "@/components/ProfileImage";
 import { fetchClassroomPosts } from "@/helpers/fetch-classroom-posts";
 import { authOptions } from "@/lib/auth";
 import { IPost, IUser } from "@/types/db";
 import { getServerSession } from "next-auth";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import React from "react";
 
 interface ClassroomPostsPageProps {
   params: { id: string };
@@ -24,7 +21,7 @@ const ClassroomPostsPage = async ({ params }: ClassroomPostsPageProps) => {
   return (
     <div className="flex-1 justify-between flex flex-col h-full">
       <div
-        id="messages"
+        id="posts"
         className="flex h-full flex-1 flex-col-reverse gap-5 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
       >
         {posts.map((post) => (

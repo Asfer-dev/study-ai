@@ -42,15 +42,15 @@ const LikeButton = ({ postId, setLikes, isClassroomPost }: LikeButtonProps) => {
 
   const likePost = async () => {
     try {
+      setIsLiked(true); // Update UI to show the post is liked
+      if (session?.user._id) {
+        const userId: string = session.user._id;
+        setLikes((prev) => [...prev, userId]);
+      }
       // Send the POST request to like the post
       const response = await axios.post("/api/post/like", { postId });
 
       if (response.status === 200) {
-        setIsLiked(true); // Update UI to show the post is liked
-        if (session?.user._id) {
-          const userId: string = session.user._id;
-          setLikes((prev) => [...prev, userId]);
-        }
       } else if (response.status === 400) {
         toast.error(response.data); // Already liked or other error
       }
@@ -62,15 +62,15 @@ const LikeButton = ({ postId, setLikes, isClassroomPost }: LikeButtonProps) => {
 
   const unLikePost = async () => {
     try {
+      setIsLiked(false); // Update UI to show the post is not liked anymore
+
+      setLikes((prev) => {
+        return prev.filter((uId) => uId.toString() !== session?.user._id);
+      });
       // Send the POST request to like the post
       const response = await axios.post("/api/post/unlike", { postId });
 
       if (response.status === 200) {
-        setIsLiked(false); // Update UI to show the post is not liked anymore
-
-        setLikes((prev) => {
-          return prev.filter((uId) => uId.toString() !== session?.user._id);
-        });
       } else if (response.status === 400) {
         toast.error(response.data); // not liked or other error
       }
