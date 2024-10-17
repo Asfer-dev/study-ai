@@ -18,6 +18,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "./ui/button";
 import FileDeleteButton from "./FileDeleteButton";
+import { formatDate, getFileSizeInMB } from "@/lib/utils";
 
 interface FileCardProps {
   file: IFile;
@@ -36,51 +37,6 @@ const FileCard = ({ file, classroomId, isOwner }: FileCardProps) => {
     const extension = fileName.split(".").pop()?.toLowerCase() || "";
 
     return extension;
-  };
-
-  const formatDate = (createdAt: string): string => {
-    const date = new Date(createdAt); // Convert the createdAt string to a Date object
-
-    // Check if the date is valid
-    if (isNaN(date.getTime())) {
-      throw new Error("Invalid date");
-    }
-
-    // // Define options for formatting the date
-    // const options: Intl.DateTimeFormatOptions = {
-    //   year: "numeric",
-    //   month: "long", // Use 'short' for abbreviated month names
-    //   day: "numeric",
-    //   hour: "2-digit",
-    //   minute: "2-digit",
-    //   hour12: true, // Set to false for 24-hour format
-    // };
-
-    // // Return the formatted date string
-    // return date.toLocaleDateString("en-US", options);
-
-    // Get month, day, year, hours, and minutes
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, "0");
-    const year = date.getFullYear();
-    const hours = date.getHours() % 12 || 12; // Convert to 12-hour format
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const ampm = date.getHours() >= 12 ? "PM" : "AM"; // Determine AM/PM
-
-    // Return the formatted date string
-    return `${month}/${day}/${year}, ${hours}:${minutes} ${ampm}`;
-  };
-
-  const getFileSizeInMB = (fileSizeStr: string): string => {
-    const fileSizeInBytes = Number(fileSizeStr); // Convert the input string to a number
-
-    if (isNaN(fileSizeInBytes) || fileSizeInBytes < 0) {
-      throw new Error("Invalid file size"); // Handle invalid input
-    }
-
-    const fileSizeInMB = fileSizeInBytes / (1024 * 1024); // Convert bytes to MB
-
-    return fileSizeInMB.toFixed(2) + " MB"; // Return size formatted to 2 decimal places
   };
 
   const getFileIcon = (filename: string) => {
@@ -154,7 +110,7 @@ const FileCard = ({ file, classroomId, isOwner }: FileCardProps) => {
           onClick={() => downloadFile(file.name)}
         >
           {" "}
-          <ArrowDownToLine className="w-5" />{" "}
+          <ArrowDownToLine className="w-5 text-blue-500" />{" "}
           <span className="sr-only">Download</span>
         </Button>
         {isOwner && (

@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 
 interface ClassroomDeleteButtonProps {
   classroomId: string;
@@ -51,7 +51,11 @@ const ClassroomDeleteButton = ({ classroomId }: ClassroomDeleteButtonProps) => {
       onClick={handleDelete}
       variant={"ghost"}
     >
-      {isLoading && <Loader2 className="w-4 animate-spin" />}
+      {isLoading ? (
+        <Loader2 className="w-4 animate-spin" />
+      ) : (
+        <Trash2 className="w-4" />
+      )}
       <span>Delete</span>
     </Button>
   );

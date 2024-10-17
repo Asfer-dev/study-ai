@@ -42,16 +42,41 @@ export async function fetchClassrooms(
   }
 }
 
+// Overload signatures
 export async function fetchClassroom(
   classroomId: string
+): Promise<IClassroom | null>;
+export async function fetchClassroom(
+  classroomId: string,
+  selectFields: string
+): Promise<IClassroom | null>;
+
+// Implementation that handles both overloads
+export async function fetchClassroom(
+  classroomId: string,
+  selectFields?: string
 ): Promise<IClassroom | null> {
   try {
     await connectToDB();
 
-    const classroom = (await Classroom.findById(classroomId).populate([
-      { path: "owner", select: "name email image profileColor" },
-      { path: "studentsEnrolled", select: "name email image profileColor" },
-    ])) as IClassroom;
+    const query = Classroom.findById(classroomId);
+
+    // If selectFields are provided, apply them
+    if (selectFields) {
+      query.select(selectFields);
+    }
+
+    let classroom;
+    if (!selectFields) {
+      // Populate relationships as needed
+      classroom = (await query.populate([
+        { path: "owner", select: "name email image profileColor" },
+        { path: "studentsEnrolled", select: "name email image profileColor" },
+      ])) as IClassroom;
+    } else {
+      classroom = (await query) as IClassroom;
+    }
+
     return classroom;
   } catch (error) {
     console.log(error);

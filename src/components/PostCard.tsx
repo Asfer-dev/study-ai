@@ -9,7 +9,7 @@ import { Types } from "mongoose";
 import LikeButton from "./LikeButton";
 import CardMenu from "./CardMenu";
 import PostDeleteButton from "./PostDeleteButton";
-import { getFileTypeFromUrl } from "@/lib/utils";
+import { getFileTypeFromUrl, timeAgo } from "@/lib/utils";
 
 interface PostCartProps {
   post: IPost;
@@ -32,10 +32,15 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
         />
 
         <div className="flex flex-col">
-          <Link className="hover:underline" href={`/profile/${user._id}`}>
-            {user.name}
-          </Link>
-          <span className="text-xs text-zinc-400">{user.role}</span>
+          <div className="flex gap-1 justify-start items-center">
+            <Link className="hover:underline" href={`/profile/${user._id}`}>
+              {user.name}
+            </Link>
+            <span className="text-xs text-zinc-400">({user.role})</span>
+          </div>
+          <span className="text-xs text-zinc-500">
+            {timeAgo(post.createdAt)}
+          </span>
         </div>
 
         {/* Three-dot menu at the top left */}

@@ -34,11 +34,11 @@ export interface IPost extends Document {
   _id: Types.ObjectId;
   caption: string; // Optional caption field
   media: string[]; // Array of media URLs
-  createdAt?: Date; // Optional, automatically managed by Mongoose
-  updatedAt?: Date; // Optional, automatically managed by Mongoose
   user: Types.ObjectId | Iuser;
   likes: Types.ObjectId[];
   comments: Types.ObjectId[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IFile extends Document {

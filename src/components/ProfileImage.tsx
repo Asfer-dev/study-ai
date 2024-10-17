@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import ProfileImageLink from "./ProfileImageLink";
 
 interface ProfileImageProps {
   imgUrl: string | undefined | null;
@@ -44,9 +45,11 @@ const ProfileImage = ({
       ? "bg-rose-400"
       : "bg-gray-400"; // default if none match
 
+  const link = profileId ? "Link" : "div";
+
   if (imgUrl) {
     return (
-      <Link href={`/profile/${profileId}`}>
+      <ProfileImageLink profileId={profileId}>
         <div
           className={cn(
             "relative cursor-pointer border rounded-full",
@@ -61,11 +64,11 @@ const ProfileImage = ({
             className="rounded-full"
           />
         </div>
-      </Link>
+      </ProfileImageLink>
     );
   } else {
     return (
-      <Link href={`/profile/${profileId}`}>
+      <ProfileImageLink profileId={profileId}>
         <div
           className={cn(
             "relative cursor-pointer border rounded-full",
@@ -84,7 +87,7 @@ const ProfileImage = ({
             {initials}
           </div>
         </div>
-      </Link>
+      </ProfileImageLink>
     );
   }
 };

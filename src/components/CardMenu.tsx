@@ -11,6 +11,7 @@ interface CardMenuProps {
   icon?: React.ReactNode;
   animateIn?: string;
   animateOut?: string;
+  buttonContent?: React.ReactNode;
 }
 
 const CardMenu = ({
@@ -20,6 +21,7 @@ const CardMenu = ({
   icon,
   animateIn,
   animateOut,
+  buttonContent,
 }: CardMenuProps) => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -60,7 +62,9 @@ const CardMenu = ({
           buttonClassName
         )}
       >
-        {icon ? (
+        {buttonContent ? (
+          buttonContent
+        ) : icon ? (
           icon
         ) : (
           <EllipsisVertical className="ml-auto text-zinc-500 w-5" />

@@ -1,10 +1,40 @@
 import ClassroomPostCard from "@/components/ClassroomPostCard";
 import NewClassroomPostBox from "@/components/NewClassroomPostBox";
 import { fetchClassroomPosts } from "@/helpers/fetch-classroom-posts";
+import { fetchClassroom } from "@/helpers/fetch-classrooms";
 import { authOptions } from "@/lib/auth";
 import { IPost, IUser } from "@/types/db";
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+
+// DYNAMIC PAGE TITLE
+interface Props {
+  params: { id: string };
+}
+
+// Simulated data fetching function
+async function fetchData(id: string) {
+  const classroom = await fetchClassroom(id, "name");
+
+  return classroom;
+}
+
+// `generateMetadata` to customize the metadata dynamically based on fetched data
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // Fetch the data using the id
+  const data = await fetchData(params.id);
+
+  if (data) {
+    return {
+      title: `${data.name} Posts | study.ai`, // Title based on fetched data
+    };
+  } else {
+    return {
+      title: "Classrooms | study.ai",
+    };
+  }
+}
 
 interface ClassroomPostsPageProps {
   params: { id: string };

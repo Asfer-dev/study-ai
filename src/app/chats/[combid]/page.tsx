@@ -1,6 +1,7 @@
 import ChatInput from "@/components/ChatInput";
 import Messages from "@/components/Messages";
 import ProfileImage from "@/components/ProfileImage";
+import { fetchChatPartnerName } from "@/helpers/fetch-chat-partner-name";
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
 import {
@@ -12,10 +13,43 @@ import Message from "@/models/message";
 import User from "@/models/user";
 import { IChat, IMessage, IUser } from "@/types/db";
 import mongoose, { Types } from "mongoose";
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
+
+// DYNAMIC PAGE TITLE
+interface Props {
+  params: { combid: string };
+}
+
+// Simulated data fetching function
+async function fetchData(combid: string) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return null;
+  }
+  const classroom = await fetchChatPartnerName(combid, session?.user._id);
+
+  return classroom;
+}
+
+// `generateMetadata` to customize the metadata dynamically based on fetched data
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // Fetch the data using the combid
+  const partnerName = await fetchData(params.combid);
+
+  if (partnerName) {
+    return {
+      title: `Chat with ${partnerName} | study.ai`, // Title based on fetched data
+    };
+  } else {
+    return {
+      title: "Chats | study.ai",
+    };
+  }
+}
 
 interface PageProps {
   params: {

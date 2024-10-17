@@ -1,13 +1,43 @@
 import FileCard from "@/components/FileCard";
 import NewFileForm from "@/components/NewFileForm";
+import { fetchClassroom } from "@/helpers/fetch-classrooms";
 import { fetchFiles } from "@/helpers/fetch-files";
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
 import Classroom from "@/models/classroom";
 import { IFile } from "@/types/db";
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import React from "react";
+
+// DYNAMIC PAGE TITLE
+interface Props {
+  params: { id: string };
+}
+
+// Simulated data fetching function
+async function fetchData(id: string) {
+  const classroom = await fetchClassroom(id, "name");
+
+  return classroom;
+}
+
+// `generateMetadata` to customize the metadata dynamically based on fetched data
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // Fetch the data using the id
+  const data = await fetchData(params.id);
+
+  if (data) {
+    return {
+      title: `${data.name} Files | study.ai`, // Title based on fetched data
+    };
+  } else {
+    return {
+      title: "Classrooms | study.ai",
+    };
+  }
+}
 
 interface ClassroomFilesPageProps {
   params: { id: string };

@@ -5,7 +5,7 @@ interface PageContainerProps {
 }
 
 const PageContainer = ({ children }: PageContainerProps) => {
-  return <div className="container flex-1">{children}</div>;
+  return <div className=" flex-1">{children}</div>;
 };
 
 export default PageContainer;
