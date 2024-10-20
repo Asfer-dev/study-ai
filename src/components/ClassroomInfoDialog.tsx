@@ -3,6 +3,8 @@ import { IClassroom, IUser } from "@/types/db"; // Adjust the import based on yo
 import { Button } from "./ui/button";
 import ProfileCard from "./ProfileCard";
 import Dialog from "./Dialog";
+import toast from "react-hot-toast";
+import { Files } from "lucide-react";
 
 interface ClassroomInfoDialogProps {
   isOpen: boolean;
@@ -15,6 +17,15 @@ const ClassroomInfoDialog: React.FC<ClassroomInfoDialogProps> = ({
   onClose,
   classroom,
 }) => {
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success("Copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+
   return (
     <Dialog isOpen={isOpen}>
       <div className="flex items-center mb-1.5">
@@ -32,9 +43,19 @@ const ClassroomInfoDialog: React.FC<ClassroomInfoDialogProps> = ({
       <p>
         <strong>Owner:</strong> <ProfileCard user={classroom.owner as IUser} />
       </p>
-      <p>
-        <strong>Code:</strong> {classroom.code}
-      </p>
+      <div className="flex gap-4 items-center">
+        <div>
+          <strong>Code:</strong> {classroom.code}
+        </div>
+        <Button
+          onClick={() => copyToClipboard(classroom.code)}
+          variant={"outline"}
+          className="rounded-full aspect-square p-0"
+        >
+          <Files className="w-5" />
+          <span className="sr-only">copy</span>
+        </Button>
+      </div>
     </Dialog>
   );
 };

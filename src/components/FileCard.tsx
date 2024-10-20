@@ -18,7 +18,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "./ui/button";
 import FileDeleteButton from "./FileDeleteButton";
-import { formatDate, getFileSizeInMB } from "@/lib/utils";
+import { formatDate, getFileSizeInMB, getFileType } from "@/lib/utils";
 
 interface FileCardProps {
   file: IFile;
@@ -27,18 +27,6 @@ interface FileCardProps {
 }
 
 const FileCard = ({ file, classroomId, isOwner }: FileCardProps) => {
-  const getFileType = (fileName: string): string => {
-    // Check if the file name contains a dot
-    if (!fileName.includes(".")) {
-      return ""; // Return an empty string if no extension is found
-    }
-
-    // Get the file extension
-    const extension = fileName.split(".").pop()?.toLowerCase() || "";
-
-    return extension;
-  };
-
   const getFileIcon = (filename: string) => {
     const fileType = getFileType(filename);
 

@@ -89,29 +89,30 @@ export const formatDate = (createdAt: string): string => {
     throw new Error("Invalid date");
   }
 
-  // // Define options for formatting the date
-  // const options: Intl.DateTimeFormatOptions = {
-  //   year: "numeric",
-  //   month: "long", // Use 'short' for abbreviated month names
-  //   day: "numeric",
-  //   hour: "2-digit",
-  //   minute: "2-digit",
-  //   hour12: true, // Set to false for 24-hour format
-  // };
+  const now = new Date();
+  const timeDiff = date.getTime() - now.getTime();
+  const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
 
-  // // Return the formatted date string
-  // return date.toLocaleDateString("en-US", options);
-
-  // Get month, day, year, hours, and minutes
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-  const day = String(date.getDate()).padStart(2, "0");
-  const year = date.getFullYear();
+  // Get formatted hours and minutes
   const hours = date.getHours() % 12 || 12; // Convert to 12-hour format
   const minutes = String(date.getMinutes()).padStart(2, "0");
   const ampm = date.getHours() >= 12 ? "PM" : "AM"; // Determine AM/PM
+  const formattedTime = `${hours}:${minutes} ${ampm}`;
 
-  // Return the formatted date string
-  return `${month}/${day}/${year}, ${hours}:${minutes} ${ampm}`;
+  // Check for relative dates
+  if (timeDiff > -oneDay && timeDiff < 0) {
+    return `Yesterday at ${formattedTime}`;
+  } else if (timeDiff >= 0 && timeDiff < oneDay) {
+    return `Today at ${formattedTime}`;
+  } else if (timeDiff >= oneDay && timeDiff < 2 * oneDay) {
+    return `Tomorrow at ${formattedTime}`;
+  } else {
+    // Return full date for dates further than today or yesterday
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}, ${formattedTime}`;
+  }
 };
 
 export const getFileSizeInMB = (fileSizeStr: string): string => {
@@ -149,3 +150,15 @@ export function timeAgo(createdAt: string): string {
     return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
   }
 }
+
+export const getFileType = (fileName: string): string => {
+  // Check if the file name contains a dot
+  if (!fileName.includes(".")) {
+    return ""; // Return an empty string if no extension is found
+  }
+
+  // Get the file extension
+  const extension = fileName.split(".").pop()?.toLowerCase() || "";
+
+  return extension;
+};

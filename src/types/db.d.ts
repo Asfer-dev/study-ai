@@ -70,6 +70,23 @@ export interface IClassroom extends Document {
   updatedAt?: Date; // Optional, automatically managed by Mongoose
   classroomColor?: string;
   image: string;
+  assignments: Types.ObjectId[];
+}
+
+export interface IAssignment extends Document {
+  _id: Types.ObjectId;
+  title: string;
+  description: string;
+  questionFile?: Types.ObjectId | IFile;
+  submissions: Types.ObjectId[] | IAssignmentanswer[];
+  deadline: Date;
+}
+
+export interface IAssignmentanswer extends Document {
+  _id: Types.ObjectId;
+  submitter: Types.ObjectId | IUser;
+  answerFile: Types.ObjectId | IFile;
+  createdAt: string;
 }
 
 export interface IMessage extends Document {

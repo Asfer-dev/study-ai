@@ -31,14 +31,15 @@ export async function POST(req: Request) {
 
     const userObjectId = new mongoose.Types.ObjectId(session.user._id);
 
-    // Check if the user is the owner of the classroom
-    const ownerId =
-      classroom.owner instanceof mongoose.Types.ObjectId
-        ? classroom.owner
-        : classroom.owner._id;
+    // Check if the user is enrolled in the classroom
+    const isEnrolled = classroom.studentsEnrolled.some((student) =>
+      student._id.equals(userObjectId)
+    );
 
-    if (!ownerId.equals(userObjectId)) {
-      return new Response("Unauthorized", { status: 401 });
+    if (!isEnrolled) {
+      return new Response("Forbidden: User not enrolled in the classroom", {
+        status: 403,
+      });
     }
 
     // Create a new file
@@ -50,10 +51,6 @@ export async function POST(req: Request) {
 
     // Save the file in the database
     const file = await newFile.save();
-
-    // Update the classroom with the new file
-    classroom.files.push(file._id); // Push the file ID into the classroom's files array
-    await classroom.save(); // Save the classroom with the new file
 
     return new Response(JSON.stringify({ _id: file._id }), { status: 200 });
   } catch (error) {

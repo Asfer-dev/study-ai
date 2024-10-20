@@ -55,6 +55,11 @@ const ClassroomLayout = async ({ children, params }: ClassroomLayoutProps) => {
               <Link href={`/classrooms/${classroomId}/posts`}>Posts</Link>
             </li>
             <li>
+              <Link href={`/classrooms/${classroomId}/assignments`}>
+                Assignments
+              </Link>
+            </li>
+            <li>
               <Link href={`/classrooms/${classroomId}/files`}>Files</Link>
             </li>
           </ul>

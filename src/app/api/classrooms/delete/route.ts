@@ -3,13 +3,15 @@ import Classroom from "@/models/classroom";
 import Post from "@/models/post";
 import File from "@/models/file";
 import User from "@/models/user";
+import Assignment from "@/models/assignment";
+import Assignmentanswer from "@/models/assignmentanswer";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { IClassroom, IStudent, ITeacher, IUser } from "@/types/db";
 import { Types } from "mongoose";
 import { deleteFilesFromS3 } from "@/lib/delete-media"; // Function to delete files from S3
 
-// API Route to delete a classroom, posts, and files
+// API Route to delete a classroom, posts, files, and assignments
 export async function DELETE(req: Request) {
   try {
     const { classroomId } = await req.json();
@@ -55,6 +57,9 @@ export async function DELETE(req: Request) {
       });
     }
 
+    // VALID REQUEST
+    // PROCEED TO DELETE THE CLASSROOM
+
     const studentsEnrolled = classroom.studentsEnrolled;
 
     // Fetch all enrolled students
@@ -88,20 +93,64 @@ export async function DELETE(req: Request) {
     }
     await File.deleteMany({ _id: { $in: classroom.files } }); // Delete the file records from DB
 
+    // Delete all assignments related to the classroom
+    const assignments = await Assignment.find({
+      _id: { $in: classroom.assignments },
+    });
+
+    for (const assignment of assignments) {
+      // 1. Delete the question file if it exists
+      if (assignment.questionFile) {
+        const questionFile = await File.findById(assignment.questionFile);
+        if (questionFile) {
+          await deleteFilesFromS3([questionFile.url]);
+          await File.findByIdAndDelete(assignment.questionFile);
+        }
+      }
+
+      // 2. Delete all submissions for this assignment
+      const submissions = await Assignmentanswer.find({
+        _id: { $in: assignment.submissions },
+      });
+
+      for (const submission of submissions) {
+        // Delete answer file in the submission
+        if (submission.answerFile) {
+          const answerFile = await File.findById(submission.answerFile);
+          if (answerFile) {
+            await deleteFilesFromS3([answerFile.url]);
+            await File.findByIdAndDelete(submission.answerFile);
+          }
+        }
+
+        // Delete the submission itself
+        await Assignmentanswer.findByIdAndDelete(submission._id);
+      }
+
+      // Finally, delete the assignment
+      await Assignment.findByIdAndDelete(assignment._id);
+    }
+
     // Delete the classroom
     await Classroom.findByIdAndDelete(classroomId);
 
-    // Remove the classroom from the user's classrooms list
+    // Remove the classroom from the teacher's classrooms list
     teacher.classrooms = teacher.classrooms.filter(
       (classId) => !classId.equals(classroomId)
     );
     await teacher.save();
 
-    return new Response("Classroom, posts, and files deleted successfully", {
-      status: 200,
-    });
+    return new Response(
+      "Classroom, posts, assignments, and files deleted successfully",
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
-    console.error("Error deleting classroom, posts, or files:", error);
+    console.error(
+      "Error deleting classroom, posts, assignments, or files:",
+      error
+    );
     return new Response("Internal Server Error", { status: 500 });
   }
 }

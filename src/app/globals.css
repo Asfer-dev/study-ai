@@ -142,3 +142,17 @@ body {
   z-index: 999; /* Ensure it's higher than the sticky element */
   transform: translateZ(0); /* Create a new stacking context */
 }
+
+.submission_list {
+  counter-reset: list-counter; /* Initialize counter */
+}
+
+.submission_list > li {
+  counter-increment: list-counter; /* Increment counter for each list item */
+}
+
+.submission_list > li::before {
+  content: counter(list-counter) ". "; /* Display the number */
+  margin-right: 0.5rem; /* Space between number and content */
+  display: inline-block; /* Ensure it's inline */
+}

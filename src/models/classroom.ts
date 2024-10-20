@@ -38,6 +38,15 @@ const ClassroomSchema = new Schema<IClassroom>(
       ],
       default: [],
     },
+    assignments: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Assignment",
+        },
+      ],
+      default: [],
+    },
     classroomColor: {
       type: String,
     },

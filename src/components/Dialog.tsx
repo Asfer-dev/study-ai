@@ -38,7 +38,7 @@ const Dialog: React.FC<DialogProps> = ({
     >
       <div
         className={cn(
-          "bg-white rounded-md p-4 w-1/3",
+          "bg-white rounded-md p-4 w-1/3 max-h-screen overflow-auto",
           className,
           isOpen ? "animate-slide-in" : "animate-slide-out"
         )}
