@@ -65,7 +65,7 @@ const ClassroomFilesPage = async ({ params }: ClassroomFilesPageProps) => {
         id="files"
         className="flex h-full flex-1 flex-col gap-5 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
       >
-        <div className="grid grid-cols-4 font-bold text-zinc-600 text-sm border-b">
+        <div className="grid grid-cols-4 font-bold text-zinc-600 dark:text-zinc-300 text-sm border-b">
           <h3>Name</h3>
           <h3>Uploaded</h3>
           <h3>Size</h3>

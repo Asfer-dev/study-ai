@@ -11,7 +11,7 @@ interface ClassroomCardProps {
 
 const ClassroomCard = ({ classroom, isTeacher }: ClassroomCardProps) => {
   return (
-    <div className="w-[200px] p-3 border shadow-sm rounded-lg hover:bg-gray-200 transition duration-100">
+    <div className="w-[200px] p-3 ring-1 ring-zinc-200 dark:ring-zinc-700 shadow-sm rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-800 transition duration-100">
       <div className="relative flex mb-2">
         <ClassroomCardMenu
           isTeacher={isTeacher}

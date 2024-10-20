@@ -10,6 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        "button-primary": "#fca5a5",
+        "message-outgoing": "#4f46e5",
+        focus: "#f43f5e",
+        logo: "#f43f5e",
+        "focus-chat": "#4f46e5",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

@@ -49,7 +49,7 @@ const FileDeleteButton = ({ fileId, classroomId }: FileDeleteButtonProps) => {
 
   return (
     <Button
-      className="flex text-red-500 hover:text-red-500 hover:bg-red-100"
+      className="flex text-red-500 hover:bg-red-100 dark:hover:bg-red-500 dark:hover:text-white hover:text-red-500"
       onClick={handleDelete}
       variant={"ghost"}
     >

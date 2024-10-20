@@ -99,8 +99,9 @@ const Messages: FC<MessagesProps> = ({
                   className={cn(
                     "px-4 py-2 rounded-lg inline-block whitespace-pre-wrap",
                     {
-                      "bg-rose-600 text-white": isCurrentUser,
-                      "bg-gray-200 text-gray-900": !isCurrentUser,
+                      "bg-message-outgoing text-white": isCurrentUser,
+                      "bg-zinc-200 dark:bg-zinc-800 text-gray-900 dark:text-zinc-100":
+                        !isCurrentUser,
                       "rounded-br-none":
                         !hasNextMessageFromSameUser && isCurrentUser,
                       "rounded-bl-none":

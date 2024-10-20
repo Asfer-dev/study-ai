@@ -38,7 +38,7 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
             return fileType === "image" ? (
               <div
                 onClick={() => handleMediaOpen(media)}
-                className="bg-zinc-300 h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
+                className="bg-zinc-300 dark:bg-zinc-700 h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
               >
                 <img
                   key={index}
@@ -50,7 +50,7 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
             ) : fileType === "video" ? (
               <div
                 onClick={() => handleMediaOpen(media)}
-                className="bg-zinc-300 h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
+                className="bg-zinc-300 dark:bg-zinc-700 h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
               >
                 <video
                   key={index}
@@ -64,7 +64,7 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
       )}
       <div
         key={post._id.toString()}
-        className="relative overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-200"
+        className="relative overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-zinc-200 dark:ring-zinc-700"
       >
         {/* Profile Card */}
         <div className="px-2.5 flex flex-1 items-center gap-x-3 py-3 text-sm font-semibold leading-6 text-gray-900">
@@ -75,7 +75,7 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
             profileColor={user.profileColor}
           />
 
-          <div className="flex flex-col">
+          <div className="flex flex-col dark:text-white">
             <Link className="hover:underline" href={`/profile/${user._id}`}>
               {user.name}
             </Link>
@@ -104,7 +104,10 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
           setLikes={setLikes}
         />
       </div>
-      <Dialog isOpen={isMediaDialogOpen} className="bg-transparent">
+      <Dialog
+        isOpen={isMediaDialogOpen}
+        className="bg-transparent dark:bg-transparent ring-0"
+      >
         <div className="flex items-center w-[97%]">
           <button
             className="ml-auto text-4xl font-thin text-gray-300 hover:text-gray-100 rounded-full"

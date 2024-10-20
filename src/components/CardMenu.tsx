@@ -58,7 +58,7 @@ const CardMenu = ({
         onClick={toggleMenu}
         className={cn(
           "menu-button focus:outline-none p-2",
-          isMenuOpen && "bg-zinc-100",
+          isMenuOpen && "bg-zinc-100 dark:bg-zinc-800",
           buttonClassName
         )}
       >
@@ -74,7 +74,7 @@ const CardMenu = ({
         <div
           ref={menuRef}
           className={cn(
-            "absolute-element bg-white border rounded overflow-hidden shadow z-[9999]",
+            "absolute-element bg-white dark:bg-zinc-900 border rounded overflow-hidden shadow z-[999]",
             menuClassName,
             isMenuOpen
               ? animateIn

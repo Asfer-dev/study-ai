@@ -62,7 +62,7 @@ const ClassroomPostsPage = async ({ params }: ClassroomPostsPageProps) => {
           />
         ))}
       </div>
-      <div className="mt-4 border-t border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+      <div className="mt-4 border-t border-zinc-200 dark:border-zinc-700 px-4 pt-4 mb-2 sm:mb-0">
         <NewClassroomPostBox
           classroomId={classroomId}
           sessionUser={session.user}

@@ -9,15 +9,17 @@ import ProfileImage from "./ProfileImage";
 import SignOutButton from "./SignOutButton";
 import ProfileOptionsMenu from "./ProfileOptionsMenu";
 import { MessageCircle, Newspaper, Notebook, Users } from "lucide-react";
+import { ModeToggle } from "./ThemeToggleButton";
 
 const MainSidebar = () => {
   const [isCompact, setIsCompact] = useState<boolean>(false);
   const linkStyles = cn(
-    "flex gap-4 items-center rounded-md px-4 py-2 hover:bg-zinc-50",
-    isCompact ? "justify-center" : "justify-start"
+    "flex gap-4 items-center rounded-md px-4 py-2 hover:bg-zinc-50 dark:hover:bg-zinc-800",
+    isCompact ? "justify-center px-0 aspect-square" : "justify-start"
   );
   const inactiveLinkStyles = "";
-  const activeLinkStyles = "bg-zinc-100 hover:bg-zinc-100";
+  const activeLinkStyles =
+    "bg-zinc-100 hover:bg-zinc-100 dark:bg-zinc-700 dark:hover:bg-zinc-700";
 
   const pathname = usePathname();
 
@@ -38,7 +40,12 @@ const MainSidebar = () => {
 
   return (
     <>
-      <aside className="flex flex-col gap-4 rounded-r-lg border border-gray-200 p-4 h-screen sticky top-0 left-0 bottom-0">
+      <aside
+        className={cn(
+          "flex flex-col gap-4 rounded-r-lg transition-all duration-100 border border-zinc-200 dark:border-zinc-700 dark:text-white p-2 h-screen sticky top-0 left-0 bottom-0",
+          isCompact && "p-4"
+        )}
+      >
         <Logo isCompact={isCompact} />
         <nav className="flex flex-1 flex-col">
           <ul className="flex flex-col gap-y-3 h-full">
@@ -52,8 +59,8 @@ const MainSidebar = () => {
               >
                 <Newspaper
                   className={cn(
-                    "w-6 text-zinc-600",
-                    isActiveLink("/feed") && "text-black"
+                    "w-6 h-6 text-zinc-600 dark:text-zinc-400",
+                    isActiveLink("/feed") && "text-black dark:text-white"
                   )}
                 />
                 {!isCompact && "Feed"}
@@ -71,8 +78,8 @@ const MainSidebar = () => {
               >
                 <Notebook
                   className={cn(
-                    "w-6 text-zinc-600",
-                    isActiveLink("/classrooms") && "text-black"
+                    "w-6 h-6 text-zinc-600 dark:text-zinc-400",
+                    isActiveLink("/classrooms") && "text-black dark:text-white"
                   )}
                 />
                 {!isCompact && "Classrooms"}
@@ -88,8 +95,8 @@ const MainSidebar = () => {
               >
                 <MessageCircle
                   className={cn(
-                    "w-6 text-zinc-600",
-                    isActiveLink("/chats") && "text-black"
+                    "w-6 h-6 text-zinc-600 dark:text-zinc-400",
+                    isActiveLink("/chats") && "text-black dark:text-white"
                   )}
                 />
                 {!isCompact && "Chats"}
@@ -107,8 +114,8 @@ const MainSidebar = () => {
               >
                 <Users
                   className={cn(
-                    "w-6 text-zinc-600",
-                    isActiveLink("/connections") && "text-black"
+                    "w-6 h-6 text-zinc-600 dark:text-zinc-400",
+                    isActiveLink("/connections") && "text-black dark:text-white"
                   )}
                 />
                 {!isCompact && "My Network"}
@@ -118,6 +125,7 @@ const MainSidebar = () => {
               <div className="flex flex-1 items-center gap-x-4 py-3 justify-center text-sm font-semibold leading-6 text-gray-900">
                 {isCompact ? (
                   <ProfileOptionsMenu
+                    isCompact={isCompact}
                     buttonContent={
                       <ProfileImage
                         imgUrl={session.user.image}
@@ -142,7 +150,7 @@ const MainSidebar = () => {
 
                 {!isCompact && (
                   <Link
-                    className="hover:bg-gray-100 p-2 rounded-md"
+                    className="hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:text-white p-2 rounded-md"
                     href={`/profile/${session.user._id}`}
                   >
                     <div className="flex flex-col">
@@ -158,7 +166,9 @@ const MainSidebar = () => {
                 )}
               </div>
 
-              {!isCompact && <ProfileOptionsMenu className="h-full" />}
+              {!isCompact && (
+                <ProfileOptionsMenu isCompact={isCompact} className="h-full" />
+              )}
             </li>
           </ul>
         </nav>

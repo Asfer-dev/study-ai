@@ -151,7 +151,7 @@ const ChatPage = async ({ params }: PageProps) => {
 
   return (
     <div className="flex-1 justify-between flex flex-col h-full max-h-[calc(100vh-6rem)]">
-      <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
+      <div className="flex sm:items-center justify-between py-3 border-b-2 border-zinc-200 dark:border-zinc-700">
         <div className="relative flex items-center space-x-4">
           <div className="relative">
             <ProfileImage
@@ -164,12 +164,14 @@ const ChatPage = async ({ params }: PageProps) => {
 
           <div className="flex flex-col leading-tight">
             <div className="text-xl flex items-center">
-              <span className="text-gray-700 mr-3 font-semibold">
+              <span className="text-zinc-700 dark:text-zinc-200 mr-3 font-semibold">
                 {chatPartner.name}
               </span>
             </div>
 
-            <span className="text-sm text-gray-600">{chatPartner.email}</span>
+            <span className="text-sm text-zinc-600 dark:text-zinc-400">
+              {chatPartner.email}
+            </span>
           </div>
         </div>
       </div>

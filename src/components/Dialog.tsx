@@ -32,13 +32,14 @@ const Dialog: React.FC<DialogProps> = ({
 
   return (
     <div
-      className={
-        "fixed inset-0 flex text-zinc-800 items-center justify-center z-[100] bg-black bg-opacity-50"
-      }
+      className={cn(
+        "fixed inset-0 flex text-zinc-800 items-center justify-center z-[100] transition duration-200",
+        isOpen ? "bg-black bg-opacity-50" : "bg-transparent"
+      )}
     >
       <div
         className={cn(
-          "bg-white rounded-md p-4 w-1/3 max-h-screen overflow-auto",
+          "bg-white dark:bg-black ring-1 ring-inset ring-zinc-200 dark:ring-zinc-700 rounded-md p-4 mx-4 w-full sm:w-1/2 md:w-1/3 max-h-screen overflow-auto",
           className,
           isOpen ? "animate-slide-in" : "animate-slide-out"
         )}

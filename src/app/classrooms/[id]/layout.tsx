@@ -19,7 +19,7 @@ const ClassroomLayout = async ({ children, params }: ClassroomLayoutProps) => {
 
   return (
     <div className="relative flex h-full">
-      <aside className="rounded-lg sticky z-0 left-0 top-0 bottom-0 h-screen w-[250px] border p-4">
+      <aside className="rounded-lg sticky z-0 left-0 top-0 bottom-0 h-screen w-[250px] ring-1 ring-zinc-200 dark:ring-zinc-700 p-4">
         <div className="grid gap-4">
           <div className=" w-full text-6xl mx-auto">
             <div className="w-[150px] mx-auto">
@@ -49,7 +49,7 @@ const ClassroomLayout = async ({ children, params }: ClassroomLayoutProps) => {
         </div>
       </aside>
       <div className="relative w-full h-full">
-        <div className="sticky z-50 top-0 w-full bg-zinc-100 p-4">
+        <div className="sticky z-50 top-0 w-full bg-zinc-100 dark:bg-black p-4">
           <ul role="list" className="flex gap-4">
             <li>
               <Link href={`/classrooms/${classroomId}/posts`}>Posts</Link>

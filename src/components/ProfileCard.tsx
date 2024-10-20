@@ -14,7 +14,7 @@ const ProfileCard = ({ user }: { user: IUser | IConnectRequest }) => {
       />
 
       <Link
-        className="hover:bg-gray-100 p-2 rounded-md"
+        className="hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:text-white p-2 rounded-md"
         href={`/profile/${user._id}`}
       >
         <div className="flex flex-col">

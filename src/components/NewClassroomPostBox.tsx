@@ -155,7 +155,7 @@ const NewClassroomPostBox = ({
                 : "";
 
               return fileType.startsWith("image/") ? (
-                <div className="bg-zinc-300 h-[150px] rounded-lg overflow-hidden aspect-square">
+                <div className="bg-zinc-300 dark:bg-zinc-700 h-[150px] rounded-lg overflow-hidden aspect-square">
                   <img
                     key={index}
                     src={preview}
@@ -164,7 +164,7 @@ const NewClassroomPostBox = ({
                   />
                 </div>
               ) : fileType.startsWith("video/") ? (
-                <div className="bg-zinc-300 h-[150px] rounded-lg overflow-hidden aspect-square">
+                <div className="bg-zinc-300 dark:bg-zinc-700 h-[150px] rounded-lg overflow-hidden aspect-square">
                   <video
                     key={index}
                     src={preview}
@@ -179,7 +179,7 @@ const NewClassroomPostBox = ({
         <form
           onClick={() => textareaRef.current?.focus()}
           onSubmit={handleSubmit}
-          className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-rose-400"
+          className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-zinc-300 dark:ring-zinc-700 focus-within:ring-2 focus-within:ring-focus dark:focus-within:ring-focus"
         >
           <TextareaAutosize
             ref={textareaRef}
@@ -187,7 +187,7 @@ const NewClassroomPostBox = ({
             value={postData.input}
             onChange={handleInputChange}
             placeholder={`Post in the Classroom`}
-            className="block mt-3 w-full resize-none border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:py-1.5 sm:text-sm sm:leading-6"
+            className="block mt-3 w-full resize-none border-0 bg-transparent text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:ring-0 sm:py-1.5 sm:text-sm sm:leading-6"
           />
 
           {!mediaPreviews && (

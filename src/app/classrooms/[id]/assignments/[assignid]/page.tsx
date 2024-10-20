@@ -85,13 +85,13 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
       {assignment.questionFile && (
         <div className="my-4 max-w-[500px]">
           {"size" in assignment.questionFile && (
-            <div className="flex justify-between items-center bg-zinc-100 p-2 rounded-lg">
+            <div className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-800 p-2 rounded-lg">
               {/* Display the file icon */}
               <div className="flex gap-4">
                 {getFileIcon(assignment.questionFile.name)}
                 <span className="truncate">{assignment.questionFile.name}</span>
               </div>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-zinc-400">
                 {getFileSizeInMB(assignment.questionFile.size)}
               </span>
             </div>
@@ -111,7 +111,7 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
                     <div className="w-fit">
                       {"answerFile" in submission &&
                         "size" in submission.answerFile && (
-                          <div className="flex justify-between gap-4 items-center bg-zinc-100 p-2 rounded-lg">
+                          <div className="flex justify-between gap-4 items-center bg-zinc-100 dark:bg-zinc-800 p-2 rounded-lg">
                             {/* Display the file icon */}
                             <div className="flex gap-4">
                               {getFileIcon(submission.answerFile.name)}
@@ -119,13 +119,15 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
                                 {submission.answerFile.name}
                               </span>
                             </div>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-zinc-400">
                               {getFileSizeInMB(submission.answerFile.size)}
                             </span>
                           </div>
                         )}
                     </div>
-                    <p className="text-zinc-600 text-sm font-bold">by</p>
+                    <p className="text-zinc-600 dark:text-zinc-400 text-sm font-bold">
+                      by
+                    </p>
                     {"submitter" in submission && (
                       <ProfileCard
                         user={JSON.parse(

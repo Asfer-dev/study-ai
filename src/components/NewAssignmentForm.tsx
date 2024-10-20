@@ -231,12 +231,14 @@ const NewAssignmentForm = ({ classroomId }: { classroomId: string }) => {
         <Plus className="w-5" />
         <span>New Assignment</span>
       </Button>
-      <Dialog isOpen={isDialogOpen} className="w-1/3">
+      <Dialog isOpen={isDialogOpen} className="sm:w-full md:w-1/2">
         <div className="flex items-center mb-1.5">
-          <h3 className="font-bold text-zinc-600">Add a new Assignment</h3>
+          <h3 className="font-bold text-zinc-600 dark:text-zinc-400">
+            Add a new Assignment
+          </h3>
           <Button
             variant={"ghost"}
-            className="ml-auto text-2xl hover:text-red-500 rounded-full p-3"
+            className="ml-auto text-2xl hover:text-red-500 dark:hover:text-red-400 rounded-full p-3 dark:text-zinc-300"
             onClick={handleCloseDialog}
           >
             &times;
@@ -244,14 +246,19 @@ const NewAssignmentForm = ({ classroomId }: { classroomId: string }) => {
         </div>
         <hr className="mb-4" />
         <Form {...assignmentForm}>
-          <form onSubmit={assignmentForm.handleSubmit(onSubmit)}>
+          <form
+            onSubmit={assignmentForm.handleSubmit(onSubmit)}
+            className="dark:text-white"
+          >
             <div className="grid gap-4">
               <FormField
                 control={assignmentForm.control}
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Assignment Title</FormLabel>
+                    <FormLabel className="dark:text-white">
+                      Assignment Title
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="Title" {...field} />
                     </FormControl>
@@ -318,7 +325,7 @@ const NewAssignmentForm = ({ classroomId }: { classroomId: string }) => {
                             onBlur={field.onBlur} // Keep the blur functionality
                           />
                           <label htmlFor="file">
-                            <div className="rounded-md p-2 px-4 cursor-pointer bg-zinc-100 flex gap-2">
+                            <div className="rounded-md p-2 px-4 cursor-pointer bg-zinc-100 dark:bg-zinc-800 flex gap-2">
                               <Files className="w-5" />
                               Select file
                             </div>
@@ -336,13 +343,13 @@ const NewAssignmentForm = ({ classroomId }: { classroomId: string }) => {
                     Selected File:
                   </h3>
                   <ul className="space-y-2">
-                    <li className="flex justify-between items-center bg-zinc-100 p-2 rounded-lg">
+                    <li className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-800 p-2 rounded-lg">
                       {/* Display the file icon */}
                       <div className="flex gap-4">
                         {getFileIcon(selectedFile)}
                         <span>{selectedFile.name}</span>
                       </div>
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-zinc-400">
                         {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
                       </span>
                     </li>

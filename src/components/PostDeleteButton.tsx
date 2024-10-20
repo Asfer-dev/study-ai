@@ -56,7 +56,7 @@ const PostDeleteButton = ({ postId, classroomId }: PostDeleteButtonProps) => {
 
   return (
     <Button
-      className="flex gap-2 rounded-none text-red-500 hover:bg-red-100 hover:text-red-500"
+      className="flex gap-2 rounded-none text-red-500 hover:bg-red-100 dark:hover:bg-red-500 dark:hover:text-white hover:text-red-500"
       onClick={handleDelete}
       variant={"ghost"}
     >

@@ -189,7 +189,7 @@ const AssignmentanswerForm = ({
               }}
             />
             <label htmlFor="file">
-              <div className="rounded-md p-2 px-4 cursor-pointer bg-zinc-100 flex gap-2">
+              <div className="rounded-md p-2 px-4 cursor-pointer bg-zinc-100 dark:bg-zinc-800 flex gap-2">
                 <Files className="w-5" />
                 Select file
               </div>
@@ -198,13 +198,13 @@ const AssignmentanswerForm = ({
         </div>
         <div className="max-w-[500px] mt-4">
           {file && (
-            <div className="flex justify-between items-center bg-zinc-100 p-2 rounded-lg">
+            <div className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-800 p-2 rounded-lg">
               {/* Display the file icon */}
               <div className="flex gap-4">
                 {getFileIcon(file)}
                 <span className="truncate">{file.name}</span>
               </div>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-zinc-400">
                 {(file.size / (1024 * 1024)).toFixed(2)} MB
               </span>
             </div>

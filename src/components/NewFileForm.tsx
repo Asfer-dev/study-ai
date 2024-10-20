@@ -161,12 +161,14 @@ const NewFileForm = ({ classroomId }: { classroomId: string }) => {
         <Plus className="w-5" />
         <span>Upload new File</span>
       </Button>
-      <Dialog isOpen={isDialogOpen}>
+      <Dialog className="sm:w-full md:w-1/2" isOpen={isDialogOpen}>
         <div className="flex items-center mb-1.5">
-          <h3 className="font-bold text-zinc-600">Upload files to Classroom</h3>
+          <h3 className="font-bold text-zinc-600 dark:text-zinc-400">
+            Upload files to Classroom
+          </h3>
           <Button
             variant={"ghost"}
-            className="ml-auto text-2xl hover:text-red-500 rounded-full p-3"
+            className="ml-auto text-2xl hover:text-red-500 dark:hover:text-red-400 rounded-full p-3 dark:text-zinc-300"
             onClick={handleCloseDialog}
           >
             &times;
@@ -185,7 +187,7 @@ const NewFileForm = ({ classroomId }: { classroomId: string }) => {
                 id="file"
               />
               <label htmlFor="file">
-                <div className="rounded-md p-2 px-4 cursor-pointer bg-zinc-100 flex gap-2">
+                <div className="rounded-md p-2 px-4 cursor-pointer bg-zinc-100 dark:bg-zinc-800 dark:text-white flex gap-2">
                   <Files className="w-5" />
                   Select file(s)
                 </div>
@@ -202,14 +204,16 @@ const NewFileForm = ({ classroomId }: { classroomId: string }) => {
                 {files.map((file, index) => (
                   <li
                     key={index}
-                    className="flex justify-between items-center bg-zinc-100 p-2 rounded-lg"
+                    className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-800 dark:text-white p-2 rounded-lg"
                   >
                     {/* Display the file icon */}
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 w-64">
                       {getFileIcon(file)}
-                      <span>{file.name}</span>
+                      <span className="truncate w-full overflow-hidden whitespace-nowrap">
+                        {file.name}
+                      </span>
                     </div>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-zinc-400">
                       {(file.size / (1024 * 1024)).toFixed(2)} MB
                     </span>
                   </li>

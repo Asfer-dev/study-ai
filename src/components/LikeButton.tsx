@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import mongoose, { Types } from "mongoose";
 import { useSession } from "next-auth/react";
+import { Heart } from "lucide-react";
 
 interface LikeButtonProps {
   postId: string;
@@ -101,14 +102,20 @@ const LikeButton = ({ postId, setLikes, isClassroomPost }: LikeButtonProps) => {
   } else {
     return (
       <Button
-        className="w-full rounded-none outline-none ring-0 border-0"
+        className="w-full rounded-none outline-none ring-0 border-0 flex gap-2"
         variant={"outline"}
         onClick={handleClick}
       >
         {isLiked ? (
-          <span className="text-rose-500 font-bold">Liked</span>
+          <>
+            <Heart className={"w-4 text-rose-500"} fill="#f43f5e" />
+            <span className="text-rose-500 font-bold">Liked</span>
+          </>
         ) : (
-          <span>Like</span>
+          <>
+            <Heart className={"w-4"} />
+            <span>Like</span>
+          </>
         )}
       </Button>
     );

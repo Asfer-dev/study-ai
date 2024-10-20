@@ -23,9 +23,9 @@ const ClassroomInfoButton = ({
       <Button
         variant={"ghost"}
         onClick={handleInfoClick}
-        className="px-4 w-full rounded-none flex gap-2 justify-start"
+        className="px-4 w-full rounded-none flex gap-2 justify-start dark:text-white"
       >
-        <Info className="w-4 text-zinc-600" />
+        <Info className="w-4 text-zinc-600 dark:text-zinc-300" />
         Info
       </Button>
     </>

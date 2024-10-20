@@ -134,7 +134,7 @@ const NewPostBox = ({ sessionUser }: { sessionUser: User }) => {
       />
       <form
         onSubmit={handleSubmit}
-        className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-rose-400"
+        className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-zinc-300 dark:ring-zinc-700 focus-within:ring-2 focus-within:ring-focus dark:focus-within:ring-focus"
       >
         {mediaPreview ? (
           <div className="mb-4">
@@ -162,7 +162,7 @@ const NewPostBox = ({ sessionUser }: { sessionUser: User }) => {
           value={postData.input}
           onChange={handleInputChange}
           placeholder={`What's on your mind ${sessionUser.name}?`}
-          className="block mt-3 w-full resize-none border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:py-1.5 sm:text-sm sm:leading-6"
+          className="block mt-3 w-full resize-none border-0 bg-transparent text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:ring-0 sm:py-1.5 sm:text-sm sm:leading-6"
         />
 
         {!mediaPreview && (

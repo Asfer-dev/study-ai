@@ -6,7 +6,6 @@ import { fetchClassrooms } from "@/helpers/fetch-classrooms";
 import NewClassroomForm from "@/components/NewClassroomForm";
 import JoinClassroomForm from "@/components/JoinClassroomForm";
 import { IUser } from "@/types/db";
-import ClassroomDeleteButton from "@/components/ClassroomDeleteButton";
 import ClassroomCard from "@/components/ClassroomCard";
 import Head from "next/head";
 import { Metadata } from "next";
@@ -28,10 +27,6 @@ const ClassroomsPage = async () => {
 
   return (
     <>
-      <Head>
-        <title>Classrooms | study.ai</title>
-        {/* <meta name="description" content="This is the homepage of My Website." /> */}
-      </Head>
       <div className="mt-6 px-4">
         {session?.user?.role === "teacher" ? (
           <NewClassroomForm />
