@@ -30,7 +30,7 @@ const UnseenChatToast: FC<UnseenChatToastProps> = ({
     >
       <a
         onClick={() => toast.dismiss(t.id)}
-        href={`/dashboard/chat/${chatHrefConstructor(sessionId, senderId)}`}
+        href={`/chats/${chatHrefConstructor(sessionId, senderId)}`}
         className="flex-1 w-0 p-4"
       >
         <div className="flex items-center">

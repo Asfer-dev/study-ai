@@ -45,23 +45,20 @@ const ProfileImage = ({
       ? "bg-rose-400"
       : "bg-gray-400"; // default if none match
 
-  const link = profileId ? "Link" : "div";
-
   if (imgUrl) {
     return (
       <ProfileImageLink profileId={profileId}>
         <div
           className={cn(
-            "relative cursor-pointer border rounded-full",
+            "relative cursor-pointer border rounded-full aspect-square flex items-center justify-center overflow-hidden",
             size === "lg" ? 'w-48 h-48"' : "w-8 sm:w-10 h-8 sm:h-10"
           )}
         >
-          <Image
-            fill
+          <img
             referrerPolicy="no-referrer"
             src={imgUrl}
             alt={`${profileName} profile picture`}
-            className="rounded-full"
+            className="object-cover"
           />
         </div>
       </ProfileImageLink>

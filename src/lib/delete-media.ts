@@ -52,3 +52,23 @@ export const deleteFilesFromS3 = async (mediaUrls: string[]) => {
     throw new Error("Failed to delete files");
   }
 };
+
+export const deleteProfilePhotoFromS3 = async (mediaUrls: string[]) => {
+  try {
+    const deletePromises = mediaUrls.map(async (mediaUrl) => {
+      const url = new URL(mediaUrl);
+      const filename = url.pathname.split("/").pop(); // Get the filename from the URL
+      const deleteParams = {
+        Bucket: process.env.S3_BUCKET_NAME as string,
+        Key: `profile_photos/${filename}`, // Adjust the path as needed
+      };
+      await s3Client.send(new DeleteObjectCommand(deleteParams));
+    });
+
+    await Promise.all(deletePromises);
+    console.log("files deleted successfully");
+  } catch (error) {
+    console.error("Error deleting files from S3:", error);
+    throw new Error("Failed to delete files");
+  }
+};

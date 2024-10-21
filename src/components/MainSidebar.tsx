@@ -149,6 +149,7 @@ const MainSidebar = () => {
         linkStyles={linkStyles}
         inactiveLinkStyles={inactiveLinkStyles}
         activeLinkStyles={activeLinkStyles}
+        newChats={newChats}
       />
       <aside
         className={cn(
@@ -159,23 +160,6 @@ const MainSidebar = () => {
         <Logo isCompact={isCompact} />
         <nav className="flex flex-1 flex-col">
           <ul className="flex flex-col gap-y-3 h-full">
-            <li>
-              <Link
-                className={cn(
-                  linkStyles,
-                  isActiveLink("/feed") ? activeLinkStyles : inactiveLinkStyles
-                )}
-                href={"/feed"}
-              >
-                <Newspaper
-                  className={cn(
-                    "w-6 h-6 text-zinc-600 dark:text-zinc-400",
-                    isActiveLink("/feed") && "text-black dark:text-white"
-                  )}
-                />
-                {!isCompact && "Feed"}
-              </Link>
-            </li>
             <li>
               <Link
                 className={cn(
@@ -193,6 +177,23 @@ const MainSidebar = () => {
                   )}
                 />
                 {!isCompact && "Classrooms"}
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={cn(
+                  linkStyles,
+                  isActiveLink("/feed") ? activeLinkStyles : inactiveLinkStyles
+                )}
+                href={"/feed"}
+              >
+                <Newspaper
+                  className={cn(
+                    "w-6 h-6 text-zinc-600 dark:text-zinc-400",
+                    isActiveLink("/feed") && "text-black dark:text-white"
+                  )}
+                />
+                {!isCompact && "Feed"}
               </Link>
             </li>
             <li>

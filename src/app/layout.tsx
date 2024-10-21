@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "@/components/Providers";
-import Logo from "@/components/Logo";
-import Link from "next/link";
 import MainSidebar from "@/components/MainSidebar";
 import PageContainer from "@/components/PageContainer";
 
@@ -34,7 +32,7 @@ export default function RootLayout({
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <main className="relative flex">
+          <main className="relative flex roboto-regular">
             <MainSidebar />
             <PageContainer>{children}</PageContainer>
           </main>

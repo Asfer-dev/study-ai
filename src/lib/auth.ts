@@ -65,9 +65,11 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         // Add additional keys to the token here
         // token.type = user.user.type;
+
         token._id = user._id;
         token.role = user.role;
         token.profileColor = user.profileColor;
+        token.picture = user.image;
         // This user object is either a teacher or student object that contains the general 'user' object
       }
       return token;
@@ -78,6 +80,8 @@ export const authOptions: NextAuthOptions = {
       session.user._id = token._id;
       session.user.role = token.role;
       session.user.profileColor = token.profileColor;
+      session.user.image = token.picture;
+
       return session;
     },
   },

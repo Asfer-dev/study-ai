@@ -71,7 +71,11 @@ const ProfileOptionsMenu: FC<ProfileOptionsMenuProps> = ({
               Profile
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link className="w-full" href={`/settings`}>
+              Settings
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="flex w-full">

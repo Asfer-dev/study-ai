@@ -19,7 +19,13 @@ const Providers: FC<ProvidersProps> = ({ children }) => {
           enableSystem
           disableTransitionOnChange
         >
-          <Toaster position="top-center" reverseOrder={true} />
+          <Toaster
+            toastOptions={{
+              duration: 6000, // Default duration for all toasts
+            }}
+            position="top-center"
+            reverseOrder={true}
+          />
           {children}
         </ThemeProvider>
       </SessionProvider>

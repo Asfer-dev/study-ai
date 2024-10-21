@@ -18,6 +18,7 @@ import ProfileOptionsMenu from "./ProfileOptionsMenu";
 import ProfileImage from "./ProfileImage";
 import { Session } from "next-auth";
 import { cn } from "@/lib/utils";
+import { Types } from "mongoose";
 
 interface MobileNavMainProps {
   isCompact: boolean;
@@ -26,6 +27,7 @@ interface MobileNavMainProps {
   inactiveLinkStyles: string;
   activeLinkStyles: string;
   isActiveLink: (basePath: string) => boolean;
+  newChats: Types.ObjectId[];
 }
 
 const MobileNavMain: FC<MobileNavMainProps> = ({
@@ -33,6 +35,7 @@ const MobileNavMain: FC<MobileNavMainProps> = ({
   activeLinkStyles,
   session,
   isActiveLink,
+  newChats,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -104,26 +107,6 @@ const MobileNavMain: FC<MobileNavMainProps> = ({
                               <Link
                                 className={cn(
                                   linkStyles,
-                                  isActiveLink("/feed")
-                                    ? activeLinkStyles
-                                    : inactiveLinkStyles
-                                )}
-                                href={"/feed"}
-                              >
-                                <Newspaper
-                                  className={cn(
-                                    "w-6 h-6 text-zinc-600 dark:text-zinc-400",
-                                    isActiveLink("/feed") &&
-                                      "text-black dark:text-white"
-                                  )}
-                                />
-                                {!isCompact && "Feed"}
-                              </Link>
-                            </li>
-                            <li>
-                              <Link
-                                className={cn(
-                                  linkStyles,
                                   isActiveLink("/classrooms")
                                     ? activeLinkStyles
                                     : inactiveLinkStyles
@@ -144,6 +127,26 @@ const MobileNavMain: FC<MobileNavMainProps> = ({
                               <Link
                                 className={cn(
                                   linkStyles,
+                                  isActiveLink("/feed")
+                                    ? activeLinkStyles
+                                    : inactiveLinkStyles
+                                )}
+                                href={"/feed"}
+                              >
+                                <Newspaper
+                                  className={cn(
+                                    "w-6 h-6 text-zinc-600 dark:text-zinc-400",
+                                    isActiveLink("/feed") &&
+                                      "text-black dark:text-white"
+                                  )}
+                                />
+                                {!isCompact && "Feed"}
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className={cn(
+                                  linkStyles,
                                   isActiveLink("/chats")
                                     ? activeLinkStyles
                                     : inactiveLinkStyles
@@ -158,6 +161,16 @@ const MobileNavMain: FC<MobileNavMainProps> = ({
                                   )}
                                 />
                                 {!isCompact && "Chats"}
+                                {newChats.length > 0 && (
+                                  <div
+                                    className={cn(
+                                      "rounded-full p-1 bg-focus/90 text-white h-6 w-6 flex items-center justify-center",
+                                      isCompact && "absolute right-0 -top-1"
+                                    )}
+                                  >
+                                    {newChats.length}
+                                  </div>
+                                )}
                               </Link>
                             </li>
                             <li>

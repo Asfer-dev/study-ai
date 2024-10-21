@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fonts: {
+        primary: ["Roboto", "sans-serif"],
+      },
       colors: {
         "button-primary": "#fca5a5",
         "message-outgoing": "#4f46e5",

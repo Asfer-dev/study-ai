@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, UserPlus } from "lucide-react";
 
 const FollowButton = ({
   sessionUserId,
@@ -63,7 +63,11 @@ const FollowButton = ({
 
   return (
     <Button variant={"outline"} className="flex gap-2" onClick={handleClick}>
-      {isLoading && <Loader2 className="animate-spin w-4" />}
+      {isLoading ? (
+        <Loader2 className="animate-spin w-4 h-4" />
+      ) : (
+        <UserPlus className="w-4 h-4" />
+      )}
       <span>{isFollowed ? "Following" : "Follow"}</span>
     </Button>
   );

@@ -1,17 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Loader2, Users } from "lucide-react";
 
 interface ConnectButtonProps {
   email: string | null | undefined;
 }
 
 const ConnectButton = ({ email }: ConnectButtonProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const sendConnectRequest = async (email: string | null | undefined) => {
     try {
+      setIsLoading(true);
       const response = await axios.post("/api/user/connects/add", {
         email,
       });
@@ -56,11 +59,22 @@ const ConnectButton = ({ email }: ConnectButtonProps) => {
         // Handle non-Axios errors
         toast.error("An unexpected error occurred.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <Button variant={"secondary"} onClick={() => sendConnectRequest(email)}>
+    <Button
+      className="gap-2"
+      variant={"secondary"}
+      onClick={() => sendConnectRequest(email)}
+    >
+      {isLoading ? (
+        <Loader2 className="w-4 h-4 animate-spin" />
+      ) : (
+        <Users className="w-4 h-4" />
+      )}
       Connect
     </Button>
   );

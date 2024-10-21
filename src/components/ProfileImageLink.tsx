@@ -5,7 +5,7 @@ const ProfileImageLink = ({
   profileId,
   children,
 }: {
-  profileId?: string | null;
+  profileId?: string | null | undefined;
   children: React.ReactNode;
 }) => {
   return profileId ? (
