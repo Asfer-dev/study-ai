@@ -65,7 +65,7 @@ const NewClassroomForm = () => {
   return (
     <Form {...classroomForm}>
       <form
-        className="max-w-[300px]"
+        className="max-w-[300px] mx-auto md:mx-0"
         onSubmit={classroomForm.handleSubmit(onSubmit)}
       >
         <h3 className="text-lg">Create a Classroom</h3>

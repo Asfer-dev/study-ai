@@ -5,7 +5,9 @@ interface PostsContainerProps {
 }
 
 const PostsContainer = ({ children }: PostsContainerProps) => {
-  return <section className="max-w-[420px] mx-auto">{children}</section>;
+  return (
+    <section className="w-full sm:max-w-[420px] mx-auto">{children}</section>
+  );
 };
 
 export default PostsContainer;

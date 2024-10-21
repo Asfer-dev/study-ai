@@ -19,7 +19,7 @@ const ClassroomLayout = async ({ children, params }: ClassroomLayoutProps) => {
 
   return (
     <div className="relative flex h-full">
-      <aside className="rounded-lg sticky z-0 left-0 top-0 bottom-0 h-screen w-[250px] ring-1 ring-zinc-200 dark:ring-zinc-700 p-4">
+      <aside className="rounded-lg hidden md:block sticky z-0 left-0 top-0 bottom-0 h-screen w-[250px] ring-1 ring-zinc-200 dark:ring-zinc-700 p-4">
         <div className="grid gap-4">
           <div className=" w-full text-6xl mx-auto">
             <div className="w-[150px] mx-auto">
@@ -32,13 +32,13 @@ const ClassroomLayout = async ({ children, params }: ClassroomLayoutProps) => {
           </div>
           <div className="text-center">
             <p>{classroom.name}</p>
-            <p className="font-bold text-sm text-amber-600 mt-4">
+            <p className="font-bold text-sm text-amber-600 mt-4 flex justify-center items-center flex-col">
               Owner: <ProfileCard user={classroom.owner as IUser} />
             </p>
             <p className="font-bold text-sm text-zinc-500 mt-8">
               Participants:
             </p>
-            <ul className="overflow-auto">
+            <ul className="overflow-auto flex flex-col items-center h-full overflow-y-auto">
               {classroom.studentsEnrolled.map((student) => (
                 <li key={student._id.toString()}>
                   <ProfileCard user={student as IUser} />

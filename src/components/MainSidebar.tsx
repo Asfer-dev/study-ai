@@ -10,6 +10,7 @@ import SignOutButton from "./SignOutButton";
 import ProfileOptionsMenu from "./ProfileOptionsMenu";
 import { MessageCircle, Newspaper, Notebook, Users } from "lucide-react";
 import { ModeToggle } from "./ThemeToggleButton";
+import MobileNavMain from "./MobileNavMain";
 
 const MainSidebar = () => {
   const [isCompact, setIsCompact] = useState<boolean>(false);
@@ -40,9 +41,17 @@ const MainSidebar = () => {
 
   return (
     <>
+      <MobileNavMain
+        session={JSON.parse(JSON.stringify(session))}
+        isCompact={isCompact}
+        isActiveLink={isActiveLink}
+        linkStyles={linkStyles}
+        inactiveLinkStyles={inactiveLinkStyles}
+        activeLinkStyles={activeLinkStyles}
+      />
       <aside
         className={cn(
-          "flex flex-col gap-4 rounded-r-lg transition-all duration-100 border border-zinc-200 dark:border-zinc-700 dark:text-white p-2 h-screen sticky top-0 left-0 bottom-0",
+          "hidden md:flex flex-col gap-4 rounded-r-lg transition-all duration-100 border border-zinc-200 dark:border-zinc-700 dark:text-white p-2 h-screen sticky top-0 left-0 bottom-0",
           isCompact && "p-4"
         )}
       >

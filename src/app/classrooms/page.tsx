@@ -33,12 +33,12 @@ const ClassroomsPage = async () => {
         ) : (
           <JoinClassroomForm />
         )}
-        <h2 className="text-2xl mt-8">
+        <h2 className="text-2xl mt-8 text-center md:text-left">
           {session.user.role === "teacher"
             ? "My Classrooms"
             : "Joined Classrooms"}
         </h2>
-        <div className="flex gap-4 flex-wrap mt-4">
+        <div className="flex gap-4 flex-wrap mt-4 justify-center md:justify-normal">
           {classrooms?.map((classroom) => {
             if (isIUser(classroom.owner))
               return (

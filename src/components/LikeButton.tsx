@@ -12,27 +12,40 @@ interface LikeButtonProps {
   postId: string;
   setLikes: React.Dispatch<React.SetStateAction<(Types.ObjectId | string)[]>>;
   isClassroomPost?: boolean;
+  likes: (Types.ObjectId | string)[];
+  sessionId: string;
 }
 
-const LikeButton = ({ postId, setLikes, isClassroomPost }: LikeButtonProps) => {
-  const { data: session } = useSession();
-  const userObjId = new mongoose.Types.ObjectId(session?.user._id);
+const LikeButton = ({
+  sessionId,
+  postId,
+  setLikes,
+  isClassroomPost,
+  likes,
+}: LikeButtonProps) => {
+  // const { data: session } = useSession();
+  // const userObjId = new mongoose.Types.ObjectId(session?.user._id);
   const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
     const checkIfLiked = async () => {
-      try {
-        const response = await axios.post("/api/post/is-liked", {
-          postId,
-        });
+      // try {
+      //   const response = await axios.post("/api/post/is-liked", {
+      //     postId,
+      //   });
 
-        if (response.status === 200) {
-          setIsLiked(response.data.isLiked);
-        } else {
-          console.log("Failed to check follow status");
-        }
-      } catch (error) {
-        console.error("Error checking follow status:", error);
+      //   if (response.status === 200) {
+      //     setIsLiked(response.data.isLiked);
+      //   } else {
+      //     console.log("Failed to check follow status");
+      //   }
+      // } catch (error) {
+      //   console.error("Error checking follow status:", error);
+      // }
+
+      if (likes) {
+        const isLiked = likes.some((uid) => uid.toString() === sessionId);
+        setIsLiked(isLiked);
       }
     };
 
@@ -44,8 +57,8 @@ const LikeButton = ({ postId, setLikes, isClassroomPost }: LikeButtonProps) => {
   const likePost = async () => {
     try {
       setIsLiked(true); // Update UI to show the post is liked
-      if (session?.user._id) {
-        const userId: string = session.user._id;
+      if (sessionId) {
+        const userId: string = sessionId;
         setLikes((prev) => [...prev, userId]);
       }
       // Send the POST request to like the post
@@ -66,7 +79,7 @@ const LikeButton = ({ postId, setLikes, isClassroomPost }: LikeButtonProps) => {
       setIsLiked(false); // Update UI to show the post is not liked anymore
 
       setLikes((prev) => {
-        return prev.filter((uId) => uId.toString() !== session?.user._id);
+        return prev.filter((uId) => uId.toString() !== sessionId);
       });
       // Send the POST request to like the post
       const response = await axios.post("/api/post/unlike", { postId });

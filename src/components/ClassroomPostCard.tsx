@@ -31,14 +31,14 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
   return (
     <div className="space-y-1">
       {post.media.length > 0 && (
-        <div className="flex gap-1 flex-wrap w-1/2">
+        <div className="flex gap-1 flex-wrap w-full md:w-1/2">
           {post.media.map((media, index) => {
             const fileType = getFileTypeFromUrl(media);
 
             return fileType === "image" ? (
               <div
                 onClick={() => handleMediaOpen(media)}
-                className="bg-zinc-300 dark:bg-zinc-700 h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
+                className="bg-zinc-300 dark:bg-zinc-700 h-[100px] md:h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
               >
                 <img
                   key={index}
@@ -50,7 +50,7 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
             ) : fileType === "video" ? (
               <div
                 onClick={() => handleMediaOpen(media)}
-                className="bg-zinc-300 dark:bg-zinc-700 h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
+                className="bg-zinc-300 dark:bg-zinc-700 h-[100px] md:h-[150px] rounded-lg overflow-hidden aspect-square cursor-pointer"
               >
                 <video
                   key={index}
@@ -99,6 +99,8 @@ const ClassroomPostCard = ({ post, sessionId }: ClassroomPostCardProps) => {
       <div className="text-sm flex gap-2 px-2.5">
         <span>{likes.length} likes. </span>
         <LikeButton
+          sessionId={sessionId}
+          likes={likes}
           isClassroomPost={true}
           postId={post._id.toString()}
           setLikes={setLikes}

@@ -65,7 +65,7 @@ const JoinClassroomForm = () => {
   return (
     <Form {...joinClassroomForm}>
       <form
-        className="max-w-[300px]"
+        className="max-w-[300px] mx-auto md:mx-0"
         onSubmit={joinClassroomForm.handleSubmit(onSubmit)}
       >
         <h3 className="text-lg">Join a Classroom</h3>

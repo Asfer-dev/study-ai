@@ -4,8 +4,8 @@ import React from "react";
 
 const Logo = ({ isCompact }: { isCompact: boolean }) => {
   return (
-    <Link href={"/"}>
-      <div className="font-bold text-3xl text-logo flex gap-4 items-center justify-center mb-6 pr-2">
+    <Link href={"/"} className="">
+      <div className="font-bold text-3xl text-logo flex gap-4 items-center justify-center pr-2">
         <BookOpen className="w-12 h-12" /> {!isCompact && "study.ai"}
       </div>
     </Link>

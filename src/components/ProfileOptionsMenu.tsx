@@ -62,7 +62,7 @@ const ProfileOptionsMenu: FC<ProfileOptionsMenuProps> = ({
           <Settings className="w-5 text-zinc-600 dark:text-zinc-400" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-56 z-[99]">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

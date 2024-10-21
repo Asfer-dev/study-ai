@@ -6,6 +6,7 @@ import { IUser } from "@/types/db";
 import { format } from "date-fns";
 import Image from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
+import Linkify from "react-linkify";
 
 interface MessagesProps {
   initialMessages: TMessage[];
@@ -88,7 +89,7 @@ const Messages: FC<MessagesProps> = ({
             >
               <div
                 className={cn(
-                  "flex flex-col space-y-2 text-base max-w-xs mx-2",
+                  "flex flex-col space-y-2 text-base max-w-[65vw] md:max-w-xs mx-2",
                   {
                     "order-1 items-end": isCurrentUser,
                     "order-2 items-start": !isCurrentUser,
@@ -97,7 +98,7 @@ const Messages: FC<MessagesProps> = ({
               >
                 <span
                   className={cn(
-                    "px-4 py-2 rounded-lg inline-block whitespace-pre-wrap",
+                    "px-4 py-2 rounded-lg inline-block whitespace-pre-wrap break-words w-full",
                     {
                       "bg-message-outgoing text-white": isCurrentUser,
                       "bg-zinc-200 dark:bg-zinc-800 text-gray-900 dark:text-zinc-100":
@@ -109,7 +110,21 @@ const Messages: FC<MessagesProps> = ({
                     }
                   )}
                 >
-                  {message.text}{" "}
+                  <Linkify
+                    componentDecorator={(decoratedHref, decoratedText, key) => (
+                      <a
+                        href={decoratedHref}
+                        key={key}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-100 hover:underline"
+                      >
+                        {decoratedText}
+                      </a>
+                    )}
+                  >
+                    {message.text}
+                  </Linkify>{" "}
                   <span className="ml-2 text-xs text-gray-400">
                     {formatTimestamp(message.createdAt)}
                   </span>

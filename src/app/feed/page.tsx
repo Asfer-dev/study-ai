@@ -25,7 +25,9 @@ const FeedPage = async () => {
       <div className="mt-12"></div>
       <PostsContainer>
         {/* UPLOAD A POST */}
-        <NewPostBox sessionUser={session.user} />
+        <div className="px-2">
+          <NewPostBox sessionUser={session.user} />
+        </div>
         <hr className="mt-4 w-[95%] mx-auto" />
         <div className="flex flex-col gap-6 mb-6 mt-4">
           {posts.map((post) => (

@@ -79,7 +79,12 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
       </div>
       <hr className="w-[95%] mt-1 mx-auto" />
       <div className="flex overflow-hidden p-1">
-        <LikeButton setLikes={setLikes} postId={post._id.toString()} />
+        <LikeButton
+          sessionId={sessionId}
+          likes={likes}
+          setLikes={setLikes}
+          postId={post._id.toString()}
+        />
         {/* <Button
           className="w-full rounded-none outline-none ring-0 border-0"
           variant={"outline"}

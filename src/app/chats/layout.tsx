@@ -19,7 +19,7 @@ const ChatsLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <main className="flex min-h-screen">
-      <aside className="ring-1 ring-zinc-200 dark:ring-zinc-700 w-[250px]">
+      <aside className="hidden md:block ring-1 ring-zinc-200 dark:ring-zinc-700 w-[250px]">
         <h3 className="text-xl font-bold px-4 my-4">Chats</h3>
         <ChatPartnersList
           connects={JSON.parse(JSON.stringify(connects))}

@@ -1,12 +1,12 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 let isConnected = false; // Track the connection
 
 export const connectToDB = async (): Promise<void> => {
-  mongoose.set('strictQuery', true);
+  mongoose.set("strictQuery", true);
 
   if (isConnected) {
-    console.log('MongoDB is already connected');
+    console.log("MongoDB is already connected");
     return;
   }
 
@@ -16,9 +16,9 @@ export const connectToDB = async (): Promise<void> => {
     });
 
     isConnected = true;
-    console.log('MongoDB connected');
+    console.log("MongoDB connected");
   } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-    throw new Error('Could not connect to MongoDB');
+    console.error("Error connecting to MongoDB:", error);
+    throw new Error("Could not connect to MongoDB");
   }
 };
