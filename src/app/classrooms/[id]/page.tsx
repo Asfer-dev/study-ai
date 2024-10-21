@@ -58,7 +58,7 @@ const ClassroomPage = async ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         <div className="text-center">
-          <p>{classroom.name}</p>
+          <p className="font-semibold">{classroom.name}</p>
           <p className="font-bold text-sm text-amber-600 mt-4 flex justify-center items-center flex-col">
             Owner: <ProfileCard user={classroom.owner as IUser} />
           </p>

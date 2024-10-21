@@ -103,6 +103,7 @@ export interface IChat extends Document {
   _id: Types.ObjectId;
   participants: Types.ObjectId[];
   messages: Types.ObjectId[];
+  unread_messages: Types.ObjectId[];
 }
 
 export interface IConnectRequest {

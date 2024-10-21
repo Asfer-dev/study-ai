@@ -1,6 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
-// import { pusherServer } from "@/lib/pusher";
+import { pusherServer } from "@/lib/pusher";
 import { toPusherKey } from "@/lib/utils";
 import ChatModel from "@/models/chat";
 import Message from "@/models/message";
@@ -58,21 +58,30 @@ export async function POST(req: Request) {
     await message.save();
 
     const chat = (await ChatModel.findById(chatId)) as IChat;
-    chat.messages.push(message._id);
+    chat.unread_messages.push(message._id);
     await chat.save();
 
     // realtime functionality
-    // pusherServer.trigger(
-    //   toPusherKey(`chat:${chatId}`),
-    //   "incoming-message",
-    //   message
-    // );
+    pusherServer.trigger(
+      toPusherKey(`chat:${chatId}`),
+      "incoming-message",
+      message
+    );
 
-    // pusherServer.trigger(toPusherKey(`user:${friendId}:chats`), "new_message", {
-    //   ...message.toObject(),
-    //   senderImg: user.image,
-    //   senderName: user.name,
-    // });
+    // Trigger second Pusher event only if there are no unread messages before this
+    if (chat.unread_messages.length === 1) {
+      // If this is the first unread message
+      pusherServer.trigger(
+        toPusherKey(`user:${friendId}:chats`),
+        "new_message",
+        {
+          senderId: user._id,
+          senderName: user.name,
+          senderImg: user.image,
+          senderProfileColor: user.profileColor,
+        }
+      );
+    }
 
     return new Response("OK");
   } catch (error) {

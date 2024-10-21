@@ -1,5 +1,6 @@
 "use client";
 
+import { pusherClient } from "@/lib/pusher";
 import { cn, toPusherKey } from "@/lib/utils";
 import { TMessage } from "@/lib/validation-schemas/message-schema";
 import { IUser } from "@/types/db";
@@ -29,20 +30,20 @@ const Messages: FC<MessagesProps> = ({
 }) => {
   const [messages, setMessages] = useState<TMessage[]>(initialMessages);
 
-  // useEffect(() => {
-  //   pusherClient.subscribe(toPusherKey(`chat:${chatId}`));
+  useEffect(() => {
+    pusherClient.subscribe(toPusherKey(`chat:${chatId}`));
 
-  //   const messageHandler = (message: Message) => {
-  //     setMessages((prev) => [message, ...prev]);
-  //   };
+    const messageHandler = (message: TMessage) => {
+      setMessages((prev) => [message, ...prev]);
+    };
 
-  //   pusherClient.bind("incoming-message", messageHandler);
+    pusherClient.bind("incoming-message", messageHandler);
 
-  //   return () => {
-  //     pusherClient.unsubscribe(toPusherKey(`chat:${chatId}`));
-  //     pusherClient.unbind("incoming-message", messageHandler);
-  //   };
-  // }, [chatId]);
+    return () => {
+      pusherClient.unsubscribe(toPusherKey(`chat:${chatId}`));
+      pusherClient.unbind("incoming-message", messageHandler);
+    };
+  }, [chatId]);
 
   const scrollDownRef = useRef<HTMLDivElement | null>(null);
 

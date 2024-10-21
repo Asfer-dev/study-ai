@@ -147,7 +147,9 @@ const ChatPage = async ({ params }: PageProps) => {
   const chatPartner = await getChatPartner(partnerId);
   if (!chatPartner) notFound();
 
-  const initialMessages = await getChatMessages(chat.messages);
+  const initialMessages = await getChatMessages(
+    chat.messages.concat(chat.unread_messages)
+  );
 
   return (
     <div className="flex-1 justify-between flex flex-col h-full max-h-[calc(100vh-6rem)]">

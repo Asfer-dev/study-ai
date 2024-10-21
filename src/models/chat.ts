@@ -14,6 +14,11 @@ const ChatSchema = new Schema<IChat>(
       ref: "Message",
       default: [],
     },
+    unread_messages: {
+      type: [Schema.Types.ObjectId],
+      ref: "Message",
+      default: [],
+    },
   },
   {
     timestamps: true,

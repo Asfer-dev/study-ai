@@ -2,18 +2,22 @@
 import React, { useEffect, useState } from "react";
 import Logo from "./Logo";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { chatHrefConstructor, cn, toPusherKey } from "@/lib/utils";
 import { notFound, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ProfileImage from "./ProfileImage";
-import SignOutButton from "./SignOutButton";
 import ProfileOptionsMenu from "./ProfileOptionsMenu";
 import { MessageCircle, Newspaper, Notebook, Users } from "lucide-react";
-import { ModeToggle } from "./ThemeToggleButton";
 import MobileNavMain from "./MobileNavMain";
+import axios from "axios";
+import { Types } from "mongoose";
+import { pusherClient } from "@/lib/pusher";
+import toast from "react-hot-toast";
+import UnseenChatToast from "./UnseenChatToast";
 
 const MainSidebar = () => {
   const [isCompact, setIsCompact] = useState<boolean>(false);
+  const [newChats, setNewChats] = useState<Types.ObjectId[]>([]);
   const linkStyles = cn(
     "flex gap-4 items-center rounded-md px-4 py-2 hover:bg-zinc-50 dark:hover:bg-zinc-800",
     isCompact ? "justify-center px-0 aspect-square" : "justify-start"
@@ -24,19 +28,116 @@ const MainSidebar = () => {
 
   const pathname = usePathname();
 
+  const { data: session, status } = useSession();
+
   useEffect(() => {
     if (pathname.startsWith("/chats") || pathname.startsWith("/classrooms/")) {
       setIsCompact(true);
     } else {
       setIsCompact(false);
     }
+
+    const removeUnreadMessages = async (partnerId: Types.ObjectId) => {
+      try {
+        const response = await axios.post("/api/message/remove-unread", {
+          partnerId,
+        });
+        console.log("Messages marked as read:", response.data);
+      } catch (error) {
+        console.error("Error marking messages as read:", error);
+      }
+    };
+
+    newChats.forEach(async (chatPartnerId) => {
+      console.log(newChats, pathname);
+      if (pathname.includes(chatPartnerId.toString())) {
+        setNewChats((prev) =>
+          prev.filter((cpid) => cpid.toString() !== chatPartnerId.toString())
+        );
+        await removeUnreadMessages(chatPartnerId);
+      }
+    });
   }, [pathname]);
 
-  const { data: session } = useSession();
-  if (!session) {
-    return <></>;
-  }
+  useEffect(() => {
+    const fetchNewChats = async () => {
+      try {
+        const response = await axios.get("/api/message/unread-chat-count");
+        setNewChats(response.data.chatPartnerIds);
+      } catch (err) {
+        console.log("Failed to fetch unread chat count");
+        console.error(err);
+      }
+    };
 
+    fetchNewChats();
+  }, []);
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      pusherClient.subscribe(toPusherKey(`user:${session.user._id}:chats`));
+      // pusherClient.subscribe(toPusherKey(`user:${sessionId}:friends`));
+
+      // const newFriendHandler = (newFriend: User) => {
+      //   console.log("received new user", newFriend);
+      //   setActiveChats((prev) => [...prev, newFriend]);
+      // };
+
+      const chatHandler = async ({
+        senderId,
+        senderName,
+        senderImg,
+        senderProfileColor,
+      }: {
+        senderId: Types.ObjectId;
+        senderName: string;
+        senderImg: string;
+        senderProfileColor?: string;
+      }) => {
+        try {
+          const shouldNotify =
+            pathname !==
+            `/chats/${chatHrefConstructor(
+              session.user._id,
+              senderId.toString()
+            )}`;
+
+          if (!shouldNotify) return;
+
+          // should be notified
+          toast.custom((t) => (
+            <UnseenChatToast
+              t={t}
+              sessionId={session.user._id}
+              senderId={senderId.toString()}
+              senderImg={senderImg}
+              senderName={senderName}
+              senderProfileColor={senderProfileColor}
+            />
+          ));
+
+          setNewChats((prev) => [...prev, senderId]);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      pusherClient.bind("new_message", chatHandler);
+      // pusherClient.bind("new_friend", newFriendHandler);
+
+      return () => {
+        pusherClient.unsubscribe(toPusherKey(`user:${session.user._id}:chats`));
+        // pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:friends`));
+
+        pusherClient.unbind("new_message", chatHandler);
+        // pusherClient.unbind("new_friend", newFriendHandler);
+      };
+    }
+  }, [pathname, session?.user._id]);
+
+  if (status === "loading" || !session) {
+    return <></>; // Still loading the session
+  }
   const isActiveLink = (basePath: string) => pathname.startsWith(basePath);
 
   return (
@@ -98,6 +199,7 @@ const MainSidebar = () => {
               <Link
                 className={cn(
                   linkStyles,
+                  "relative",
                   isActiveLink("/chats") ? activeLinkStyles : inactiveLinkStyles
                 )}
                 href={"/chats"}
@@ -109,6 +211,16 @@ const MainSidebar = () => {
                   )}
                 />
                 {!isCompact && "Chats"}
+                {newChats.length > 0 && (
+                  <div
+                    className={cn(
+                      "rounded-full p-1 bg-focus/90 text-white h-6 w-6 flex items-center justify-center",
+                      isCompact && "absolute right-0 -top-1"
+                    )}
+                  >
+                    {newChats.length}
+                  </div>
+                )}
               </Link>
             </li>
             <li>

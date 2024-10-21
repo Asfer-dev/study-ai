@@ -71,7 +71,7 @@ const ProfileImage = ({
       <ProfileImageLink profileId={profileId}>
         <div
           className={cn(
-            "relative cursor-pointer border rounded-full",
+            "relative cursor-pointer rounded-full",
             size === "lg" ? 'w-48 h-48"' : "w-8 sm:w-10 h-8 sm:h-10"
           )}
         >
