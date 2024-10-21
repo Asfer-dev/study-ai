@@ -28,6 +28,7 @@ interface MobileNavMainProps {
   activeLinkStyles: string;
   isActiveLink: (basePath: string) => boolean;
   newChats: Types.ObjectId[];
+  newConnectRequests: Types.ObjectId[];
 }
 
 const MobileNavMain: FC<MobileNavMainProps> = ({
@@ -36,6 +37,7 @@ const MobileNavMain: FC<MobileNavMainProps> = ({
   session,
   isActiveLink,
   newChats,
+  newConnectRequests,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -191,6 +193,16 @@ const MobileNavMain: FC<MobileNavMainProps> = ({
                                   )}
                                 />
                                 {!isCompact && "My Network"}
+                                {newConnectRequests.length > 0 && (
+                                  <div
+                                    className={cn(
+                                      "rounded-full p-1 bg-focus/90 text-white h-6 w-6 flex items-center justify-center",
+                                      isCompact && "absolute right-0 -top-1"
+                                    )}
+                                  >
+                                    {newConnectRequests.length}
+                                  </div>
+                                )}
                               </Link>
                             </li>
                             <li className="mt-auto flex items-center">

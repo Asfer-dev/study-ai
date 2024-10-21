@@ -18,6 +18,9 @@ import UnseenChatToast from "./UnseenChatToast";
 const MainSidebar = () => {
   const [isCompact, setIsCompact] = useState<boolean>(false);
   const [newChats, setNewChats] = useState<Types.ObjectId[]>([]);
+  const [newConnectRequests, setNewConnectRequests] = useState<
+    Types.ObjectId[]
+  >([]);
   const linkStyles = cn(
     "flex gap-4 items-center rounded-md px-4 py-2 hover:bg-zinc-50 dark:hover:bg-zinc-800",
     isCompact ? "justify-center px-0 aspect-square" : "justify-start"
@@ -65,12 +68,24 @@ const MainSidebar = () => {
         const response = await axios.get("/api/message/unread-chat-count");
         setNewChats(response.data.chatPartnerIds);
       } catch (err) {
-        console.log("Failed to fetch unread chat count");
+        console.log("Failed to fetch unread chats");
         console.error(err);
       }
     };
 
     fetchNewChats();
+
+    const fetchNewConnectRequests = async () => {
+      try {
+        const response = await axios.get("/api/user/connect-requests");
+        setNewConnectRequests(response.data);
+      } catch (err) {
+        console.log("Failed to fetch connect requests");
+        console.error(err);
+      }
+    };
+
+    fetchNewConnectRequests();
   }, []);
 
   useEffect(() => {
@@ -150,6 +165,7 @@ const MainSidebar = () => {
         inactiveLinkStyles={inactiveLinkStyles}
         activeLinkStyles={activeLinkStyles}
         newChats={newChats}
+        newConnectRequests={newConnectRequests}
       />
       <aside
         className={cn(
@@ -241,6 +257,16 @@ const MainSidebar = () => {
                   )}
                 />
                 {!isCompact && "My Network"}
+                {newConnectRequests.length > 0 && (
+                  <div
+                    className={cn(
+                      "rounded-full p-1 bg-focus/90 text-white h-6 w-6 flex items-center justify-center",
+                      isCompact && "absolute right-0 -top-1"
+                    )}
+                  >
+                    {newConnectRequests.length}
+                  </div>
+                )}
               </Link>
             </li>
             <li className="mt-auto flex items-center">
