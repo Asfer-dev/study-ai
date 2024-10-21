@@ -66,3 +66,16 @@ export async function fetchUser(userId: string): Promise<IUser | null> {
     return null;
   }
 }
+
+export async function fetchUserName(userId: string): Promise<IUser | null> {
+  try {
+    await connectToDB();
+
+    const users = (await UserModel.findById(userId).select("name")) as IUser;
+
+    return users;
+  } catch (error) {
+    console.error("Failed to fetch users:", error);
+    return null;
+  }
+}

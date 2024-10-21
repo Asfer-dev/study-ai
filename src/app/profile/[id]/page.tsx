@@ -2,10 +2,40 @@ import PostCard from "@/components/PostCard";
 import PostsContainer from "@/components/PostsContainer";
 import ProfileImage from "@/components/ProfileImage";
 import { fetchPosts } from "@/helpers/fetch-posts";
-import { fetchUser } from "@/helpers/fetch-users";
+import { fetchUser, fetchUserName } from "@/helpers/fetch-users";
+import { authOptions } from "@/lib/auth";
 import { IPost } from "@/types/db";
-import { useSession } from "next-auth/react";
+import { Metadata } from "next";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+
+// DYNAMIC PAGE TITLE
+interface Props {
+  params: { id: string };
+}
+
+// Simulated data fetching function
+async function fetchData(id: string) {
+  const classroom = await fetchUserName(id);
+
+  return classroom;
+}
+
+// `generateMetadata` to customize the metadata dynamically based on fetched data
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // Fetch the data using the id
+  const data = await fetchData(params.id);
+
+  if (data) {
+    return {
+      title: `${data.name} | study.ai`, // Title based on fetched data
+    };
+  } else {
+    return {
+      title: "Profile | study.ai",
+    };
+  }
+}
 
 interface ProfilePageProps {
   params: {
@@ -14,7 +44,7 @@ interface ProfilePageProps {
 }
 
 const ProfilePage = async ({ params }: ProfilePageProps) => {
-  const { data: session } = useSession();
+  const session = await getServerSession(authOptions);
   if (!session) notFound();
 
   const { id } = params;
