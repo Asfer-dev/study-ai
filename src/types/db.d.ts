@@ -12,7 +12,7 @@ export interface IUser extends Document {
   following: Types.ObjectId[] | IUser[];
   connects: Types.ObjectId[];
   connect_requests: Types.ObjectId[];
-  posts: Types.ObjectId[] | IPost[];
+  posts: Types.ObjectId[];
   chats: Types.ObjectId[];
   notifications: string[];
   profileColor?: string;
@@ -101,7 +101,7 @@ export interface IMessage extends Document {
 
 export interface IChat extends Document {
   _id: Types.ObjectId;
-  participants: Types.ObjectId[];
+  participants: Types.ObjectId[] | IUser[];
   messages: Types.ObjectId[];
   unread_messages: Types.ObjectId[];
 }

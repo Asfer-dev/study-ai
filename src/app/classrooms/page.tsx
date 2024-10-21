@@ -1,4 +1,3 @@
-import { joinClassroom } from "@/app/_actions/classroomAction";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { notFound } from "next/navigation";
@@ -7,7 +6,6 @@ import NewClassroomForm from "@/components/NewClassroomForm";
 import JoinClassroomForm from "@/components/JoinClassroomForm";
 import { IUser } from "@/types/db";
 import ClassroomCard from "@/components/ClassroomCard";
-import Head from "next/head";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,9 +17,12 @@ const ClassroomsPage = async () => {
   if (!session) notFound();
   const classrooms = await fetchClassrooms(session.user._id, session.user.role);
 
-  function isIUser(owner: any): owner is IUser {
+  function isIUser(owner: unknown): owner is IUser {
     return (
-      owner && typeof owner === "object" && "name" in owner && "email" in owner
+      typeof owner === "object" &&
+      owner !== null && // Ensure owner is not null
+      "name" in owner &&
+      "email" in owner
     );
   }
 

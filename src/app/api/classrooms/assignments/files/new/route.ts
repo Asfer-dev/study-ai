@@ -4,7 +4,7 @@ import File from "@/models/file"; // Import the File model
 import Classroom from "@/models/classroom";
 import { IFile, IClassroom } from "@/types/db";
 import { getServerSession } from "next-auth";
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 
 export async function POST(req: Request) {
   const {

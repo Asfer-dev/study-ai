@@ -5,11 +5,9 @@ import { FC, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import TextareaAutosize from "react-textarea-autosize";
 import { IUser } from "@/types/db";
-import { Types } from "mongoose";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { chatHrefConstructor } from "@/lib/utils";
 
 interface ChatInputProps {
   chatPartner: IUser;
@@ -27,7 +25,6 @@ const ChatInput: FC<ChatInputProps> = ({
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
-  const router = useRouter();
 
   const sendMessage = async () => {
     const trimmedText = input.trim();

@@ -4,7 +4,7 @@ import { connectToDB } from "@/lib/database";
 import User from "@/models/user";
 import { deleteProfilePhotoFromS3 } from "@/lib/delete-media";
 
-export async function DELETE(req: Request) {
+export async function DELETE() {
   try {
     const session = await getServerSession(authOptions);
 

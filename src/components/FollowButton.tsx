@@ -7,10 +7,9 @@ import toast from "react-hot-toast";
 import { Loader2, UserPlus } from "lucide-react";
 
 const FollowButton = ({
-  sessionUserId,
   toFollowUserId,
 }: {
-  sessionUserId: string;
+  sessionUserId?: string;
   toFollowUserId: string;
 }) => {
   const [isFollowed, setIsFollowed] = useState<boolean>(false);

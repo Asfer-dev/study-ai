@@ -1,4 +1,3 @@
-import { PostData } from "@/components/NewPostBox";
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
 import Post from "@/models/post";

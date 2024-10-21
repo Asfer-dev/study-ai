@@ -1,5 +1,5 @@
 "use client";
-import { IConnectRequest, IUser } from "@/types/db";
+import { IConnectRequest } from "@/types/db";
 import React from "react";
 import { Button } from "./ui/button";
 import axios from "axios";

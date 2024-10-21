@@ -3,11 +3,9 @@ import PostsContainer from "@/components/PostsContainer";
 import ProfileImage from "@/components/ProfileImage";
 import { fetchPosts } from "@/helpers/fetch-posts";
 import { fetchUser } from "@/helpers/fetch-users";
-import { IPost, IUser } from "@/types/db";
-import axios from "axios";
+import { IPost } from "@/types/db";
 import { useSession } from "next-auth/react";
-import { notFound, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { notFound } from "next/navigation";
 
 interface ProfilePageProps {
   params: {
@@ -16,8 +14,8 @@ interface ProfilePageProps {
 }
 
 const ProfilePage = async ({ params }: ProfilePageProps) => {
-  // const { data: session } = useSession();
-  // if (!session) notFound();
+  const { data: session } = useSession();
+  if (!session) notFound();
 
   const { id } = params;
 
@@ -57,6 +55,7 @@ const ProfilePage = async ({ params }: ProfilePageProps) => {
           {posts.length > 0 ? (
             posts.map((post) => (
               <PostCard
+                sessionId={session.user._id}
                 key={post._id.toString()}
                 post={JSON.parse(JSON.stringify(post))}
               />

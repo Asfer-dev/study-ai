@@ -9,12 +9,7 @@ interface DialogProps {
   children: React.ReactNode;
 }
 
-const Dialog: React.FC<DialogProps> = ({
-  isOpen,
-  onClose,
-  className,
-  children,
-}) => {
+const Dialog: React.FC<DialogProps> = ({ isOpen, className, children }) => {
   const [shouldRender, setShouldRender] = useState(isOpen);
 
   // Effect to handle when to start unmounting the dialog

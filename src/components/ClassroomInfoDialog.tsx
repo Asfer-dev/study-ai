@@ -10,7 +10,7 @@ import {
 import ProfileCard from "./ProfileCard";
 import Dialog from "./Dialog";
 import toast from "react-hot-toast";
-import { CopyIcon, Files } from "lucide-react";
+import { CopyIcon } from "lucide-react";
 
 interface ClassroomInfoDialogProps {
   isOpen: boolean;

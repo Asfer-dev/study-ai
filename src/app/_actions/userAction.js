@@ -1,11 +1,11 @@
-'use server';
-import bcrypt from 'bcrypt';
+"use server";
+import bcrypt from "bcrypt";
 
-import { newPost } from '../_actions/postAction';
-import { connectToDB } from '../../lib/database';
-import Student from '../../models/student';
-import Teacher from '../../models/teacher';
-import User from '../../models/user';
+import { newPost } from "../_actions/postAction";
+import { connectToDB } from "../../lib/database";
+import Student from "../../models/student";
+import Teacher from "../../models/teacher";
+import User from "../../models/user";
 
 export async function getUsers() {
   try {
@@ -35,7 +35,7 @@ export async function getTeachers() {
   try {
     await connectToDB();
 
-    const teachers = await Teacher.find({ role: 'teacher' });
+    const teachers = await Teacher.find({ role: "teacher" });
 
     return JSON.stringify(teachers);
   } catch (error) {
@@ -47,7 +47,7 @@ export async function getStudents() {
   try {
     await connectToDB();
 
-    const students = await Student.find({ role: 'student' });
+    const students = await Student.find({ role: "student" });
 
     return JSON.stringify(students);
   } catch (error) {
@@ -64,27 +64,27 @@ export async function newUser(data) {
 
     const existingUsers = await User.find({ email: email });
     if (existingUsers[0]) {
-      throw Error('User with email ' + email + ' already exists');
+      throw Error("User with email " + email + " already exists");
     }
 
     let newUser;
-    if (role === 'teacher') {
+    if (role === "teacher") {
       newUser = new Teacher({
         email,
         password,
       });
-    } else if (role === 'student') {
+    } else if (role === "student") {
       newUser = new Student({
         email,
         password,
       });
     } else {
-      throw Error('Invalid role');
+      throw Error("Invalid role");
     }
 
     await newUser.save();
 
-    console.log('User created successfully');
+    console.log("User created successfully");
   } catch (error) {
     console.log(error);
   }
@@ -100,14 +100,14 @@ export async function updateUser(data) {
 
     user.save();
 
-    console.log('User updated successfully');
+    console.log("User updated successfully");
   } catch (error) {
     console.log(error);
   }
 }
 
 export async function changePassword(uid, formData) {
-  const { oldPassword, newPassword, confirmPassword } = formData;
+  const { oldPassword, newPassword } = formData;
   try {
     await connectToDB();
 
@@ -118,9 +118,9 @@ export async function changePassword(uid, formData) {
     if (isMatch) {
       user.password = newPassword;
       await user.save();
-      console.log('new password set');
+      console.log("new password set");
     } else {
-      throw Error('old password does not match');
+      throw Error("old password does not match");
     }
   } catch (error) {
     console.log(error);
@@ -129,7 +129,7 @@ export async function changePassword(uid, formData) {
 
 export async function addFollow(followerId, toFollowId) {
   if (followerId === toFollowId) {
-    console.log('user cannot follow themself');
+    console.log("user cannot follow themself");
     return;
   }
   try {
@@ -138,7 +138,7 @@ export async function addFollow(followerId, toFollowId) {
     const user = await User.findById(followerId);
     const toFollowUser = await User.findById(toFollowId);
     if (user.following.includes(toFollowId)) {
-      console.log('user is already following ' + toFollowUser.email);
+      console.log("user is already following " + toFollowUser.email);
       return;
     }
 
@@ -148,7 +148,7 @@ export async function addFollow(followerId, toFollowId) {
     toFollowUser.followers.push(followerId);
     toFollowUser.save();
 
-    console.log(user.email + ' followed ' + toFollowUser.email);
+    console.log(user.email + " followed " + toFollowUser.email);
   } catch (error) {
     console.log(error);
   }
@@ -164,7 +164,7 @@ export async function addPost(userId, postData) {
     user.posts.push(post._id);
     await user.save();
 
-    console.log('post added to user');
+    console.log("post added to user");
   } catch (error) {
     console.log(error);
   }

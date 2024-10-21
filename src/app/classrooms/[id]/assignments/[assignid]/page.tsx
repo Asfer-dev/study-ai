@@ -1,4 +1,4 @@
-import { IAssignment, IFile, IUser } from "@/types/db";
+import { IUser } from "@/types/db";
 import React from "react";
 import { formatDate, getFileSizeInMB, getFileType } from "@/lib/utils";
 import { getServerSession } from "next-auth";
@@ -6,9 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { notFound } from "next/navigation";
 import { fetchAssignmentById } from "@/helpers/fetch-assignments";
 import { fetchClassroomOwnerId } from "@/helpers/fetch-classroom-owner-id";
-import { Button } from "@/components/ui/button";
 import ProfileCard from "@/components/ProfileCard";
-import FileCard from "@/components/FileCard";
 import { File, FileArchive, FileText, FileVideo, Image } from "lucide-react";
 import AssignmentanswerForm from "@/components/AssignmentanswerForm";
 
@@ -29,6 +27,7 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
   try {
     assignment = await fetchAssignmentById(assignid, isOwner);
   } catch (error) {
+    console.log(error);
     notFound();
   }
   if (!assignment) notFound();
@@ -105,8 +104,11 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
           </h3>
           <ol className="submission_list list-decimal list-inside pl-5">
             {assignment.submissions.map((submission) => (
-              <li className="flex w-fit gap-4 items-center">
-                <div key={submission._id.toString()} className="flex flex-col">
+              <li
+                className="flex w-fit gap-4 items-center"
+                key={submission._id.toString()}
+              >
+                <div className="flex flex-col">
                   <div className="flex w-fit gap-4 items-center">
                     <div className="w-fit">
                       {"answerFile" in submission &&

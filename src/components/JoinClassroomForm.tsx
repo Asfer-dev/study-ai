@@ -13,7 +13,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -49,13 +48,26 @@ const JoinClassroomForm = () => {
         joinClassroomForm.reset();
         router.refresh();
       }
-    } catch (error: any) {
-      if (error.response && error.response.status === 404) {
-        toast.error("Classroom does not exist"); // Show error when classroom doesn't exist
-      } else if (error.response && error.response.status === 400) {
-        toast.error(error.response.data); // Handle other 400 errors (like already joined/enrolled)
+    } catch (error: unknown) {
+      // Change from 'any' to 'unknown'
+      // Handle different types of errors
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          if (error.response.status === 404) {
+            toast.error("Classroom does not exist"); // Show error when classroom doesn't exist
+          } else if (error.response.status === 400) {
+            toast.error(error.response.data); // Handle other 400 errors (like already joined/enrolled)
+          } else {
+            toast.error("Failed to join classroom"); // General error handling
+          }
+        } else {
+          toast.error("No response from the server"); // Handle network errors
+        }
+      } else if (error instanceof Error) {
+        // Handle other errors (general JavaScript errors)
+        toast.error(`Error: ${error.message}`);
       } else {
-        toast.error("Failed to join classroom"); // General error handling
+        toast.error("An unexpected error occurred."); // Handle unexpected errors
       }
     }
 

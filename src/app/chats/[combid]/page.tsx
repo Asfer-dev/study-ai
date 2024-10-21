@@ -4,10 +4,7 @@ import ProfileImage from "@/components/ProfileImage";
 import { fetchChatPartnerName } from "@/helpers/fetch-chat-partner-name";
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
-import {
-  TMessage,
-  messageArraySchema,
-} from "@/lib/validation-schemas/message-schema";
+import { messageArraySchema } from "@/lib/validation-schemas/message-schema";
 import Chat from "@/models/chat";
 import Message from "@/models/message";
 import User from "@/models/user";
@@ -15,7 +12,6 @@ import { IChat, IMessage, IUser } from "@/types/db";
 import mongoose, { Types } from "mongoose";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -140,10 +136,11 @@ const ChatPage = async ({ params }: PageProps) => {
     notFound();
   }
 
-  const partnerId =
+  const partnerId = (
     user._id.toString() === chat.participants[0].toString()
       ? chat.participants[1]
-      : chat.participants[0];
+      : chat.participants[0]
+  ) as Types.ObjectId;
   const chatPartner = await getChatPartner(partnerId);
   if (!chatPartner) notFound();
 

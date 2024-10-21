@@ -1,4 +1,3 @@
-import Post from "@/models/post";
 import User from "@/models/user";
 import { IPost, IUser } from "@/types/db";
 import { fetchPosts } from "./fetch-posts";
@@ -31,8 +30,10 @@ export async function getUserFeed(userId: string): Promise<IPost[]> {
 
     // Sort the combined posts by creation date (latest first)
     posts.sort((a, b) => {
-      const aTime = a.createdAt ? a.createdAt.getTime() : 0; // Fallback to 0 if createdAt is undefined
-      const bTime = b.createdAt ? b.createdAt.getTime() : 0; // Fallback to 0 if createdAt is undefined
+      const aTime =
+        typeof a.createdAt === "string" ? new Date(a.createdAt).getTime() : 0;
+      const bTime =
+        typeof b.createdAt === "string" ? new Date(b.createdAt).getTime() : 0;
       return bTime - aTime; // Sort by createdAt timestamp
     });
 

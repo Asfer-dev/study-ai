@@ -1,6 +1,5 @@
 import { connectToDB } from "@/lib/database";
 import User from "@/models/user";
-import { IConnectRequest, IUser } from "@/types/db";
 import { Types } from "mongoose";
 
 export const fetchConnects = async (

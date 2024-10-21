@@ -3,7 +3,7 @@ import { authOptions } from "@/lib/auth";
 import mongoose from "mongoose";
 import Chat from "@/models/chat";
 
-export async function GET(req: Request) {
+export async function GET() {
   // Get the session
   const session = await getServerSession(authOptions);
 

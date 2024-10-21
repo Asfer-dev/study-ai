@@ -24,10 +24,7 @@ const ClassroomCardMenu = ({
   return (
     <>
       <CardMenu buttonClassName="ml-auto" menuClassName="right-0 top-8">
-        <ClassroomInfoButton
-          setIsDialogOpen={setIsDialogOpen}
-          classroom={JSON.parse(JSON.stringify(classroom))}
-        />
+        <ClassroomInfoButton setIsDialogOpen={setIsDialogOpen} />
         {/* Delete Button */}
         {isTeacher && (
           <ClassroomDeleteButton classroomId={classroom._id.toString()} />

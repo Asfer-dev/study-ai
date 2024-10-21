@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { getServerSession } from "next-auth";
@@ -21,7 +20,7 @@ const allowedFileTypes = [
 ];
 const maxFileSize = 10 * 1024 * 1024; // 10MB limit, adjust as needed
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const { filename, filetype, filesize, checksum } = await req.json();
 
   const session = await getServerSession(authOptions);

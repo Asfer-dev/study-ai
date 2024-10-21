@@ -45,7 +45,7 @@ export const fetchAssignmentById = async (
     if (assignmentId) {
       await connectToDB();
 
-      let assignment: IAssignment | null;
+      let assignment: IAssignment | null = null;
 
       // Fetch the assignment document
       assignment = (await Assignment.findById(assignmentId)

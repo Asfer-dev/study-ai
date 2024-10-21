@@ -21,14 +21,14 @@ export const assignmentFormSchema = z.object({
 });
 
 // Example usage of validation
-const validateAssignmentForm = (data: any) => {
-  try {
-    const parsedForm = assignmentFormSchema.parse(data);
-    return parsedForm;
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return error.errors; // Now we can safely access error.errors
-    }
-    return "An unexpected error occurred"; // Handle other unknown errors
-  }
-};
+// const validateAssignmentForm = (data: any) => {
+//   try {
+//     const parsedForm = assignmentFormSchema.parse(data);
+//     return parsedForm;
+//   } catch (error) {
+//     if (error instanceof z.ZodError) {
+//       return error.errors; // Now we can safely access error.errors
+//     }
+//     return "An unexpected error occurred"; // Handle other unknown errors
+//   }
+// };

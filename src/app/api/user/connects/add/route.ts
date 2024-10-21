@@ -5,6 +5,7 @@ import { connectToDB } from "@/lib/database";
 import { z } from "zod";
 import { addConnectSchema } from "@/lib/validation-schemas/add-connect-schema";
 import { IUser } from "@/types/db";
+import mongoose from "mongoose";
 
 export async function POST(req: Request) {
   try {
@@ -33,19 +34,26 @@ export async function POST(req: Request) {
       });
     }
 
-    if (userToAdd.connect_requests?.includes(session.user._id)) {
+    if (
+      userToAdd.connect_requests?.some(
+        (uid) => uid.toString() === session.user._id
+      )
+    ) {
       return new Response("Already sent the connection request", {
         status: 400,
       });
     }
-    if (userToAdd.connects?.includes(session.user._id)) {
+    if (
+      userToAdd.connects?.some((uid) => uid.toString() === session.user._id)
+    ) {
       return new Response("Already has connect with this user", {
         status: 400,
       });
     }
 
     //valid request
-    userToAdd.connect_requests.push(session.user._id);
+    const userObjectId = new mongoose.Types.ObjectId(session.user._id);
+    userToAdd.connect_requests.push(userObjectId);
     userToAdd.save();
 
     // pusherServer.trigger(

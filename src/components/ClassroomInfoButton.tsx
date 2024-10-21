@@ -1,19 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "./ui/button";
-import Dialog from "./ClassroomInfoDialog";
-import { IClassroom } from "@/types/db";
 import { Info } from "lucide-react";
 
 interface ClassroomInfoButtonProps {
-  classroom: IClassroom;
   setIsDialogOpen: (value: boolean) => void; // Function type that sets the dialog state
 }
 
-const ClassroomInfoButton = ({
-  classroom,
-  setIsDialogOpen,
-}: ClassroomInfoButtonProps) => {
+const ClassroomInfoButton = ({ setIsDialogOpen }: ClassroomInfoButtonProps) => {
   const handleInfoClick = () => {
     setIsDialogOpen(true);
   };

@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import toast from "react-hot-toast";
-import mongoose, { Types } from "mongoose";
-import { useSession } from "next-auth/react";
+import { Types } from "mongoose";
 import { Heart } from "lucide-react";
 
 interface LikeButtonProps {
@@ -52,7 +51,7 @@ const LikeButton = ({
     if (postId) {
       checkIfLiked();
     }
-  }, [postId]);
+  }, [postId, likes, sessionId]);
 
   const likePost = async () => {
     try {

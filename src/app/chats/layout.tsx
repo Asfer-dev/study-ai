@@ -1,11 +1,8 @@
 import ChatPartnersList from "@/components/ChatPartnersList";
-import ProfileImage from "@/components/ProfileImage";
 import { fetchConnects } from "@/helpers/fetch-connects";
 import { authOptions } from "@/lib/auth";
-import { chatHrefConstructor } from "@/lib/utils";
 import { IUser } from "@/types/db";
 import { getServerSession } from "next-auth";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 

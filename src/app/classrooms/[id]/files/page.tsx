@@ -4,8 +4,6 @@ import { fetchClassroomOwnerId } from "@/helpers/fetch-classroom-owner-id";
 import { fetchClassroom } from "@/helpers/fetch-classrooms";
 import { fetchFiles } from "@/helpers/fetch-files";
 import { authOptions } from "@/lib/auth";
-import { connectToDB } from "@/lib/database";
-import Classroom from "@/models/classroom";
 import { IFile } from "@/types/db";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";

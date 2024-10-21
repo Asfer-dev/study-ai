@@ -33,11 +33,17 @@ const ClassroomDeleteButton = ({ classroomId }: ClassroomDeleteButtonProps) => {
       } else {
         toast.error("Error deleting classroom.");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      // Change from 'any' to 'unknown'
       console.error("Error deleting classroom:", error);
       if (axios.isAxiosError(error)) {
+        // Handle Axios error
         toast.error(`Error: ${error.response?.data || "An error occurred"}`);
+      } else if (error instanceof Error) {
+        // Handle general errors
+        toast.error(`Error: ${error.message}`);
       } else {
+        // Handle unexpected errors
         toast.error("An unexpected error occurred.");
       }
     } finally {

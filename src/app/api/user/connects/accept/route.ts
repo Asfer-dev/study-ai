@@ -4,7 +4,7 @@ import { objectIdSchema } from "@/lib/validation-schemas/object-id-schema";
 import Chat from "@/models/chat";
 import UserModel from "@/models/user";
 import { IUser } from "@/types/db";
-import mongoose, { Mongoose, Schema } from "mongoose";
+import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 
@@ -51,7 +51,8 @@ export async function POST(req: Request) {
     );
 
     const addedConnectUser = (await UserModel.findById(idToAdd)) as IUser;
-    addedConnectUser.connects.push(session.user._id);
+    const userObjectId = new mongoose.Types.ObjectId(session.user._id);
+    addedConnectUser.connects.push(userObjectId);
 
     const chat = new Chat({
       participants: [user._id, addedConnectUser._id].sort(),

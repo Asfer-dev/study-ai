@@ -2,7 +2,7 @@ import ClassroomImage from "@/components/ClassroomImage";
 import ProfileCard from "@/components/ProfileCard";
 import { fetchClassroom } from "@/helpers/fetch-classrooms";
 import { authOptions } from "@/lib/auth";
-import { IClassroom, IUser } from "@/types/db";
+import { IUser } from "@/types/db";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";

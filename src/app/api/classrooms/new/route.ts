@@ -68,12 +68,22 @@ export async function POST(req: Request) {
         return new Response(JSON.stringify({ classroomId: newClassroom._id }), {
           status: 201,
         });
-      } catch (error: any) {
-        if (error.code === 11000 && error.keyPattern?.code) {
-          // Handle duplicate classroom code, regenerate and retry
-          code = generateClassroomCode();
+      } catch (error: unknown) {
+        // Use unknown instead of any
+        if (error instanceof Error) {
+          // Type narrowing
+          if (
+            (error as any).code === 11000 &&
+            (error as any).keyPattern?.code
+          ) {
+            // Handle duplicate classroom code, regenerate and retry
+            code = generateClassroomCode();
+          } else {
+            console.error(error);
+            return new Response("Internal Server Error", { status: 500 });
+          }
         } else {
-          console.error(error);
+          console.error("Unexpected error:", error);
           return new Response("Internal Server Error", { status: 500 });
         }
       }

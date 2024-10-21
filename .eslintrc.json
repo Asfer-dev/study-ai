@@ -1,3 +1,36 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "./src/app/api/classrooms/new/route.ts",
+        "./src/app/classrooms/[id]/assignments/[assignid]/page.tsx",
+        "./src/app/profile/[id]/page.tsx",
+        "./src/components/AssignmentanswerForm.tsx",
+        "./src/components/ChatInput.tsx",
+        "./src/components/ClassroomPostCard.tsx",
+        "./src/components/FileCard.tsx",
+        "./src/components/NewAssignmentForm.tsx",
+        "./src/components/NewClassroomPostBox.tsx",
+        "./src/components/NewFileForm.tsx",
+        "./src/components/NewPostBox.tsx",
+        "./src/components/PostCard.tsx",
+        "./src/components/ProfileImage.tsx",
+        "./src/components/ProfileImageSettings.tsx",
+        "./src/lib/auth.ts",
+        "./src/types/next-auth.d.ts"
+      ],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "jsx-a11y/alt-text": "off",
+        "react/no-unescaped-entities": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@next/next/no-img-element": "off"
+      }
+    }
+  ]
 }

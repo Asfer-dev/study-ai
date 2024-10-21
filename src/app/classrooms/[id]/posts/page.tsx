@@ -3,7 +3,7 @@ import NewClassroomPostBox from "@/components/NewClassroomPostBox";
 import { fetchClassroomPosts } from "@/helpers/fetch-classroom-posts";
 import { fetchClassroom } from "@/helpers/fetch-classrooms";
 import { authOptions } from "@/lib/auth";
-import { IPost, IUser } from "@/types/db";
+import { IPost } from "@/types/db";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";

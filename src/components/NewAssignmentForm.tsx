@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import {
-  ArrowUpFromLine,
   File,
   FileArchive,
   FileText,
@@ -31,7 +30,6 @@ import {
 } from "./ui/form";
 import { assignmentFormSchema } from "@/lib/validation-schemas/assignment-form-schema";
 import TextareaAutosize from "react-textarea-autosize";
-import { IFile } from "@/types/db";
 
 interface AssignmentData {
   title: string;
@@ -50,21 +48,21 @@ const NewAssignmentForm = ({ classroomId }: { classroomId: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  const handleAssignmentDataChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setassignmentData((prev) => {
-      return { ...assignmentData, [e.target.name]: e.target.value };
-    });
-  };
-  const handleQuestionFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setassignmentData((prev) => {
-      return {
-        ...assignmentData,
-        questionFile: e.target.files ? e.target.files[0] : undefined,
-      };
-    });
-  };
+  // const handleAssignmentDataChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setassignmentData((prev) => {
+  //     return { ...assignmentData, [e.target.name]: e.target.value };
+  //   });
+  // };
+  // const handleQuestionFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setassignmentData((prev) => {
+  //     return {
+  //       ...assignmentData,
+  //       questionFile: e.target.files ? e.target.files[0] : undefined,
+  //     };
+  //   });
+  // };
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);

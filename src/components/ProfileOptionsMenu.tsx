@@ -1,17 +1,9 @@
 "use client";
 
-import { ButtonHTMLAttributes, FC, useState } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 import { Button } from "./ui/button";
-import {
-  Bolt,
-  CircleChevronUp,
-  EllipsisVertical,
-  Menu,
-  Settings,
-} from "lucide-react";
-import CardMenu from "./CardMenu";
+import { Settings } from "lucide-react";
 import SignOutButton from "./SignOutButton";
-import { ModeToggle } from "./ThemeToggleButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +12,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -39,10 +30,7 @@ interface ProfileOptionsMenuProps
   isCompact: boolean;
 }
 
-const ProfileOptionsMenu: FC<ProfileOptionsMenuProps> = ({
-  buttonContent,
-  isCompact,
-}) => {
+const ProfileOptionsMenu: FC<ProfileOptionsMenuProps> = ({ isCompact }) => {
   const { data: session } = useSession();
   if (!session) notFound();
 

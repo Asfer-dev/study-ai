@@ -9,7 +9,6 @@ import ProfileImage from "./ProfileImage";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { computeSHA256 } from "@/lib/utils";
-import { IUser } from "@/types/db";
 import { useRouter } from "next/navigation";
 
 export interface PostData {
@@ -19,7 +18,7 @@ export interface PostData {
 
 const NewPostBox = ({ sessionUser }: { sessionUser: User }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const mediaRef = useRef<HTMLTextAreaElement | null>(null);
+  // const mediaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [postData, setPostData] = useState<PostData>({
     input: "",

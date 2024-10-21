@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "./Logo";
 import Link from "next/link";
 import { chatHrefConstructor, cn, toPusherKey } from "@/lib/utils";
-import { notFound, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ProfileImage from "./ProfileImage";
 import ProfileOptionsMenu from "./ProfileOptionsMenu";
@@ -57,7 +57,7 @@ const MainSidebar = () => {
         await removeUnreadMessages(chatPartnerId);
       }
     });
-  }, [pathname]);
+  }, [pathname, newChats]);
 
   useEffect(() => {
     const fetchNewChats = async () => {
@@ -133,7 +133,7 @@ const MainSidebar = () => {
         // pusherClient.unbind("new_friend", newFriendHandler);
       };
     }
-  }, [pathname, session?.user._id]);
+  }, [pathname, session?.user._id, session?.user, status]);
 
   if (status === "loading" || !session) {
     return <></>; // Still loading the session

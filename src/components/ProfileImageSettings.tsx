@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 import Dialog from "./Dialog";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 
 const ProfileImageSettings = ({ session }: { session: Session }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

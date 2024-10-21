@@ -1,6 +1,5 @@
 import { IAssignment } from "@/types/db";
 import React from "react";
-import { Button } from "./ui/button";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import CardMenu from "./CardMenu";

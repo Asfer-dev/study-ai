@@ -1,7 +1,6 @@
 import { connectToDB } from "@/lib/database";
 import Chat from "@/models/chat";
-import User from "@/models/user";
-import { Types } from "mongoose";
+import { IChat } from "@/types/db";
 
 /**
  * Fetches the name of the chat partner given a combined ID of two users.
@@ -24,9 +23,9 @@ export async function fetchChatPartnerName(
     await connectToDB();
 
     // Find the chat by participants
-    const chat = await Chat.findOne({
+    const chat = (await Chat.findOne({
       participants: { $all: [userId1, userId2] }, // Ensure both users are participants
-    }).populate("participants"); // Populate participant details
+    }).populate("participants")) as IChat; // Populate participant details
 
     // If chat not found, return null
     if (!chat) {
@@ -39,7 +38,7 @@ export async function fetchChatPartnerName(
     );
 
     // Return the chat partner's name or null if not found
-    return chatPartner ? chatPartner.name : null;
+    return chatPartner && "name" in chatPartner ? chatPartner.name : null;
   } catch (error) {
     console.error("Error fetching chat partner name:", error);
     return null; // Return null in case of any error

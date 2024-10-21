@@ -26,7 +26,8 @@ const ConnectButton = ({ email }: ConnectButtonProps) => {
       } else {
         toast.error(`Error: ${response.data}`);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      // Change from 'any' to 'unknown'
       // Handle different types of errors
       if (axios.isAxiosError(error)) {
         if (error.response) {
@@ -55,8 +56,11 @@ const ConnectButton = ({ email }: ConnectButtonProps) => {
           // Handle other errors
           toast.error("An unexpected error occurred.");
         }
+      } else if (error instanceof Error) {
+        // Handle non-Axios errors (general JavaScript errors)
+        toast.error(`Error: ${error.message}`);
       } else {
-        // Handle non-Axios errors
+        // Handle unexpected errors
         toast.error("An unexpected error occurred.");
       }
     } finally {

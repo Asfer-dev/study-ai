@@ -4,15 +4,11 @@ import { IFile } from "@/types/db";
 import React from "react";
 import {
   ArrowDownToLine,
-  ArrowUpFromLine,
   File,
   FileArchive,
   FileText,
   FileVideo,
-  Files,
   Image,
-  Loader2,
-  Plus,
 } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";

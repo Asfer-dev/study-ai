@@ -1,7 +1,7 @@
 import { connectToDB } from "@/lib/database";
 import Classroom from "@/models/classroom";
 import User from "@/models/user";
-import { IClassroom, ITeacher } from "@/types/db";
+import { IClassroom } from "@/types/db";
 
 export async function fetchClassrooms(
   userId: string,

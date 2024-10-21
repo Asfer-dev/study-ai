@@ -9,8 +9,7 @@ import UserModel from "@/models/user";
 export async function POST(req: Request) {
   const signupData = await req.json();
   const validatedData = signupSchema.parse(signupData);
-  const { firstName, lastName, email, password, confirmPassword, role } =
-    validatedData;
+  const { firstName, lastName, email, password, role } = validatedData;
 
   try {
     await connectToDB();
@@ -45,6 +44,7 @@ export async function POST(req: Request) {
 
     return new Response("OK", { status: 200 });
   } catch (error) {
+    console.log(error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }

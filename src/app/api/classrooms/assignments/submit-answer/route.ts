@@ -2,11 +2,10 @@ import { connectToDB } from "@/lib/database";
 import Assignment from "@/models/assignment";
 import Assignmentanswer from "@/models/assignmentanswer";
 import User from "@/models/user";
-import File from "@/models/file";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { IAssignmentanswer, IClassroom } from "@/types/db";
-import mongoose, { Types } from "mongoose";
+import { IClassroom } from "@/types/db";
+import mongoose from "mongoose";
 import Classroom from "@/models/classroom";
 
 // API Route to submit an assignment answer

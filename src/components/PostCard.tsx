@@ -10,7 +10,7 @@ import LikeButton from "./LikeButton";
 import CardMenu from "./CardMenu";
 import PostDeleteButton from "./PostDeleteButton";
 import { getFileTypeFromUrl, timeAgo } from "@/lib/utils";
-import { CopyIcon, Share2, SquareArrowOutUpRight } from "lucide-react";
+import { CopyIcon, SquareArrowOutUpRight } from "lucide-react";
 import Dialog from "./Dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";

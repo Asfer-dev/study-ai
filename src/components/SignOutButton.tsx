@@ -1,18 +1,15 @@
 "use client";
 
-import { Loader2, LogOut } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { ButtonHTMLAttributes, FC, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Button } from "./ui/button";
 
-interface SignOutButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
-
-const SignOutButton: FC<SignOutButtonProps> = ({ ...props }) => {
+const SignOutButton = () => {
   const [isSigningOut, setIsSigningOut] = useState<boolean>(false);
   return (
     <Button
-      {...props}
       variant="ghost"
       className="flex gap-2 hover:bg-transparent w-full justify-start"
       onClick={async () => {
@@ -20,6 +17,7 @@ const SignOutButton: FC<SignOutButtonProps> = ({ ...props }) => {
         try {
           await signOut();
         } catch (error) {
+          console.log(error);
           toast.error("There was a problem signing out");
         } finally {
           setIsSigningOut(false);

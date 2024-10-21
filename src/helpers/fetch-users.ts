@@ -1,5 +1,3 @@
-import { User } from "next-auth";
-
 import { connectToDB } from "@/lib/database";
 
 import UserModel from "@/models/user";

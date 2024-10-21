@@ -9,7 +9,6 @@ import ProfileImage from "./ProfileImage";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { computeSHA256 } from "@/lib/utils";
-import { IUser } from "@/types/db";
 import { useRouter } from "next/navigation";
 
 export interface PostData {
@@ -25,7 +24,7 @@ const NewClassroomPostBox = ({
   sessionUser: User;
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const mediaRef = useRef<HTMLTextAreaElement | null>(null);
+  // const mediaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [postData, setPostData] = useState<PostData>({
     input: "",
@@ -125,9 +124,7 @@ const NewClassroomPostBox = ({
       );
       console.log("Post created successfully:", newPost);
       toast.success("Post uploaded!");
-      setPostData((prev) => {
-        return { input: "", media: null };
-      });
+      setPostData({ input: "", media: null });
       setMediaPreviews([]);
       router.refresh();
     } catch (error) {
