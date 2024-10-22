@@ -2,7 +2,6 @@ import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
 import * as React from "react";
-import { RiAlarmWarningFill } from "react-icons/ri";
 
 export const metadata: Metadata = {
   title: "Not Found | study.ai",
