@@ -110,7 +110,7 @@ const getChatPartner = async (
     await connectToDB();
 
     const chatPartner = (await User.findById(chatPartnerId).select(
-      "name email profileColor"
+      "name email image profileColor"
     )) as IUser | null;
     return chatPartner;
   } catch (error) {

@@ -20,7 +20,15 @@ export default function Page() {
           collaborative learning
         </p>
       </div>
-
+      <div className="p-4 bg-yellow-200 mb-4 rounded-md text-yellow-800">
+        <p>For testing purposes, use the following account:</p>
+        <p>
+          <b>Email: </b>test@test.com
+        </p>
+        <p>
+          <b>Password: </b>1234
+        </p>
+      </div>
       <div className="flex flex-col w-full items-center justify-center">
         <LoginForm />
       </div>
