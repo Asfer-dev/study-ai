@@ -70,8 +70,10 @@ export function LoginForm() {
       <form onSubmit={loginForm.handleSubmit(onSubmit)}>
         <Card className="mx-auto max-w-sm">
           <CardHeader>
-            <CardTitle className="text-2xl">Login</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-2xl text-focus text-center">
+              Login
+            </CardTitle>
+            <CardDescription className="text-center">
               Enter your email below to login to your account
             </CardDescription>
           </CardHeader>
@@ -119,14 +121,14 @@ export function LoginForm() {
               <Button
                 disabled={isLoading}
                 type="submit"
-                className="w-full flex gap-4"
+                className="w-full flex gap-4 bg-rose-700 hover:bg-rose-700/90 dark:text-white"
               >
                 {isLoading && <Loader2 className="animate-spin w-4" />}
                 <span>Login</span>
               </Button>
-              <Button variant="outline" className="w-full">
+              {/* <Button variant="outline" className="w-full">
                 Login with Google
-              </Button>
+              </Button> */}
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}

@@ -100,8 +100,10 @@ export default function SignupForm() {
       <form onSubmit={signupForm.handleSubmit(onSubmit)}>
         <Card className="mx-auto max-w-sm">
           <CardHeader>
-            <CardTitle className="text-xl">Sign Up</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-xl text-focus text-center">
+              Sign Up
+            </CardTitle>
+            <CardDescription className="text-center">
               Enter your information to create an account
             </CardDescription>
           </CardHeader>
@@ -207,14 +209,14 @@ export default function SignupForm() {
               <Button
                 disabled={isSubmitting}
                 type="submit"
-                className="w-full flex gap-4"
+                className="w-full flex gap-4 bg-rose-700 hover:bg-rose-700/90 dark:text-white"
               >
                 {isSubmitting && <Loader2 className="animate-spin w-4" />}
                 <span>Create an account</span>
               </Button>
-              <Button variant="outline" className="w-full">
+              {/* <Button variant="outline" className="w-full">
                 Sign up with GitHub
-              </Button>
+              </Button> */}
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}

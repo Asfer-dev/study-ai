@@ -1,3 +1,4 @@
+import Logo from "@/components/Logo";
 import { LoginForm } from "@/components/login-form";
 import { Metadata } from "next";
 
@@ -7,8 +8,22 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="flex h-screen w-full items-center justify-center px-4">
-      <LoginForm />
+    <div className="h-screen flex flex-col items-center px-4">
+      <div className="mb-12 mt-8">
+        <Logo
+          className="mb-4 text-5xl"
+          iconClassName="w-16 h-16"
+          isCompact={false}
+        />
+        <p className="max-w-[50ch] text-center text-sm text-zinc-400 dark:text-zinc-600 font-medium">
+          An Educational Technology Platform for students and teachers for
+          collaborative learning
+        </p>
+      </div>
+
+      <div className="flex flex-col w-full items-center justify-center">
+        <LoginForm />
+      </div>
     </div>
   );
 }

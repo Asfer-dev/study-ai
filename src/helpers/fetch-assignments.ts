@@ -89,3 +89,29 @@ export const fetchAssignmentById = async (
     return null;
   }
 };
+
+export const fetchAssignmentTitleById = async (
+  assignmentId: Types.ObjectId | string | undefined
+): Promise<string | null> => {
+  try {
+    if (!assignmentId) {
+      throw new Error(
+        "No assignment ID provided for fetching assignment title"
+      );
+    }
+
+    await connectToDB();
+
+    // Fetch only the title of the assignment
+    const assignment = await Assignment.findById(assignmentId).select("title");
+
+    if (!assignment) {
+      throw new Error("Assignment not found");
+    }
+
+    return assignment.title || null; // Return the title or null if it doesn't exist
+  } catch (error) {
+    console.log("Error fetching assignment title:", error);
+    return null; // Return null in case of any error
+  }
+};

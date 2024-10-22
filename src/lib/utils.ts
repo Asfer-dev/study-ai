@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { format, isToday, isTomorrow, isYesterday } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -81,38 +82,68 @@ export function getFileTypeFromUrl(url: string): "image" | "video" | "unknown" {
   }
 }
 
+// export const formatDate = (createdAt: string): string => {
+//   // Create a Date object from the UTC date string
+//   const date = new Date(createdAt);
+
+//   // Check if the date is valid
+//   if (isNaN(date.getTime())) {
+//     throw new Error("Invalid date");
+//   }
+
+//   // Get the local date and time
+//   const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+
+//   const hours = localDate.getHours() % 12 || 12; // Convert to 12-hour format
+//   const minutes = String(localDate.getMinutes()).padStart(2, "0");
+//   const ampm = localDate.getHours() >= 12 ? "PM" : "AM"; // Determine AM/PM
+//   const formattedTime = `${hours}:${minutes} ${ampm}`;
+
+//   const now = new Date();
+//   const timeDiff = localDate.getTime() - now.getTime();
+//   const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+
+//   // Check for relative dates
+//   if (timeDiff > -oneDay && timeDiff < 0) {
+//     return `Yesterday at ${formattedTime}`;
+//   } else if (timeDiff >= 0 && timeDiff < oneDay) {
+//     return `Today at ${formattedTime}`;
+//   } else if (timeDiff >= oneDay && timeDiff < 2 * oneDay) {
+//     return `Tomorrow at ${formattedTime}`;
+//   } else {
+//     // Return full date for dates further than today or yesterday
+//     const month = String(localDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+//     const day = String(localDate.getDate()).padStart(2, "0");
+//     const year = localDate.getFullYear();
+//     return `${month}/${day}/${year}, ${formattedTime}`;
+//   }
+// };
+
 export const formatDate = (createdAt: string): string => {
-  const date = new Date(createdAt); // Convert the createdAt string to a Date object
+  const date = new Date(createdAt);
 
   // Check if the date is valid
   if (isNaN(date.getTime())) {
     throw new Error("Invalid date");
   }
 
-  const now = new Date();
-  const timeDiff = date.getTime() - now.getTime();
-  const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
-
-  // Get formatted hours and minutes
-  const hours = date.getHours() % 12 || 12; // Convert to 12-hour format
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  const ampm = date.getHours() >= 12 ? "PM" : "AM"; // Determine AM/PM
-  const formattedTime = `${hours}:${minutes} ${ampm}`;
-
-  // Check for relative dates
-  if (timeDiff > -oneDay && timeDiff < 0) {
-    return `Yesterday at ${formattedTime}`;
-  } else if (timeDiff >= 0 && timeDiff < oneDay) {
-    return `Today at ${formattedTime}`;
-  } else if (timeDiff >= oneDay && timeDiff < 2 * oneDay) {
-    return `Tomorrow at ${formattedTime}`;
+  // Determine the appropriate date output
+  let dateOutput: string;
+  if (isToday(date)) {
+    dateOutput = "Today";
+  } else if (isTomorrow(date)) {
+    dateOutput = "Tomorrow";
+  } else if (isYesterday(date)) {
+    dateOutput = "Yesterday";
   } else {
-    // Return full date for dates further than today or yesterday
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${month}/${day}/${year}, ${formattedTime}`;
+    dateOutput = format(date, "MMMM d, yyyy"); // e.g., "October 23, 2024"
   }
+
+  // Format the time in 12-hour format
+  const timeOutput = format(date, "h:mm a"); // e.g., "5:50 PM"
+
+  // Combine date and time outputs
+  return `${dateOutput} at ${timeOutput}`;
 };
 
 export const getFileSizeInMB = (fileSizeStr: string): string => {

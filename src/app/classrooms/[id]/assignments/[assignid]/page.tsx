@@ -4,11 +4,43 @@ import { formatDate, getFileSizeInMB, getFileType } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { notFound } from "next/navigation";
-import { fetchAssignmentById } from "@/helpers/fetch-assignments";
+import {
+  fetchAssignmentById,
+  fetchAssignmentTitleById,
+} from "@/helpers/fetch-assignments";
 import { fetchClassroomOwnerId } from "@/helpers/fetch-classroom-owner-id";
 import ProfileCard from "@/components/ProfileCard";
 import { File, FileArchive, FileText, FileVideo, Image } from "lucide-react";
 import AssignmentanswerForm from "@/components/AssignmentanswerForm";
+import { Metadata } from "next";
+
+// DYNAMIC PAGE TITLE
+interface Props {
+  params: { assignid: string };
+}
+
+// Simulated data fetching function
+async function fetchData(assignid: string) {
+  const classroom = await fetchAssignmentTitleById(assignid);
+
+  return classroom;
+}
+
+// `generateMetadata` to customize the metadata dynamically based on fetched data
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // Fetch the data using the id
+  const name = await fetchData(params.assignid);
+
+  if (name) {
+    return {
+      title: `${name} | study.ai`, // Title based on fetched data
+    };
+  } else {
+    return {
+      title: "Assignment | study.ai",
+    };
+  }
+}
 
 interface AssignmentPageProps {
   params: { id: string; assignid: string };
