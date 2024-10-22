@@ -10,9 +10,11 @@ export async function POST(req: Request) {
   const {
     classroomId,
     fileData,
+    isAnswerFile, // Add isAnswerFile to the request body
   }: {
     classroomId: string;
     fileData: { name: string; size: string; url: string };
+    isAnswerFile: boolean; // Add the boolean field
   } = await req.json();
 
   try {
@@ -31,15 +33,32 @@ export async function POST(req: Request) {
 
     const userObjectId = new mongoose.Types.ObjectId(session.user._id);
 
-    // Check if the user is enrolled in the classroom
-    const isEnrolled = classroom.studentsEnrolled.some((student) =>
-      student._id.equals(userObjectId)
-    );
+    if (isAnswerFile) {
+      // Check if the user is enrolled in the classroom (for answer files)
+      const isEnrolled = classroom.studentsEnrolled.some((student) =>
+        student._id.equals(userObjectId)
+      );
 
-    if (!isEnrolled) {
-      return new Response("Forbidden: User not enrolled in the classroom", {
-        status: 403,
-      });
+      if (!isEnrolled) {
+        return new Response("Forbidden: User not enrolled in the classroom", {
+          status: 403,
+        });
+      }
+    } else {
+      // Check if the user is the owner/teacher of the classroom (for non-answer files)
+      const isOwner =
+        classroom.owner instanceof mongoose.Types.ObjectId
+          ? classroom.owner.equals(userObjectId) // Compare ObjectIds
+          : classroom.owner._id.equals(userObjectId); // Compare if populated (IUser)
+
+      if (!isOwner) {
+        return new Response(
+          "Forbidden: User is not the owner of the classroom",
+          {
+            status: 403,
+          }
+        );
+      }
     }
 
     // Create a new file

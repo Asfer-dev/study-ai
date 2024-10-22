@@ -87,6 +87,7 @@ const AssignmentanswerForm = ({
           {
             classroomId,
             fileData,
+            isAnswerFile: true,
           }
         );
         return response.data;

@@ -126,6 +126,7 @@ const NewAssignmentForm = ({ classroomId }: { classroomId: string }) => {
           {
             classroomId,
             fileData,
+            isAnswerFile: false,
           }
         );
         return response.data;
