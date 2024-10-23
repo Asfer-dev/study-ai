@@ -7,13 +7,20 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ProfileImage from "./ProfileImage";
 import ProfileOptionsMenu from "./ProfileOptionsMenu";
-import { MessageCircle, Newspaper, Notebook, Users } from "lucide-react";
+import {
+  MessageCircle,
+  Newspaper,
+  Notebook,
+  Users,
+  LoaderCircle,
+} from "lucide-react";
 import MobileNavMain from "./MobileNavMain";
 import axios from "axios";
 import { Types } from "mongoose";
 import { pusherClient } from "@/lib/pusher";
 import toast from "react-hot-toast";
 import UnseenChatToast from "./UnseenChatToast";
+import Skeleton from "react-loading-skeleton";
 
 const MainSidebar = () => {
   const [isCompact, setIsCompact] = useState<boolean>(false);
@@ -150,23 +157,33 @@ const MainSidebar = () => {
     }
   }, [pathname, session?.user._id, session?.user, status]);
 
-  if (status === "loading" || !session) {
-    return <></>; // Still loading the session
-  }
+  // if (status === "loading" || !session) {
+  //   return <></>; // Still loading the session
+  // }
   const isActiveLink = (basePath: string) => pathname.startsWith(basePath);
+
+  if (
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname === "/"
+  ) {
+    return <></>;
+  }
 
   return (
     <>
-      <MobileNavMain
-        session={JSON.parse(JSON.stringify(session))}
-        isCompact={isCompact}
-        isActiveLink={isActiveLink}
-        linkStyles={linkStyles}
-        inactiveLinkStyles={inactiveLinkStyles}
-        activeLinkStyles={activeLinkStyles}
-        newChats={newChats}
-        newConnectRequests={newConnectRequests}
-      />
+      {session && (
+        <MobileNavMain
+          session={JSON.parse(JSON.stringify(session))}
+          isCompact={isCompact}
+          isActiveLink={isActiveLink}
+          linkStyles={linkStyles}
+          inactiveLinkStyles={inactiveLinkStyles}
+          activeLinkStyles={activeLinkStyles}
+          newChats={newChats}
+          newConnectRequests={newConnectRequests}
+        />
+      )}
       <aside
         className={cn(
           "hidden md:flex flex-col gap-4 rounded-r-lg transition-all duration-100 border border-zinc-200 dark:border-zinc-700 dark:text-white p-2 h-screen sticky top-0 left-0 bottom-0",
@@ -272,49 +289,65 @@ const MainSidebar = () => {
             <li className="mt-auto flex items-center">
               <div className="flex flex-1 items-center gap-x-4 py-3 justify-center text-sm font-semibold leading-6 text-gray-900">
                 {isCompact ? (
-                  <ProfileOptionsMenu
-                    isCompact={isCompact}
-                    buttonContent={
-                      <ProfileImage
-                        imgUrl={session.user.image}
-                        profileName={session.user.name}
-                        profileId={
-                          !isCompact ? session.user._id.toString() : null
-                        }
-                        profileColor={session.user.profileColor}
-                      />
-                    }
-                  />
+                  session ? (
+                    <ProfileOptionsMenu
+                      isCompact={isCompact}
+                      buttonContent={
+                        <ProfileImage
+                          imgUrl={session.user.image}
+                          profileName={session.user.name}
+                          profileId={
+                            !isCompact ? session.user._id.toString() : null
+                          }
+                          profileColor={session.user.profileColor}
+                        />
+                      }
+                    />
+                  ) : (
+                    <div>
+                      <LoaderCircle className="w-8 h-8 animate-spin text-zinc-600" />
+                    </div>
+                  )
                 ) : (
-                  <ProfileImage
-                    imgUrl={session.user.image}
-                    profileName={session.user.name}
-                    profileId={!isCompact ? session.user._id.toString() : null}
-                    profileColor={session.user.profileColor}
-                  />
+                  session && (
+                    <ProfileImage
+                      imgUrl={session.user.image}
+                      profileName={session.user.name}
+                      profileId={
+                        !isCompact ? session.user._id.toString() : null
+                      }
+                      profileColor={session.user.profileColor}
+                    />
+                  )
                 )}
 
                 <span className="sr-only">Your profile</span>
 
-                {!isCompact && (
-                  <Link
-                    className="hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:text-white p-2 rounded-md"
-                    href={`/profile/${session.user._id}`}
-                  >
-                    <div className="flex flex-col">
-                      <span aria-hidden="true">{session.user.name}</span>
-                      <span
-                        className="text-xs text-zinc-400"
-                        aria-hidden="true"
-                      >
-                        {session.user.email}
-                      </span>
+                {!isCompact &&
+                  (session ? (
+                    <Link
+                      className="hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:text-white p-2 rounded-md"
+                      href={`/profile/${session.user._id}`}
+                    >
+                      <div className="flex flex-col">
+                        <span aria-hidden="true">{session.user.name}</span>
+                        <span
+                          className="text-xs text-zinc-400"
+                          aria-hidden="true"
+                        >
+                          {session.user.email}
+                        </span>
+                      </div>
+                    </Link>
+                  ) : (
+                    <div className="p-2 rounded-md w-full h-[50px] flex gap-4">
+                      <Skeleton height={40} containerClassName="flex-1" />
+                      <Skeleton width={40} height={40} containerClassName="" />
                     </div>
-                  </Link>
-                )}
+                  ))}
               </div>
 
-              {!isCompact && (
+              {!isCompact && session && (
                 <ProfileOptionsMenu isCompact={isCompact} className="h-full" />
               )}
             </li>

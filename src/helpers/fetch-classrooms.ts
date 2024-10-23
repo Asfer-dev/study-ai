@@ -77,6 +77,11 @@ export async function fetchClassroom(
       classroom = (await query) as IClassroom;
     }
 
+    // Simulate delay
+    // console.log("Starting delay...");
+    // await new Promise((resolve) => setTimeout(resolve, 10000)); // 60 seconds delay
+    // console.log("Ending delay...");
+
     return classroom;
   } catch (error) {
     console.log(error);

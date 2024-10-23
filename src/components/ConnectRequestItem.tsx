@@ -40,7 +40,7 @@ const ConnectRequestItem = ({ request }: { request: IConnectRequest }) => {
   return (
     <>
       <ProfileCard user={request} />
-      <div className="space-x-1">
+      <div className="gap-1 flex flex-col sm:flex-row">
         <Button onClick={() => acceptRequest(request._id)}>Accept</Button>
         <Button variant={"outline"} onClick={() => denyRequest(request._id)}>
           Deny

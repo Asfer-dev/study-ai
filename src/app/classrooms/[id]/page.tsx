@@ -59,9 +59,9 @@ const ClassroomPage = async ({ params }: { params: { id: string } }) => {
         </div>
         <div className="text-center">
           <p className="font-semibold">{classroom.name}</p>
-          <p className="font-bold text-sm text-amber-600 mt-4 flex justify-center items-center flex-col">
+          <div className="font-bold text-sm text-amber-600 mt-4 flex justify-center items-center flex-col">
             Owner: <ProfileCard user={classroom.owner as IUser} />
-          </p>
+          </div>
           <p className="font-bold text-sm text-zinc-500 mt-8">Participants:</p>
           <ul className="overflow-auto flex flex-col items-center h-full overflow-y-auto">
             {classroom.studentsEnrolled.map((student) => (

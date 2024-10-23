@@ -57,7 +57,7 @@ const Page = async () => {
             <li key={connectUser._id.toString()}>
               <div className="flex gap-8 items-center w-full justify-between">
                 <ProfileCard user={JSON.parse(JSON.stringify(connectUser))} />
-                <div className="flex">
+                <div className="flex flex-col sm:flex-row">
                   <Link
                     href={`/chats/${chatHrefConstructor(
                       connectUser._id.toString(),
@@ -86,7 +86,7 @@ const Page = async () => {
             <li key={user._id.toString()}>
               <div className="flex gap-8 items-center w-full justify-between">
                 <ProfileCard user={JSON.parse(JSON.stringify(user))} />
-                <div className="flex gap-1">
+                <div className="flex gap-1 flex-col sm:flex-row">
                   <ConnectButton email={user.email} />
                   <FollowButton
                     sessionUserId={session.user._id.toString()}

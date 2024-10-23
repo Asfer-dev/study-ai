@@ -31,17 +31,17 @@ const ClassroomCard = ({ classroom, isTeacher }: ClassroomCardProps) => {
     };
   }, []);
   return (
-    <div className="w-[200px] p-3 ring-1 ring-zinc-200 dark:ring-zinc-700 shadow-sm rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-800 transition duration-100">
-      <div className="relative flex mb-2">
+    <div className="w-[170px] sm:w-[200px] p-2 ring-1 ring-zinc-200 dark:ring-zinc-700 shadow-sm rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 active:bg-zinc-50 dark:active:bg-zinc-900 transition duration-100">
+      <div className="relative flex mb-1 sm:mb-2">
         <ClassroomCardMenu
           isTeacher={isTeacher}
           classroom={JSON.parse(JSON.stringify(classroom))}
         />
       </div>
       <Link href={`classrooms/${classroom._id}/${width > 770 ? "posts" : ""}`}>
-        <div className="grid gap-4">
+        <div className="grid gap-3">
           <div className=" w-full text-6xl mx-auto">
-            <div className="w-[150px] mx-auto">
+            <div className="w-[130px] sm:w-[150px] mx-auto">
               <ClassroomImage
                 imgUrl={classroom.image}
                 classroomName={classroom.name}
