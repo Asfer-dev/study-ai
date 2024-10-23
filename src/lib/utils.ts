@@ -130,14 +130,26 @@ export const formatDate = (createdAt: string): string => {
 
   const now = new Date();
 
-  // Helper to check if two dates are the same day
-  const isSameDay = (d1: Date, d2: Date): boolean =>
-    d1.getFullYear() === d2.getFullYear() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getDate() === d2.getDate();
+  // Get the user's local time zone from the browser
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  // Helper to check if two dates are the same day in the user's time zone
+  const isSameDay = (d1: Date, d2: Date) => {
+    const date1 = new Date(
+      d1.toLocaleString("en-US", { timeZone: userTimeZone })
+    );
+    const date2 = new Date(
+      d2.toLocaleString("en-US", { timeZone: userTimeZone })
+    );
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
 
   // Determine the appropriate date output
-  let dateOutput: string;
+  let dateOutput;
   if (isSameDay(date, now)) {
     dateOutput = "Today";
   } else if (isSameDay(date, new Date(now.getTime() - 24 * 60 * 60 * 1000))) {
@@ -145,8 +157,9 @@ export const formatDate = (createdAt: string): string => {
   } else if (isSameDay(date, new Date(now.getTime() + 24 * 60 * 60 * 1000))) {
     dateOutput = "Tomorrow";
   } else {
-    // Format date as "Month Day, Year" e.g. "October 23, 2024"
-    dateOutput = date.toLocaleDateString(undefined, {
+    // Format date as "Month Day, Year" e.g., "October 23, 2024"
+    dateOutput = date.toLocaleDateString("en-US", {
+      timeZone: userTimeZone,
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -154,7 +167,8 @@ export const formatDate = (createdAt: string): string => {
   }
 
   // Format time in 12-hour format (e.g., "5:50 PM")
-  const timeOutput = date.toLocaleTimeString(undefined, {
+  const timeOutput = date.toLocaleTimeString("en-US", {
+    timeZone: userTimeZone,
     hour: "numeric",
     minute: "numeric",
     hour12: true,
