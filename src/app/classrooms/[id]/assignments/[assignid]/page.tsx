@@ -103,8 +103,10 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
 
   return (
     <div>
-      <div className="flex justify-between">
-        <h2 className="text-3xl font-semibold">Title: {assignment.title}</h2>
+      <div className="flex flex-col md:flex-row justify-between">
+        <h2 className="text-2xl md:text-3xl font-semibold">
+          Title: {assignment.title}
+        </h2>
         <div className="flex flex-col gap-4">
           Deadline: {formatDate(assignment.deadline.toString())}
         </div>
@@ -141,7 +143,7 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
                 key={submission._id.toString()}
               >
                 <div className="flex flex-col">
-                  <div className="flex w-fit gap-4 items-center">
+                  <div className="flex flex-col sm:flex-row w-fit gap-4 items-center">
                     <div className="w-fit">
                       {"answerFile" in submission &&
                         "size" in submission.answerFile && (
