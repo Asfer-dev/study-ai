@@ -80,10 +80,10 @@ const FileCard = ({ file, classroomId, isOwner }: FileCardProps) => {
   };
 
   return (
-    <div className="p-2 grid grid-cols-4 border-b">
-      <div className="flex gap-4 items-center">
+    <div className="p-2 grid md:grid-cols-4 border-b gap-4">
+      <div className="flex gap-4 items-center break-words">
         {getFileIcon(file.name)}
-        <span>{file.name}</span>
+        <span className="break-words w-full truncate">{file.name}</span>
       </div>
       <div>{formatDate(file.createdAt)}</div>
       <div>{getFileSizeInMB(file.size)}</div>

@@ -1,5 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
-import { format, isToday, isTomorrow, isYesterday } from "date-fns";
+// import { format, isToday, isTomorrow, isYesterday } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -119,6 +119,7 @@ export function getFileTypeFromUrl(url: string): "image" | "video" | "unknown" {
 //   }
 // };
 
+// Function to format date considering UTC
 export const formatDate = (createdAt: string): string => {
   const date = new Date(createdAt);
 
@@ -127,20 +128,37 @@ export const formatDate = (createdAt: string): string => {
     throw new Error("Invalid date");
   }
 
+  const now = new Date();
+
+  // Helper to check if two dates are the same day
+  const isSameDay = (d1: Date, d2: Date): boolean =>
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
+
   // Determine the appropriate date output
   let dateOutput: string;
-  if (isToday(date)) {
+  if (isSameDay(date, now)) {
     dateOutput = "Today";
-  } else if (isTomorrow(date)) {
-    dateOutput = "Tomorrow";
-  } else if (isYesterday(date)) {
+  } else if (isSameDay(date, new Date(now.getTime() - 24 * 60 * 60 * 1000))) {
     dateOutput = "Yesterday";
+  } else if (isSameDay(date, new Date(now.getTime() + 24 * 60 * 60 * 1000))) {
+    dateOutput = "Tomorrow";
   } else {
-    dateOutput = format(date, "MMMM d, yyyy"); // e.g., "October 23, 2024"
+    // Format date as "Month Day, Year" e.g. "October 23, 2024"
+    dateOutput = date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
   }
 
-  // Format the time in 12-hour format
-  const timeOutput = format(date, "h:mm a"); // e.g., "5:50 PM"
+  // Format time in 12-hour format (e.g., "5:50 PM")
+  const timeOutput = date.toLocaleTimeString(undefined, {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
 
   // Combine date and time outputs
   return `${dateOutput} at ${timeOutput}`;
