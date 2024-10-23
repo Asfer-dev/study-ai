@@ -1,14 +1,11 @@
 import { Metadata } from "next";
-import { FC } from "react";
 import Skeleton from "react-loading-skeleton";
 
 export const metadata: Metadata = {
   title: "Chats | study.ai",
 };
 
-interface loadingProps {}
-
-const loading: FC<loadingProps> = ({}) => {
+const Loading = () => {
   return (
     <div className="flex flex-col h-full items-center">
       <Skeleton className="mb-4" height={40} width={400} />
@@ -89,4 +86,4 @@ const loading: FC<loadingProps> = ({}) => {
   );
 };
 
-export default loading;
+export default Loading;

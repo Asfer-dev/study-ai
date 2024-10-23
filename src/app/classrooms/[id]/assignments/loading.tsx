@@ -6,11 +6,7 @@ export const metadata: Metadata = {
   title: "Classroom Assignments | study.ai",
 };
 
-interface AssignmentsPageProps {
-  params: { id: string };
-}
-
-const AssignmentsPage = async ({ params }: AssignmentsPageProps) => {
+const AssignmentsPage = async () => {
   return (
     <div className="flex-1 justify-between flex flex-col h-full">
       <Skeleton width={200} height={30} />

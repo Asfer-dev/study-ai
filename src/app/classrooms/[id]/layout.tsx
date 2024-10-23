@@ -12,13 +12,13 @@ interface ClassroomLayoutProps {
   params: { id: string };
 }
 
-async function fetchLayoutData() {
-  // Your data fetching logic here
-  await new Promise((resolve) => setTimeout(resolve, 10000)); // Simulating a 3s delay
-  return {
-    /* your fetched data */
-  };
-}
+// async function fetchLayoutData() {
+//   // Your data fetching logic here
+//   await new Promise((resolve) => setTimeout(resolve, 10000)); // Simulating a 3s delay
+//   return {
+//     /* your fetched data */
+//   };
+// }
 
 const ClassroomLayout = async ({ children, params }: ClassroomLayoutProps) => {
   const { id: classroomId } = params;

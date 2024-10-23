@@ -5,11 +5,7 @@ export const metadata: Metadata = {
   title: "Classroom Posts | study.ai",
 };
 
-interface ClassroomPostsPageProps {
-  params: { id: string };
-}
-
-const ClassroomPostsPage = async ({ params }: ClassroomPostsPageProps) => {
+const ClassroomPostsPage = async () => {
   return (
     <div className="flex-1 justify-between flex flex-col h-full">
       <div
