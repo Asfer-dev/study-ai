@@ -59,8 +59,8 @@ export function LoginForm() {
         message: "Invalid Credentials. Please Try again",
       });
     } else {
-      router.push("/");
-      router.refresh();
+      router.push("/classrooms");
+      // router.refresh();
     }
     setIsLoading(false);
   }
