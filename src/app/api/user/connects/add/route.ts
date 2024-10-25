@@ -6,6 +6,8 @@ import { z } from "zod";
 import { addConnectSchema } from "@/lib/validation-schemas/add-connect-schema";
 import { IUser } from "@/types/db";
 import mongoose from "mongoose";
+import { pusherServer } from "@/lib/pusher";
+import { toPusherKey } from "@/lib/utils";
 
 export async function POST(req: Request) {
   try {
@@ -56,11 +58,17 @@ export async function POST(req: Request) {
     userToAdd.connect_requests.push(userObjectId);
     userToAdd.save();
 
-    // pusherServer.trigger(
-    //   toPusherKey(`user:${userToAdd._id}:incoming_friend_requests`),
-    //   "incoming_friend_requests",
-    //   { _id: session.user._id, email: session.user.email }
-    // );
+    pusherServer.trigger(
+      toPusherKey(`user:${userToAdd._id}:incoming_friend_requests`),
+      "incoming_friend_requests",
+      {
+        _id: session.user._id,
+        name: session.user.name,
+        email: session.user.email,
+        image: session.user.image,
+        profileColor: session.user.profileColor,
+      }
+    );
 
     return new Response("OK", { status: 200 });
   } catch (error) {

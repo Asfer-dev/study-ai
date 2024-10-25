@@ -70,6 +70,7 @@ const ConnectButton = ({ email }: ConnectButtonProps) => {
 
   return (
     <Button
+      disabled={isLoading}
       className="gap-2"
       variant={"secondary"}
       onClick={() => sendConnectRequest(email)}

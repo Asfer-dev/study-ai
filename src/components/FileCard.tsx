@@ -2,19 +2,11 @@
 
 import { IFile } from "@/types/db";
 import React from "react";
-import {
-  ArrowDownToLine,
-  File,
-  FileArchive,
-  FileText,
-  FileVideo,
-  Image,
-} from "lucide-react";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { Button } from "./ui/button";
+import { File, FileArchive, FileText, FileVideo, Image } from "lucide-react";
+
 import FileDeleteButton from "./FileDeleteButton";
 import { formatDate, getFileSizeInMB, getFileType } from "@/lib/utils";
+import DownloadFileButton from "./DownloadFileButton";
 
 interface FileCardProps {
   file: IFile;
@@ -51,34 +43,6 @@ const FileCard = ({ file, classroomId, isOwner }: FileCardProps) => {
     return <File className="w-5 h-5 text-gray-500" />;
   };
 
-  const downloadFile = async (filename: string) => {
-    try {
-      const response = await axios.post(
-        "/api/media/signed-url-for-download-file",
-        {
-          filename,
-        }
-      );
-
-      if (!response.data.url) {
-        throw new Error("Failed to get signed download URL");
-      }
-
-      const downloadUrl = response.data.url;
-
-      // Create a hidden link element to trigger the file download
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.setAttribute("download", filename); // Optionally set the filename
-      document.body.appendChild(link);
-      link.click();
-      link.remove(); // Clean up
-    } catch (error) {
-      console.error("Error downloading file:", error);
-      toast.error("Failed to download the file");
-    }
-  };
-
   return (
     <div className="p-2 grid md:grid-cols-4 border-b gap-4">
       <div className="flex gap-4 items-center break-words">
@@ -88,15 +52,8 @@ const FileCard = ({ file, classroomId, isOwner }: FileCardProps) => {
       <div>{formatDate(file.createdAt)}</div>
       <div>{getFileSizeInMB(file.size)}</div>
       <div className="flex gap-4">
-        <Button
-          variant={"ghost"}
-          className="flex gap-2"
-          onClick={() => downloadFile(file.name)}
-        >
-          {" "}
-          <ArrowDownToLine className="w-5 text-blue-500" />{" "}
-          <span className="sr-only">Download</span>
-        </Button>
+        <DownloadFileButton filename={file.name} />
+
         {isOwner && (
           <FileDeleteButton
             classroomId={classroomId}

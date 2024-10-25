@@ -21,13 +21,15 @@ import { pusherClient } from "@/lib/pusher";
 import toast from "react-hot-toast";
 import UnseenChatToast from "./UnseenChatToast";
 import Skeleton from "react-loading-skeleton";
+import { IUser } from "@/types/db";
+import UnseenFriendRequestToast from "./UnseenFriendRequestToast";
+import { useConnectRequestStore } from "@/store/useConnectRequestStore";
 
 const MainSidebar = () => {
   const [isCompact, setIsCompact] = useState<boolean>(false);
   const [newChats, setNewChats] = useState<Types.ObjectId[]>([]);
-  const [newConnectRequests, setNewConnectRequests] = useState<
-    Types.ObjectId[]
-  >([]);
+  const { incomingConnectRequests, addRequest, removeRequest, setRequests } =
+    useConnectRequestStore();
   const linkStyles = cn(
     "flex gap-4 items-center rounded-md px-4 py-2 hover:bg-zinc-50 dark:hover:bg-zinc-800",
     isCompact ? "justify-center px-0 aspect-square" : "justify-start"
@@ -85,7 +87,7 @@ const MainSidebar = () => {
     const fetchNewConnectRequests = async () => {
       try {
         const response = await axios.get("/api/user/connect-requests");
-        setNewConnectRequests(response.data);
+        setRequests(response.data);
       } catch (err) {
         console.log("Failed to fetch connect requests");
         console.error(err);
@@ -93,17 +95,34 @@ const MainSidebar = () => {
     };
 
     fetchNewConnectRequests();
-  }, []);
+  }, [session?.user]);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       pusherClient.subscribe(toPusherKey(`user:${session.user._id}:chats`));
-      // pusherClient.subscribe(toPusherKey(`user:${sessionId}:friends`));
+      pusherClient.subscribe(
+        toPusherKey(`user:${session.user._id}:incoming_friend_requests`)
+      );
 
-      // const newFriendHandler = (newFriend: User) => {
-      //   console.log("received new user", newFriend);
-      //   setActiveChats((prev) => [...prev, newFriend]);
-      // };
+      const friendRequestHandler = (newFriend: IUser) => {
+        addRequest(newFriend._id);
+
+        try {
+          // should be notified
+          toast.custom((t) => (
+            <UnseenFriendRequestToast
+              t={t}
+              sessionId={session.user._id}
+              senderId={newFriend._id.toString()}
+              senderImg={newFriend.image}
+              senderName={newFriend.name}
+              senderProfileColor={newFriend.profileColor}
+            />
+          ));
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
       const chatHandler = async ({
         senderId,
@@ -145,14 +164,16 @@ const MainSidebar = () => {
       };
 
       pusherClient.bind("new_message", chatHandler);
-      // pusherClient.bind("new_friend", newFriendHandler);
+      pusherClient.bind("incoming_friend_requests", friendRequestHandler);
 
       return () => {
         pusherClient.unsubscribe(toPusherKey(`user:${session.user._id}:chats`));
-        // pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:friends`));
+        pusherClient.unsubscribe(
+          toPusherKey(`user:${session.user._id}:incoming_friend_requests`)
+        );
 
         pusherClient.unbind("new_message", chatHandler);
-        // pusherClient.unbind("new_friend", newFriendHandler);
+        pusherClient.unbind("incoming_friend_requests", friendRequestHandler);
       };
     }
   }, [pathname, session?.user._id, session?.user, status]);
@@ -181,7 +202,7 @@ const MainSidebar = () => {
           inactiveLinkStyles={inactiveLinkStyles}
           activeLinkStyles={activeLinkStyles}
           newChats={newChats}
-          newConnectRequests={newConnectRequests}
+          newConnectRequests={incomingConnectRequests}
         />
       )}
       <aside
@@ -274,14 +295,14 @@ const MainSidebar = () => {
                   )}
                 />
                 {!isCompact && "My Network"}
-                {newConnectRequests.length > 0 && (
+                {incomingConnectRequests.length > 0 && (
                   <div
                     className={cn(
                       "rounded-full p-1 bg-focus/90 text-white h-6 w-6 flex items-center justify-center",
                       isCompact && "absolute right-0 -top-1"
                     )}
                   >
-                    {newConnectRequests.length}
+                    {incomingConnectRequests.length}
                   </div>
                 )}
               </Link>

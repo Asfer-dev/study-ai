@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
+import { deleteProfilePhotoFromS3 } from "@/lib/delete-media";
 import User from "@/models/user";
 import { getServerSession } from "next-auth";
 
@@ -21,21 +22,26 @@ export async function POST(req: Request) {
     // Connect to the database
     await connectToDB();
 
-    // Find the session user and update the image field
-    const updatedUser = await User.findByIdAndUpdate(
-      session.user._id, // The session user's ID
-      { image: imageUrl.split("?")[0] }, // The new image URL
-      { new: true } // Return the updated document
-    );
+    // Find the session user
+    const user = await User.findById(session.user._id);
 
-    if (!updatedUser) {
+    if (!user) {
       return new Response("User not found", { status: 404 });
     }
+
+    // Delete the previous image from S3 if it exists
+    if (user.image) {
+      await deleteProfilePhotoFromS3([user.image]);
+    }
+
+    // Update the user's image with the new URL
+    user.image = imageUrl.split("?")[0]; // Save only the URL without query params
+    await user.save();
 
     return new Response(
       JSON.stringify({
         message: "Image updated successfully",
-        user: updatedUser,
+        user,
       }),
       { status: 200 }
     );

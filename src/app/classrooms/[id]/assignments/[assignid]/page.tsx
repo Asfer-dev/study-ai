@@ -13,6 +13,7 @@ import ProfileCard from "@/components/ProfileCard";
 import { File, FileArchive, FileText, FileVideo, Image } from "lucide-react";
 import AssignmentanswerForm from "@/components/AssignmentanswerForm";
 import { Metadata } from "next";
+import DownloadFileButton from "@/components/DownloadFileButton";
 
 // DYNAMIC PAGE TITLE
 interface Props {
@@ -122,11 +123,18 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
               {/* Display the file icon */}
               <div className="flex gap-4">
                 {getFileIcon(assignment.questionFile.name)}
-                <span className="truncate">{assignment.questionFile.name}</span>
+                <a
+                  target="_blank"
+                  href={assignment.questionFile.url}
+                  className="truncate hover:underline"
+                >
+                  {assignment.questionFile.name}
+                </a>
               </div>
               <span className="text-sm text-zinc-400">
                 {getFileSizeInMB(assignment.questionFile.size)}
               </span>
+              <DownloadFileButton filename={assignment.questionFile.name} />
             </div>
           )}
         </div>
@@ -151,13 +159,20 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
                             {/* Display the file icon */}
                             <div className="flex gap-4">
                               {getFileIcon(submission.answerFile.name)}
-                              <span className="truncate">
+                              <a
+                                target="_blank"
+                                href={submission.answerFile.url}
+                                className="truncate hover:underline"
+                              >
                                 {submission.answerFile.name}
-                              </span>
+                              </a>
                             </div>
                             <span className="text-sm text-zinc-400">
                               {getFileSizeInMB(submission.answerFile.size)}
                             </span>
+                            <DownloadFileButton
+                              filename={submission.answerFile.name}
+                            />
                           </div>
                         )}
                     </div>
@@ -195,7 +210,9 @@ const AssignmentPage = async ({ params }: AssignmentPageProps) => {
         </div>
       ) : (
         <div>
-          <h4 className="text-lg">Submit your answer</h4>
+          <h4 className="text-lg font-medium text-zinc-600 mt-4">
+            Submit your answer
+          </h4>
           <AssignmentanswerForm
             classroomId={classroomId}
             assignmentId={assignid}

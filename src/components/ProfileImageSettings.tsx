@@ -104,6 +104,9 @@ const ProfileImageSettings = ({ session }: { session: Session }) => {
         </Button>
         <Button
           onClick={async () => {
+            if (!session.user.image) {
+              return;
+            }
             const confirmed = window.confirm(
               "Do you want to remove your profile photo?"
             );
@@ -169,7 +172,11 @@ const ProfileImageSettings = ({ session }: { session: Session }) => {
               Select Photo
             </div>
           </label>
-          <Button onClick={handleUpdatePhoto} className="gap-2">
+          <Button
+            disabled={isLoading}
+            onClick={handleUpdatePhoto}
+            className="gap-2"
+          >
             {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
             Upload Photo
           </Button>

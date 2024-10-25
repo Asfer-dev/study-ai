@@ -38,7 +38,7 @@ const Page = async () => {
         <ul className="max-w-[500px]">
           {connectRequests.map((request, i) => (
             <li key={request._id.toString()}>
-              <div className="flex gap-8 items-center w-full justify-between">
+              <div className="flex gap-4 items-center w-full justify-between">
                 <ConnectRequestItem
                   request={JSON.parse(JSON.stringify(request))}
                 />
@@ -55,7 +55,7 @@ const Page = async () => {
         <ul className="max-w-[500px]">
           {connections.map((connectUser, i) => (
             <li key={connectUser._id.toString()}>
-              <div className="flex gap-8 items-center w-full justify-between">
+              <div className="flex gap-4 items-center w-full justify-between">
                 <ProfileCard user={JSON.parse(JSON.stringify(connectUser))} />
                 <div className="flex flex-col sm:flex-row">
                   <Link
@@ -64,7 +64,9 @@ const Page = async () => {
                       session.user._id.toString()
                     )}`}
                   >
-                    <Button variant={"outline"}>Message</Button>
+                    <Button variant={"outline"} className="w-full">
+                      Message
+                    </Button>
                   </Link>
                   <FollowButton
                     sessionUserId={session.user._id.toString()}
@@ -84,7 +86,7 @@ const Page = async () => {
         <ul className="max-w-[500px]">
           {suggestedUsers.map((user, i) => (
             <li key={user._id.toString()}>
-              <div className="flex gap-8 items-center w-full justify-between">
+              <div className="flex gap-4 items-center w-full justify-between">
                 <ProfileCard user={JSON.parse(JSON.stringify(user))} />
                 <div className="flex gap-1 flex-col sm:flex-row">
                   <ConnectButton email={user.email} />

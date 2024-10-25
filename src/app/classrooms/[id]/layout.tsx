@@ -89,7 +89,7 @@ const ClassroomLayout = async ({ children, params }: ClassroomLayoutProps) => {
               <p className="font-bold text-sm text-zinc-500 mt-8">
                 Participants:
               </p>
-              <ul className="overflow-auto flex flex-col items-center h-full overflow-y-auto">
+              <ul className="overflow-auto flex flex-col items-start h-full overflow-y-auto">
                 {classroom.studentsEnrolled.map((student) => (
                   <li key={student._id.toString()}>
                     <ProfileCard user={student as IUser} />

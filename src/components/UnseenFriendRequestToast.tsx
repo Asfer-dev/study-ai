@@ -3,7 +3,7 @@ import { FC } from "react";
 import { toast, type Toast } from "react-hot-toast";
 import ProfileImage from "./ProfileImage";
 
-interface UnseenChatToastProps {
+interface UnseenFriendRequestToastProps {
   t: Toast;
   sessionId: string;
   senderId: string;
@@ -12,7 +12,7 @@ interface UnseenChatToastProps {
   senderProfileColor?: string;
 }
 
-const UnseenChatToast: FC<UnseenChatToastProps> = ({
+const UnseenFriendRequestToast: FC<UnseenFriendRequestToastProps> = ({
   t,
   senderId,
   sessionId,
@@ -24,12 +24,12 @@ const UnseenChatToast: FC<UnseenChatToastProps> = ({
     <div
       className={cn(
         "max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5",
-        { "animate-enter": t.visible, "animate-leave": !t.visible }
+        { "animate-appear": t.visible, "animate-disappear": !t.visible }
       )}
     >
       <a
         onClick={() => toast.dismiss(t.id)}
-        href={`/chats/${chatHrefConstructor(sessionId, senderId)}`}
+        href={`/connections`}
         className="flex-1 w-0 p-4"
       >
         <div className="flex items-center">
@@ -43,7 +43,8 @@ const UnseenChatToast: FC<UnseenChatToastProps> = ({
 
           <div className="ml-3 flex-1">
             <p className="text-sm font-medium text-gray-900">
-              <b>{senderName}</b> messaged you
+              <b>{senderName}</b> sent you a{" "}
+              <span className="text-focus">Friend Request</span>
             </p>
             {/* <p className="mt-1 text-sm text-gray-500">{senderMessage}</p> */}
           </div>
@@ -62,4 +63,4 @@ const UnseenChatToast: FC<UnseenChatToastProps> = ({
   );
 };
 
-export default UnseenChatToast;
+export default UnseenFriendRequestToast;

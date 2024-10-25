@@ -39,7 +39,7 @@ const ClassroomsPage = async () => {
             ? "My Classrooms"
             : "Joined Classrooms"}
         </h2>
-        <div className="flex gap-4 flex-wrap mt-4 justify-center md:justify-normal">
+        <div className="flex gap-2 sm:gap-4 flex-wrap mt-4 justify-center md:justify-normal">
           {classrooms?.map((classroom) => {
             if (isIUser(classroom.owner))
               return (

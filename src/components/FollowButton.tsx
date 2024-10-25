@@ -61,7 +61,12 @@ const FollowButton = ({
   }
 
   return (
-    <Button variant={"outline"} className="flex gap-2" onClick={handleClick}>
+    <Button
+      disabled={isLoading}
+      variant={"outline"}
+      className="flex gap-2"
+      onClick={handleClick}
+    >
       {isLoading ? (
         <Loader2 className="animate-spin w-4 h-4" />
       ) : (
