@@ -28,7 +28,7 @@ import { useConnectRequestStore } from "@/store/useConnectRequestStore";
 const MainSidebar = () => {
   const [isCompact, setIsCompact] = useState<boolean>(false);
   const [newChats, setNewChats] = useState<Types.ObjectId[]>([]);
-  const { incomingConnectRequests, addRequest, removeRequest, setRequests } =
+  const { incomingConnectRequests, addRequest, setRequests } =
     useConnectRequestStore();
   const linkStyles = cn(
     "flex gap-4 items-center rounded-md px-4 py-2 hover:bg-zinc-50 dark:hover:bg-zinc-800",
@@ -112,8 +112,6 @@ const MainSidebar = () => {
           toast.custom((t) => (
             <UnseenFriendRequestToast
               t={t}
-              sessionId={session.user._id}
-              senderId={newFriend._id.toString()}
               senderImg={newFriend.image}
               senderName={newFriend.name}
               senderProfileColor={newFriend.profileColor}

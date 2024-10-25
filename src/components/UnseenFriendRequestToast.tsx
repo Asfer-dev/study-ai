@@ -1,12 +1,10 @@
-import { chatHrefConstructor, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { FC } from "react";
 import { toast, type Toast } from "react-hot-toast";
 import ProfileImage from "./ProfileImage";
 
 interface UnseenFriendRequestToastProps {
   t: Toast;
-  sessionId: string;
-  senderId: string;
   senderImg: string;
   senderName: string;
   senderProfileColor?: string;
@@ -14,8 +12,6 @@ interface UnseenFriendRequestToastProps {
 
 const UnseenFriendRequestToast: FC<UnseenFriendRequestToastProps> = ({
   t,
-  senderId,
-  sessionId,
   senderImg,
   senderName,
   senderProfileColor,

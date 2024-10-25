@@ -1,7 +1,5 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
-import { pusherServer } from "@/lib/pusher";
-import { toPusherKey } from "@/lib/utils";
 import { objectIdSchema } from "@/lib/validation-schemas/object-id-schema";
 import Chat from "@/models/chat";
 import UserModel from "@/models/user";
