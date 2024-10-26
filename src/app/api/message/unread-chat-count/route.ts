@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import mongoose from "mongoose";
 import Chat from "@/models/chat";
+import User from "@/models/user";
+import { IUser } from "@/types/db";
 
 export async function GET() {
   // Get the session
@@ -14,11 +16,14 @@ export async function GET() {
   try {
     const userId = new mongoose.Types.ObjectId(session.user._id);
 
+    const user = (await User.findById(userId)) as IUser;
+
     // Find all chats where the session user is a participant and has unread messages
     const chats = await Chat.find({
       participants: userId,
+      _id: { $in: user.chats }, // Only select chats that are in the user.chats array
       unread_messages: { $exists: true, $not: { $size: 0 } }, // Chats with non-empty unread_messages
-    }).select("participants"); // Use lean() to return plain objects
+    }).select("participants");
 
     // Extract chat partner IDs (excluding the session user)
     const chatPartnerIds = chats

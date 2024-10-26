@@ -53,7 +53,10 @@ interface PageProps {
   };
 }
 
-const getChat = async (strIds: string[]): Promise<IChat | null> => {
+const getChat = async (
+  strIds: string[],
+  sessionId: string
+): Promise<IChat | null> => {
   const participants = strIds.map((stringId) => {
     const objId = new mongoose.Types.ObjectId(stringId);
     return objId;
@@ -61,9 +64,17 @@ const getChat = async (strIds: string[]): Promise<IChat | null> => {
   try {
     await connectToDB();
 
-    const chat = (await Chat.findOne({
+    const user = (await User.findById(sessionId)) as IUser;
+
+    const chats = (await Chat.find({
       participants: { $all: participants }, // Ensure both user IDs are present in the array
-    })) as IChat;
+    })) as IChat[];
+
+    const chatId = user.chats.find((chatId) =>
+      chats.some((chat) => chatId.toString() === chat._id.toString())
+    );
+    const chat = (await Chat.findById(chatId)) as IChat;
+    if (!chat) throw new Error("No chat found");
 
     return chat;
   } catch (error) {
@@ -126,7 +137,7 @@ const ChatPage = async ({ params }: PageProps) => {
 
   const { user } = session;
 
-  const chat = await getChat(combid.split("-").sort());
+  const chat = await getChat(combid.split("-").sort(), session.user._id);
 
   if (
     !chat ||

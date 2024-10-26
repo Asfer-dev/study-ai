@@ -57,19 +57,35 @@ export async function POST(req: Request) {
     });
     await message.save();
 
-    const chat = (await ChatModel.findById(chatId)) as IChat;
-    chat.unread_messages.push(message._id);
-    await chat.save();
+    const userChat = (await ChatModel.findById(chatId)) as IChat;
+    userChat.messages.push(message._id);
+    await userChat.save();
+
+    const chats = (await ChatModel.find({
+      participants: { $all: [session.user._id, friendId] },
+    })) as IChat[];
+    // supposed to return an array of 2 chat objects
+
+    const receiverChat = userChat._id.equals(chats[0]._id)
+      ? chats[1]
+      : chats[0];
+    receiverChat.unread_messages.push(message._id);
+    await receiverChat.save();
 
     // realtime functionality
     pusherServer.trigger(
-      toPusherKey(`chat:${chatId}`),
+      toPusherKey(`chat:${userChat._id}`),
+      "incoming-message",
+      message
+    );
+    pusherServer.trigger(
+      toPusherKey(`chat:${receiverChat._id}`),
       "incoming-message",
       message
     );
 
     // Trigger second Pusher event only if there are no unread messages before this
-    if (chat.unread_messages.length === 1) {
+    if (receiverChat.unread_messages.length === 1) {
       // If this is the first unread message
       pusherServer.trigger(
         toPusherKey(`user:${friendId}:chats`),

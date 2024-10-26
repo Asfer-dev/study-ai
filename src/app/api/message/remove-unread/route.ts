@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import mongoose from "mongoose";
 import Chat from "@/models/chat";
+import { IUser } from "@/types/db";
+import User from "@/models/user";
 
 export async function POST(req: Request) {
   // Get the session
@@ -22,9 +24,12 @@ export async function POST(req: Request) {
 
     const partnerObjectId = new mongoose.Types.ObjectId(partnerId);
 
+    const user = (await User.findById(userId)) as IUser;
+
     // Find the chat between the session user and the chat partner
     const chat = await Chat.findOne({
       participants: { $all: [userId, partnerObjectId] }, // Ensure both users are participants
+      _id: { $in: user.chats },
     });
 
     if (!chat) {

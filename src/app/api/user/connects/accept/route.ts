@@ -54,13 +54,17 @@ export async function POST(req: Request) {
     const userObjectId = new mongoose.Types.ObjectId(session.user._id);
     addedConnectUser.connects.push(userObjectId);
 
-    const chat = new Chat({
+    const userChat = new Chat({
       participants: [user._id, addedConnectUser._id].sort(),
     });
-    await chat.save();
+    await userChat.save();
+    user.chats.push(userChat);
 
-    user.chats.push(chat);
-    addedConnectUser.chats.push(chat);
+    const addedUserChat = new Chat({
+      participants: [user._id, addedConnectUser._id].sort(),
+    });
+    await addedUserChat.save();
+    addedConnectUser.chats.push(addedUserChat);
 
     await user.save();
     await addedConnectUser.save();
