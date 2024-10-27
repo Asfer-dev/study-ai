@@ -13,7 +13,7 @@ export interface IUser extends Document {
   connects: Types.ObjectId[];
   connect_requests: Types.ObjectId[];
   posts: Types.ObjectId[];
-  chats: Types.ObjectId[];
+  chats: Types.ObjectId[] | IChat[];
   notifications: string[];
   profileColor?: string;
   createdAt?: Date;

@@ -19,6 +19,7 @@ export const fetchPosts = async (
             select: "name email image profileColor", // Optional: specify which fields you want from the user
           },
         })
+        .sort({ createdAt: -1 })
         .exec();
 
       return user.posts;

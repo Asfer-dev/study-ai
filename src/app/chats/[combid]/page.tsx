@@ -87,7 +87,9 @@ async function getChatMessages(messageIds: Types.ObjectId[]) {
   try {
     let dbMessages = (await Message.find({
       _id: { $in: messageIds },
-    }).sort({ createdAt: -1 })) as IMessage[];
+    })
+      .limit(10)
+      .sort({ createdAt: -1 })) as IMessage[];
 
     dbMessages = dbMessages.map((msg) => ({
       ...msg.toObject(), // Convert mongoose document to plain object
@@ -106,7 +108,7 @@ async function getChatMessages(messageIds: Types.ObjectId[]) {
       notFound(); // Show error page
     } else {
       // console.log("Parsed messages:", parsedResult.data);
-      return parsedResult.data;
+      return [];
     }
   } catch (error) {
     console.error("Validation error or database issue:", error);

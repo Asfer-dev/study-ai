@@ -31,9 +31,19 @@ export async function getUserFeed(userId: string): Promise<IPost[]> {
     // Sort the combined posts by creation date (latest first)
     posts.sort((a, b) => {
       const aTime =
-        typeof a.createdAt === "string" ? new Date(a.createdAt).getTime() : 0;
+        typeof a.createdAt === "string"
+          ? new Date(a.createdAt).getTime()
+          : (a.createdAt as Date).getTime
+          ? (a.createdAt as Date).getTime()
+          : 0;
+
       const bTime =
-        typeof b.createdAt === "string" ? new Date(b.createdAt).getTime() : 0;
+        typeof b.createdAt === "string"
+          ? new Date(b.createdAt).getTime()
+          : (b.createdAt as Date).getTime
+          ? (b.createdAt as Date).getTime()
+          : 0;
+
       return bTime - aTime; // Sort by createdAt timestamp
     });
 

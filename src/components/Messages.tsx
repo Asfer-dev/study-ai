@@ -4,7 +4,9 @@ import { pusherClient } from "@/lib/pusher";
 import { cn, toPusherKey } from "@/lib/utils";
 import { TMessage } from "@/lib/validation-schemas/message-schema";
 import { IUser } from "@/types/db";
+import axios from "axios";
 import { format } from "date-fns";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
 import Linkify from "react-linkify";
@@ -29,6 +31,10 @@ const Messages: FC<MessagesProps> = ({
   sessionColor,
 }) => {
   const [messages, setMessages] = useState<TMessage[]>(initialMessages);
+  const [page, setPage] = useState<number>(1);
+  const loadMoreTriggerRef = useRef<HTMLDivElement | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 10;
 
   useEffect(() => {
     pusherClient.subscribe(toPusherKey(`chat:${chatId}`));
@@ -44,6 +50,53 @@ const Messages: FC<MessagesProps> = ({
       pusherClient.unbind("incoming-message", messageHandler);
     };
   }, [chatId]);
+
+  useEffect(() => {
+    const fetchMoreMessages = async () => {
+      try {
+        const res = await axios.post(`/api/message/chat-messages`, {
+          chatId,
+          page,
+          limit,
+        });
+        setMessages((prev) => [...prev, ...res.data]);
+
+        // If fewer than limit items are returned, assume no more messages exist
+        if (res.data.length < limit) {
+          setHasMore(false);
+        } else {
+          // Make one additional check by incrementing the page
+          const checkRes = await axios.post(`/api/message/chat-messages`, {
+            chatId,
+            page: page + 1,
+            limit,
+          });
+          if (checkRes.data.length === 0) {
+            setHasMore(false); // No more messages in the next page
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
+    };
+
+    fetchMoreMessages();
+  }, [page]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((prev) => prev + 1);
+        }
+      },
+      { threshold: 1 }
+    );
+
+    if (loadMoreTriggerRef.current)
+      observer.observe(loadMoreTriggerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const scrollDownRef = useRef<HTMLDivElement | null>(null);
 
@@ -211,6 +264,11 @@ const Messages: FC<MessagesProps> = ({
           </div>
         );
       })}
+      {hasMore && (
+        <div ref={loadMoreTriggerRef} className="flex justify-center">
+          <Loader2 className="w-10 h-10 animate-spin text-zinc-300 dark:text-zinc-600" />
+        </div>
+      )}
     </div>
   );
 };
