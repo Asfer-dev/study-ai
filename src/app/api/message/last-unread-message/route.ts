@@ -1,6 +1,5 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
-import Chat from "@/models/chat";
 import User from "@/models/user"; // Adjust the import based on your file structure
 import { getServerSession } from "next-auth";
 import mongoose from "mongoose";
