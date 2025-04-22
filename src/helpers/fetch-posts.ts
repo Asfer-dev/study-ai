@@ -2,37 +2,51 @@ import { connectToDB } from "@/lib/database";
 import Post from "@/models/post";
 import User from "@/models/user";
 import { Types } from "mongoose";
+import Comment from "@/models/comment";
+import { IPost } from "@/types/db";
 
 export const fetchPosts = async (
   userId: Types.ObjectId | string | undefined
 ) => {
   try {
-    if (userId) {
-      await connectToDB();
+    if (!userId) throw new Error("no user id for user");
 
-      const user = await User.findById(userId)
-        .populate({
-          path: "posts",
-          options: { sort: { createdAt: -1 } },
-          populate: [
-            {
-              path: "user",
-              select: "name email image profileColor",
-            },
-            {
-              path: "comments",
-              populate: {
-                path: "user",
-                select: "name email image profileColor",
-              },
-            },
-          ],
-        })
-        .sort({ createdAt: -1 })
-        .exec();
+    await connectToDB();
 
-      return user.posts;
-    } else throw new Error("no user id for user");
+    // Get the user's posts with the user field populated
+    const user = await User.findById(userId)
+      .populate({
+        path: "posts",
+        options: { sort: { createdAt: -1 } },
+        populate: {
+          path: "user",
+          select: "name email image profileColor",
+        },
+      })
+      .sort({ createdAt: -1 })
+      .exec();
+
+    const posts = user.posts;
+
+    // Fetch and attach comments manually
+    const postsWithComments = await Promise.all(
+      posts.map(async (post: IPost) => {
+        const comments = await Comment.find({ _id: { $in: post.comments } })
+          .populate({
+            path: "user",
+            select: "name email image profileColor",
+          })
+          .sort({ createdAt: -1 }) // Optional: sort comments newest first
+          .exec();
+
+        return {
+          ...post.toObject(),
+          comments, // attach populated comments here
+        };
+      })
+    );
+
+    return postsWithComments;
   } catch (error) {
     console.log(error);
     return [];
