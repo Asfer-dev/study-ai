@@ -76,7 +76,8 @@ export async function DELETE(req: Request) {
     }
 
     // Delete all posts related to the classroom
-    const posts = await Post.find({ classroom: classroomId });
+    const posts = await Post.find({ _id: { $in: classroom.posts } });
+
     for (const post of posts) {
       if (post.media && post.media.length > 0) {
         // Delete media files from S3 if they exist
