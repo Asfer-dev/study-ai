@@ -14,10 +14,19 @@ export const fetchPosts = async (
         .populate({
           path: "posts",
           options: { sort: { createdAt: -1 } },
-          populate: {
-            path: "user", // This is the field you want to populate in each post
-            select: "name email image profileColor", // Optional: specify which fields you want from the user
-          },
+          populate: [
+            {
+              path: "user",
+              select: "name email image profileColor",
+            },
+            {
+              path: "comments",
+              populate: {
+                path: "user",
+                select: "name email image profileColor",
+              },
+            },
+          ],
         })
         .sort({ createdAt: -1 })
         .exec();

@@ -1,6 +1,6 @@
 "use client";
 
-import { IPost, IUser } from "@/types/db";
+import { IComment, IPost, IUser } from "@/types/db";
 import ProfileImage from "./ProfileImage";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -15,6 +15,7 @@ import Dialog from "./Dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { copyToClipboard } from "./ClassroomInfoDialog";
+import CommentInput from "./CommentInput";
 
 interface PostCartProps {
   post: IPost;
@@ -25,7 +26,29 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
   const [likes, setLikes] = useState<(Types.ObjectId | string)[]>(post.likes);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
+  const [comments, setComments] = useState<IComment[]>(
+    (post.comments as IComment[]) || []
+  );
+  const [showAllComments, setShowAllComments] = useState(false);
+
   const user: IUser = post.user;
+
+  const handleAddComment = async (text: string) => {
+    if (!text.trim()) return;
+
+    const res = await fetch("/api/post/add-comment", {
+      method: "POST",
+      body: JSON.stringify({
+        postId: post._id,
+        text,
+      }),
+    });
+
+    if (res.ok) {
+      const newComment = await res.json();
+      setComments((prev) => [newComment, ...prev]);
+    }
+  };
 
   return (
     <div className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-zinc-300 dark:ring-zinc-700">
@@ -85,12 +108,12 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
           setLikes={setLikes}
           postId={post._id.toString()}
         />
-        {/* <Button
+        <Button
           className="w-full rounded-none outline-none ring-0 border-0"
           variant={"outline"}
         >
           Comment
-        </Button> */}
+        </Button>
         <Button
           onClick={() => setIsDialogOpen(true)}
           className="w-full rounded-none outline-none ring-0 border-0 flex gap-2"
@@ -100,6 +123,61 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
           Share
         </Button>
       </div>
+      <div className="px-2.5 space-y-2 mt-2">
+        <CommentInput onSubmit={handleAddComment} />
+
+        {comments.length > 0 && (
+          <div className="space-y-3 mt-2">
+            {(showAllComments ? comments : [comments[0]]).map((comment) => (
+              <div
+                key={JSON.stringify(comment._id)}
+                className="flex items-start gap-2"
+              >
+                {/* Profile image */}
+                <img
+                  src={"image" in comment.user ? comment.user.image : ""}
+                  alt={"name" in comment.user ? comment.user.name : ""}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+
+                {/* Comment content */}
+                <div className="w-full">
+                  {/* Name */}
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-200">
+                    {"name" in comment.user ? comment.user.name : ""}
+                  </p>
+                  <div className="flex-1 bg-zinc-100 dark:bg-zinc-800 rounded-md px-3 py-2">
+                    {/* Comment text */}
+                    <p className="text-sm text-zinc-800 dark:text-zinc-300">
+                      {comment.text}
+                    </p>
+                  </div>
+                  {/* Like count and button */}
+                  {/* <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                      {comment.likes.length}{" "}
+                      {comment.likes.length === 1 ? "like" : "likes"}
+                    </span>
+                    <button className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
+                      Like
+                    </button>
+                  </div> */}
+                </div>
+              </div>
+            ))}
+
+            {comments.length > 1 && !showAllComments && (
+              <button
+                onClick={() => setShowAllComments(true)}
+                className="text-blue-600 dark:text-blue-400 text-xs"
+              >
+                Show all comments
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
       <Dialog isOpen={isDialogOpen}>
         <div className="flex items-center mb-1.5">
           <h3 className="font-bold text-zinc-600 dark:text-zinc-400">

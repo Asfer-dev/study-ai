@@ -36,9 +36,19 @@ export interface IPost extends Document {
   media: string[]; // Array of media URLs
   user: Types.ObjectId | Iuser;
   likes: Types.ObjectId[];
-  comments: Types.ObjectId[];
+  comments: Types.ObjectId[] | IComment[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IComment extends Document {
+  _id: Types.ObjectId;
+  post: Types.ObjectId | IPost; // Reference to the Post model
+  user: Types.ObjectId | IUser; // Reference to the User model
+  text: string; // Comment text
+  likes: Types.ObjectId[]; // Array of user IDs who liked the comment
+  createdAt: string; // Optional, automatically managed by Mongoose
+  updatedAt: string; // Optional, automatically managed by Mongoose
 }
 
 export interface IFile extends Document {
