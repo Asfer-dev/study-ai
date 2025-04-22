@@ -141,7 +141,7 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
                 />
 
                 {/* Comment content */}
-                <div className="w-full">
+                <div className="w-full mb-4">
                   {/* Name */}
                   <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-200">
                     {"name" in comment.user ? comment.user.name : ""}

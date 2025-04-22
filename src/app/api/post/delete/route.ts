@@ -1,6 +1,7 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDB } from "@/lib/database";
 import Post from "@/models/post";
+import Comment from "@/models/comment";
 import { getServerSession } from "next-auth";
 import { deletePostMediaFromS3 } from "@/lib/delete-media";
 import User from "@/models/user";
@@ -17,7 +18,7 @@ export async function DELETE(req: Request) {
     await connectToDB();
 
     // Find the post by ID
-    const post = await Post.findById(postId).populate("user"); // Populating user to access user details
+    const post = await Post.findById(postId).populate("user");
     if (!post) {
       return new Response("Post not found", { status: 404 });
     }
@@ -27,15 +28,20 @@ export async function DELETE(req: Request) {
       return new Response("Forbidden", { status: 403 });
     }
 
-    // Delete media files from S3 if they exist
+    // Delete media files from S3
     if (post.media.length > 0) {
       await deletePostMediaFromS3(post.media);
     }
 
+    // Delete all comments related to the post
+    if (post.comments.length > 0) {
+      await Comment.deleteMany({ _id: { $in: post.comments } });
+    }
+
     // Remove the post ID from the user's posts array
     await User.updateOne(
-      { _id: session.user._id }, // Find the user by ID
-      { $pull: { posts: postId } } // Remove the post ID from the posts array
+      { _id: session.user._id },
+      { $pull: { posts: postId } }
     );
 
     // Delete the post
