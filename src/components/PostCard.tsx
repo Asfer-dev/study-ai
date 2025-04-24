@@ -127,7 +127,7 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
         <CommentInput onSubmit={handleAddComment} />
 
         {comments.length > 0 && (
-          <div className="space-y-3 mt-2">
+          <div className="space-y-3 pb-2 pt-2">
             {(showAllComments ? comments : [comments[0]]).map((comment) => (
               <div
                 key={JSON.stringify(comment._id)}
@@ -141,7 +141,7 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
                 />
 
                 {/* Comment content */}
-                <div className="w-full mb-4">
+                <div className="w-full">
                   {/* Name */}
                   <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-200">
                     {"name" in comment.user ? comment.user.name : ""}
