@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import TextareaAutosize from "react-textarea-autosize";
 
 const CommentInput = ({ onSubmit }: { onSubmit: (text: string) => void }) => {

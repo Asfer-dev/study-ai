@@ -50,6 +50,52 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
     }
   };
 
+  const handleLikeComment = async (commentId: string) => {
+    try {
+      const res = await fetch("/api/post/like-comment", {
+        method: "POST",
+        body: JSON.stringify({ commentId }),
+      });
+
+      if (res.ok) {
+        const text = await res.text();
+        setComments((prev) =>
+          prev.map((comment) => {
+            if (comment._id.toString() !== commentId) return comment;
+
+            const userObjId = new Types.ObjectId(sessionId);
+            const alreadyLiked = comment.likes.some((id) =>
+              id.equals(userObjId)
+            );
+
+            let updatedLikes;
+
+            if (text === "Unliked") {
+              // Remove user if present
+              updatedLikes = comment.likes.filter(
+                (id) => !id.equals(userObjId)
+              );
+            } else {
+              // Add user only if not already present
+              updatedLikes = alreadyLiked
+                ? comment.likes
+                : [...comment.likes, userObjId];
+            }
+
+            return {
+              ...comment,
+              likes: updatedLikes,
+            } as IComment;
+          })
+        );
+      } else {
+        console.error("Failed to like/unlike comment");
+      }
+    } catch (error) {
+      console.error("Error toggling comment like:", error);
+    }
+  };
+
   return (
     <div className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-zinc-300 dark:ring-zinc-700">
       <div className="px-2.5 flex flex-1 items-center gap-x-3 py-3 text-sm font-semibold leading-6 text-gray-900">
@@ -153,15 +199,26 @@ const PostCard = ({ post, sessionId }: PostCartProps) => {
                     </p>
                   </div>
                   {/* Like count and button */}
-                  {/* <div className="flex items-center gap-2 mt-1">
+                  <div className="flex items-center gap-2 mt-1">
                     <span className="text-xs text-zinc-500 dark:text-zinc-400">
                       {comment.likes.length}{" "}
                       {comment.likes.length === 1 ? "like" : "likes"}
                     </span>
-                    <button className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
-                      Like
+                    <button
+                      onClick={async () =>
+                        await handleLikeComment(comment._id.toString())
+                      }
+                      className="text-xs text-zinc-500 dark:text-zinc-400 hover:underline"
+                    >
+                      {comment.likes.find(
+                        (userId) => userId.toString() === sessionId
+                      ) != null ? (
+                        <span className="text-focus">Liked</span>
+                      ) : (
+                        "Like"
+                      )}
                     </button>
-                  </div> */}
+                  </div>
                 </div>
               </div>
             ))}
